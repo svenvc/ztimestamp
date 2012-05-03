@@ -1,0 +1,18 @@
+{
+	"category" : "ZTimestamp",
+	"classinstvars" : [
+		 ],
+	"classtraitcomposition" : "{}",
+	"classvars" : [
+		"ClockEpoch",
+		"ClockTimezoneOffset" ],
+	"commentStamp" : "SvenVanCaekenberghe 4/23/2012 10:46",
+	"instvars" : [
+		"jdn",
+		"secs" ],
+	"name" : "ZTimestamp",
+	"pools" : [
+		 ],
+	"super" : "Magnitude",
+	"traitcomposition" : "{}",
+	"type" : "normal" }
