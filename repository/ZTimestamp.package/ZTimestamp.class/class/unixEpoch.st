@@ -2,4 +2,5 @@ accessing
 unixEpoch
 	"Return the Unix or POSIX epoch as a ZTimestamp"
 	
-	^ self year: 1970 month: 1 day: 1
+	^ UnixEpoch 
+		ifNil: [ UnixEpoch := self year: 1970 month: 1 day: 1 ]
