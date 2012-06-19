@@ -1,7 +1,7 @@
 converting
 asDateAndTime 
 	"Convert the receiver to a DateAndTime.
-	Note that I ame in the UTC/GMT/Zulu timezone and have second precision"
+	Note that I am in the UTC/GMT/Zulu timezone and have second precision"
 	
 	^ DateAndTime new
 		setJdn: jdn 
