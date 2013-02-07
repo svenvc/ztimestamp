@@ -1,2 +1,0 @@
-ston
-stonProcessSubObjects: block

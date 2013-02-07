@@ -1,6 +1,7 @@
 testing
 testLocalPrintString
-	| timestamp reference |
-	timestamp := ZTimestamp now localPrintString.
-	reference := DateAndTime now truncated printString.
-	self assert: timestamp = reference
+	| now timestamp reference |
+	now := DateAndTime now.
+	timestamp := now asUTC asZTimestamp localPrintString.
+	reference := now truncated printString.
+	self assert: timestamp equals: reference

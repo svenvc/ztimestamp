@@ -2,7 +2,7 @@ printing
 printOn: stream format: format
 	"Print the receiver on stream using format, following ISO 8601.
 	Format defines 4 characters to use:
-	{dateSeparator,dateTimeSeparator,timeSeparator,timeZoneSeparator}
+	#(dateSeparator dateTimeSeparator timeSeparator timeZoneSeparator)
 	Each can be nil to skip that separator"
 	
 	self dayMonthYearDo: [ :day :month :year |

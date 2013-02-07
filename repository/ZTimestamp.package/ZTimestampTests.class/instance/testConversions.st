@@ -2,8 +2,12 @@ testing
 testConversions
 	| timestamp |
 	timestamp := ZTimestamp year: 2012 month: 4 day: 20 hour: 15 minute: 50 second: 10.
-	self assert: timestamp asDate = (Date year: 2012 month: 4 day: 20).
-	self assert: timestamp asTime = (Time hour: 15 minute: 50 second: 10).
+	self assert: timestamp asDate year equals: 2012.
+	self assert: timestamp asDate monthIndex equals: 4.
+	self assert: timestamp asDate dayOfMonth equals: 20.
+	self 
+		assert: timestamp asTime
+		equals: (Time hour: 15 minute: 50 second: 10).
 	self 
 		assert: timestamp asTimeStamp 
 		equals: (TimeStamp year: 2012 month: 4 day: 20 hour: 15 minute: 50 second: 10 offset: Duration zero).

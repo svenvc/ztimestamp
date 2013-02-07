@@ -1,0 +1,20 @@
+{
+	"category" : "ZTimestamp",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		"FormatKeys",
+		"Formats" ],
+	"commentStamp" : "<historical>",
+	"instvars" : [
+		"specification",
+		"formatter",
+		"parser",
+		"constructor",
+		"weekdayNames",
+		"monthNames" ],
+	"name" : "ZTimestampFormat",
+	"pools" : [
+		 ],
+	"super" : "Magnitude",
+	"type" : "normal" }

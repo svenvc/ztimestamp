@@ -20,4 +20,4 @@ withJdn: jdn dayMonthYearDo: block
 	^ block
 		value: d + 1
 		value: ((m + 2) \\ 12) + 1
-		value: (y - 4800 + ((m * 2) // 12)) 
+		value: (y - 4800 + ((m + 2) // 12)) 

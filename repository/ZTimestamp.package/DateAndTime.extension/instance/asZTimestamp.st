@@ -1,5 +1,5 @@
 *ztimestamp
 asZTimestamp
 	^ ZTimestamp new
-		jdn: jdn 
+		jdn: self julianDayNumber 
 		secs: seconds - offset asSeconds

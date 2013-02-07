@@ -1,0 +1,3 @@
+ston
+stonContainSubObjects 
+	^ false
