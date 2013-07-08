@@ -4,5 +4,4 @@ zero
 
 	^ Zero 
 		ifNil: [ 
-			Zero :=  self new
-				jdn: 0 secs: 0 ]
+			Zero :=  self new jdn: 0 secs: 0 ]

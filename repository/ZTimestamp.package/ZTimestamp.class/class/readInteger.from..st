@@ -7,6 +7,7 @@ readInteger: numberOfDigits from: stream
 	integer := 0.
 	numberOfDigits timesRepeat: [ | char |
 		char := stream next.
-		self assert: ('0123456789' includes: char).
-		integer := (integer * 10) + char digitValue ].
+		('0123456789' includes: char)
+			ifTrue: [ integer := (integer * 10) + char digitValue ]
+			ifFalse: [ self error: 'Decimal digit expected' ] ].
 	^ integer
