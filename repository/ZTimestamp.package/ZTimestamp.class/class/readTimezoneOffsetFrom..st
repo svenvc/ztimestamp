@@ -5,8 +5,7 @@ readTimezoneOffsetFrom: stream
 	If there is no offset, just return 0"
 
 	| sign hour minute |
-	stream atEnd ifTrue: [ ^ 0 ].
-	stream peek = $Z ifTrue: [ stream next. ^ 0 ].
+	(stream atEnd or: [ stream peekFor: $Z ]) ifTrue: [ ^ 0 ].
 	^ ('+-' includes: stream peek)
 		ifTrue: [
 			sign := stream next = $- ifTrue: [ -1 ] ifFalse: [ 1 ].
@@ -14,5 +13,5 @@ readTimezoneOffsetFrom: stream
 			(self readOptionalSeparatorFrom: stream)
 				ifNil: [ minute := 0 ]
 				ifNotNil: [ minute := self readInteger: 2 from: stream ].
-			sign * (hour * 3600) + (minute * 60) ]
+			sign * ((hour * 3600) + (minute * 60)) ]
 		ifFalse: [ 0 ]

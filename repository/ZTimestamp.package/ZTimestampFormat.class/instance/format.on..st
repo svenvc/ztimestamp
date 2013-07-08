@@ -1,5 +1,5 @@
 formatting
-print: object on: stream
+format: object on: stream
 	formatter do: [ :each |
 		each isCharacter 
 			ifTrue: [ stream nextPut: each ] 

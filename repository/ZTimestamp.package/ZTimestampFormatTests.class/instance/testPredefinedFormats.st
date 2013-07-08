@@ -8,7 +8,7 @@ testPredefinedFormats
 			format := ZTimestampFormat perform: each.
 			target := format specification copy replaceAll: $_ with: $ . 
 			self assert: (format format: reference) equals: target ].
-	#(verbose rfc3339 rfc850 unixDate) 
+	#(verbose rfc3339) 
 		do: [ :each | | format |
 			(format := ZTimestampFormat perform: each)
 				createDateAndTime.

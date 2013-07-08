@@ -3,7 +3,7 @@
 		 },
 	"instance" : {
 		"assertInvariants:" : "SvenVanCaekenberghe 4/24/2012 17:36",
-		"assertTimestamp:equalsTimestamp:" : "SvenVanCaekenberghe 4/21/2012 20:47",
+		"assertTimestamp:equalsTimestamp:" : "SvenVanCaekenberghe 5/29/2013 16:34",
 		"lunarLanding" : "SvenVanCaekenberghe 4/22/2012 10:20",
 		"marsLanding" : "SvenVanCaekenberghe 4/22/2012 10:20",
 		"testAddingOneDay" : "SvenVanCaekenberghe 4/21/2012 21:27",
@@ -35,4 +35,5 @@
 		"testSorting" : "SvenVanCaekenberghe 4/22/2012 11:03",
 		"testTimezoneFormatting" : "SvenVanCaekenberghe 4/22/2012 11:35",
 		"testUnixTime" : "SvenVanCaekenberghe 4/22/2012 11:03",
+		"testZTimestampFormatting" : "SvenVanCaekenberghe 6/12/2013 16:15",
 		"unixTimeBillenium" : "SvenVanCaekenberghe 4/22/2012 11:02" } }

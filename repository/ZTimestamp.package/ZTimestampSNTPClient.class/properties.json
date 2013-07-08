@@ -1,0 +1,15 @@
+{
+	"category" : "ZTimestamp",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "<historical>",
+	"instvars" : [
+		"socket",
+		"serverAddress" ],
+	"name" : "ZTimestampSNTPClient",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }

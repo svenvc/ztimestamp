@@ -1,8 +1,8 @@
 {
 	"class" : {
-		"clockEpoch" : "SvenVanCaekenberghe 4/24/2012 17:28",
-		"clockSeconds" : "SvenVanCaekenberghe 4/24/2012 17:29",
-		"clockTimezoneOffset" : "SvenVanCaekenberghe 4/24/2012 17:29",
+		"clockEpoch" : "SvenVanCaekenberghe 5/29/2013 17:06",
+		"clockSeconds" : "SvenVanCaekenberghe 5/29/2013 17:07",
+		"clockTimezoneOffset" : "SvenVanCaekenberghe 5/29/2013 17:16",
 		"epoch" : "SvenVanCaekenberghe 4/24/2012 17:23",
 		"fromClockSeconds:" : "SvenVanCaekenberghe 4/24/2012 17:30",
 		"fromJulianDate:" : "SvenVanCaekenberghe 4/21/2012 20:03",
@@ -18,7 +18,7 @@
 		"readFrom:format:" : "SvenVanCaekenberghe 11/1/2012 13:43",
 		"readInteger:from:" : "SvenVanCaekenberghe 4/24/2012 17:32",
 		"readOptionalSeparatorFrom:" : "SvenVanCaekenberghe 4/24/2012 17:33",
-		"readTimezoneOffsetFrom:" : "SvenVanCaekenberghe 4/24/2012 17:34",
+		"readTimezoneOffsetFrom:" : "SvenVanCaekenberghe 3/4/2013 20:16",
 		"startUp" : "SvenVanCaekenberghe 9/14/2012 17:01",
 		"unixEpoch" : "SvenVanCaekenberghe 6/18/2012 10:38",
 		"withJdn:dayMonthYearDo:" : "SvenVanCaekenberghe 9/3/2012 19:20",
@@ -62,6 +62,7 @@
 		"month" : "SvenVanCaekenberghe 4/24/2012 16:58",
 		"monthIndex" : "SvenVanCaekenberghe 4/24/2012 16:58",
 		"monthName" : "SvenVanCaekenberghe 4/24/2012 17:11",
+		"nanoSecond" : "SvenVanCaekenberghe 2/25/2013 19:43",
 		"normalize" : "SvenVanCaekenberghe 4/22/2012 18:55",
 		"offset" : "SvenVanCaekenberghe 4/24/2012 17:14",
 		"printLocalOn:" : "SvenVanCaekenberghe 4/21/2012 19:45",

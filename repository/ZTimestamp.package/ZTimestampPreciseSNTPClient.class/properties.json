@@ -1,0 +1,14 @@
+{
+	"category" : "ZTimestamp",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "<historical>",
+	"instvars" : [
+		 ],
+	"name" : "ZTimestampPreciseSNTPClient",
+	"pools" : [
+		 ],
+	"super" : "ZTimestampSNTPClient",
+	"type" : "normal" }
