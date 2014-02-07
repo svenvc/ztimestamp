@@ -1,0 +1,14 @@
+{
+	"category" : "BaselineOfZTimestamp",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		 ],
+	"name" : "BaselineOfZTimestamp",
+	"pools" : [
+		 ],
+	"super" : "BaselineOf",
+	"type" : "normal" }
