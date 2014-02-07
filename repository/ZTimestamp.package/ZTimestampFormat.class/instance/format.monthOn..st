@@ -1,3 +1,3 @@
 formatters
 format: object monthOn: stream
-	object month printOn: stream
+	object monthIndex printOn: stream

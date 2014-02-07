@@ -4,7 +4,7 @@
 		 ],
 	"classvars" : [
 		"LastVersionLoad" ],
-	"commentStamp" : "<historical>",
+	"commentStamp" : "SvenVanCaekenberghe 2/1/2014 17:23",
 	"instvars" : [
 		"project" ],
 	"name" : "ConfigurationOfZTimestamp",

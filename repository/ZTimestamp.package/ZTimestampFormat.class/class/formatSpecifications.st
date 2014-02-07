@@ -5,9 +5,9 @@ formatSpecifications
 		'01' 			yearTwoDigits
 		'02'			monthTwoDigits
 		'2'				month
-		'Februari'	monthNameCapitalized
-		'februari'		monthNameLowercased
-		'FEBRUARI'	monthNameUppercased
+		'February'	monthNameCapitalized
+		'february'		monthNameLowercased
+		'FEBRUARY'	monthNameUppercased
 		'Feb'			monthNameAbbreviatedCapitalized
 		'feb'			monthNameAbbreviatedLowercased
 		'FEB'			monthNameAbbreviatedUppercased
@@ -26,9 +26,9 @@ formatSpecifications
 		'Z'				timeZoneZ
 		'+00:00'		timeZone
 		'UTC'			timeZoneAbbreviated
-		'Saterday'	weekdayNameCapitalized
-		'saterday'	weekdayNameLowercased
-		'SATERDAY'	weekdayNameUppercased
+		'Saturday'	weekdayNameCapitalized
+		'saturday'	weekdayNameLowercased
+		'SATURDAY'	weekdayNameUppercased
 		'Sat'			weekdayNameAbbreviatedCapitalized
 		'sat'			weekdayNameAbbreviatedLowercased
 		'SAT'			weekdayNameAbbreviatedUppercased )
