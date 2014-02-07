@@ -1,3 +1,3 @@
 formatters
 format: object monthNameCapitalizedOn: stream
-	stream << (self monthNames at: object month)
+	stream << (self monthNames at: object monthIndex)
