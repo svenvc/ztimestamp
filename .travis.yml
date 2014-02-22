@@ -1,9 +1,9 @@
 language: erlang
 
 env:
-   - ST=Pharo-1.4 BASELINE=ZTimestamp LOADS="ALL" REPOSITORY="filetree://${TRAVIS_BUILD_DIR}/repository"
-   - ST=Pharo-2.0 BASELINE=ZTimestamp LOADS="ALL" REPOSITORY="filetree://${TRAVIS_BUILD_DIR}/repository"
-   - ST=Pharo-3.0 BASELINE=ZTimestamp LOADS="ALL" REPOSITORY="filetree://${TRAVIS_BUILD_DIR}/repository"
+   - ST=Pharo-1.4 BASELINE=ZTimestamp LOADS="'ALL'" REPOSITORY="filetree://${TRAVIS_BUILD_DIR}/repository"
+   - ST=Pharo-2.0 BASELINE=ZTimestamp LOADS="'ALL'" REPOSITORY="filetree://${TRAVIS_BUILD_DIR}/repository"
+   - ST=Pharo-3.0 BASELINE=ZTimestamp LOADS="'ALL'" REPOSITORY="filetree://${TRAVIS_BUILD_DIR}/repository"
 
 install:
    - export PROJECT_HOME="$(pwd)"
