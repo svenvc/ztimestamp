@@ -1,5 +1,7 @@
 formatters
 format: object timeZoneAbbreviatedOn: stream
-	object offset isZero
+	| offset |
+	offset := self actualOffsetForTimestamp: object.
+	offset isZero
 		ifTrue: [ stream << #UTC ]
-		ifFalse: [ stream << (TimeZone offset: object offset) abbreviation ]
+		ifFalse: [ stream << (self abbreviationForTimeZoneOffset: offset) ]

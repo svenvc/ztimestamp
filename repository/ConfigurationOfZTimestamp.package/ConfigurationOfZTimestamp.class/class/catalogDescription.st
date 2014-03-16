@@ -1,0 +1,4 @@
+catalog
+catalogDescription
+	"Returns a paragraph describing the project"
+	^ 'The ZTimestamp project groups a number of classes that form an addition/alternative to DateAndTime/Timestamp. The core ZTimestamp class represents a point in time, with second precision and always in the UTC/GTM/Zulu timezone. It is faster and smaller. ZTimestampFormat is a formatter and parser that is example based. ZTimezone uses the standard Olsone timezone database to compute the offset for local time at specific points in time for a specified timezone. ZTimestampSNTPClient is an SNTP client to check the local clock against network time servers. This project is small and has no further dependencies. It runs in Pharo 2 and 3.'

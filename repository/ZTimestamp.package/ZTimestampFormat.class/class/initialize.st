@@ -1,6 +1,6 @@
 class initialization
 initialize
-	"Initialize this class, to be redone when #formatSpecifications changes."
+	"Initialize this class, to be redone every time #formatSpecifications changes."
 	
 	"self initialize"
 	

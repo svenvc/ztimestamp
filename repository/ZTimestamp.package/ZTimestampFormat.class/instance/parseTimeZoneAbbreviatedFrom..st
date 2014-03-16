@@ -1,3 +1,3 @@
 parsers
 parseTimeZoneAbbreviatedFrom: stream
-	^ #offset -> (TimeZone abbreviated: (stream next: 3)) offset
+	^ #offset -> (self offsetForTimeZoneAbbreviation: (stream next: 3))

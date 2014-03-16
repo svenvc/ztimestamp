@@ -1,0 +1,16 @@
+{
+	"class" : {
+		 },
+	"instance" : {
+		"assertIsTimezoneEuropeBrussels:" : "SvenVanCaekenberghe 3/11/2014 22:40",
+		"europeBrusselsContents" : "SvenVanCaekenberghe 3/11/2014 20:23",
+		"runningOnWindows" : "SvenVanCaekenberghe 3/11/2014 20:35",
+		"testDaylightSavingTimeTransition" : "SvenVanCaekenberghe 3/16/2014 18:45",
+		"testEuropeBrussels" : "SvenVanCaekenberghe 3/11/2014 22:41",
+		"testGMT" : "SvenVanCaekenberghe 3/11/2014 20:42",
+		"testGmtToLocal" : "SvenVanCaekenberghe 3/16/2014 16:25",
+		"testIdentifiers" : "SvenVanCaekenberghe 3/11/2014 20:40",
+		"testLocalToGmt" : "SvenVanCaekenberghe 3/16/2014 16:26",
+		"testParsing" : "SvenVanCaekenberghe 3/11/2014 22:41",
+		"testReadAll" : "SvenVanCaekenberghe 3/12/2014 16:20",
+		"testZoneInfoLocation" : "SvenVanCaekenberghe 3/11/2014 20:43" } }

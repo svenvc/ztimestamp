@@ -1,7 +1,7 @@
 instance creation
 year: year month: month day: day hour: hour minute: minute second: second offset: offset
 	"Create and return a new ZTimestamp for the Gregorian calendar date described by year, month and date
-	and the Civial time of day on that date described by hour, minute and second.
+	and the Civil time of day on that date described by hour, minute and second.
 	If offset is non zero, the result is shifted accordingly."
 
 	| timestamp |
