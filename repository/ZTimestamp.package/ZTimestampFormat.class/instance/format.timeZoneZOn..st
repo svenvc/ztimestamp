@@ -1,11 +1,13 @@
 formatters
 format: object timeZoneZOn: stream
-	object offset isZero
+	| offset |
+	offset := self actualOffsetForTimestamp: object.
+	offset isZero
 		ifTrue: [ stream nextPut: $Z ]
 		ifFalse: [ 
-			stream nextPut: (object offset positive ifTrue: [ $+ ] ifFalse: [ $- ]).
-			object offset hours abs
+			stream nextPut: (offset positive ifTrue: [ $+ ] ifFalse: [ $- ]).
+			offset hours abs
 				printOn: stream base: 10 length: 2 padded: true.
 			stream nextPut: $:.
-			object offset minutes
+			offset minutes
 				printOn: stream base: 10 length: 2 padded: true ]

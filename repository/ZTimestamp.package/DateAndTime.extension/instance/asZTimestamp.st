@@ -1,5 +1,9 @@
 *ztimestamp
 asZTimestamp
+	"Convert the receiver to a ZTimestamp.
+	Note that we are implicitly converting to UTC by ignoring the offset.
+	Note also that nano seconds are dropped."
+
 	^ ZTimestamp new
-		jdn: self julianDayNumber 
-		secs: seconds - offset asSeconds
+		jdn: julianDayNumber 
+		secs: seconds

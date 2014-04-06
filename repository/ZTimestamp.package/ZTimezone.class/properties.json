@@ -1,0 +1,23 @@
+{
+	"category" : "ZTimestamp",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		"Timezones",
+		"ZoneInfoLocation",
+		"ZoneTab" ],
+	"commentStamp" : "SvenVanCaekenberghe 3/15/2014 15:36",
+	"instvars" : [
+		"id",
+		"transitions",
+		"subzones",
+		"leapSeconds",
+		"standardIndicators",
+		"utcIndicators",
+		"subzonesIndex",
+		"localTransitions" ],
+	"name" : "ZTimezone",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }

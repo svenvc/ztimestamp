@@ -1,0 +1,16 @@
+{
+	"category" : "ZTimestamp",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "SvenVanCaekenberghe 3/12/2014 13:12",
+	"instvars" : [
+		"abbreviation",
+		"offset",
+		"isDaylightSaving" ],
+	"name" : "ZSubTimezone",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }

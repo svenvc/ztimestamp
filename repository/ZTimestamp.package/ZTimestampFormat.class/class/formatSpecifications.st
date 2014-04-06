@@ -1,8 +1,9 @@
 accessing
 formatSpecifications
 	^ #(
-		'2001' 		yearFull
+		'2001' 		yearFourDigits
 		'01' 			yearTwoDigits
+		'02001'		yearFull
 		'02'			monthTwoDigits
 		'2'			month
 		'February'	monthNameCapitalized

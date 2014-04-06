@@ -4,6 +4,6 @@ testing
 	Part of the Magnitude protocol"
 	
 	self == aZTimestamp ifTrue: [ ^ true ].
-	(aZTimestamp isKindOf: self class) ifFalse: [ ^ false ].
-	^ aZTimestamp julianDayNumber = jdn
-		and: [ aZTimestamp secondsSinceMidnight = secs ]
+	self class = aZTimestamp class ifFalse: [ ^ false ].
+	^ jdn = aZTimestamp julianDayNumber
+		and: [ secs = aZTimestamp secondsSinceMidnight ]
