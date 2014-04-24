@@ -27,6 +27,7 @@ formatSpecifications
 		'Z'			timeZoneZ
 		'+00:00'	timeZone
 		'UTC'			timeZoneAbbreviated
+		'_UTC'		timeZoneAbbreviatedLong
 		'Saturday'	weekdayNameCapitalized
 		'saturday'	weekdayNameLowercased
 		'SATURDAY'	weekdayNameUppercased

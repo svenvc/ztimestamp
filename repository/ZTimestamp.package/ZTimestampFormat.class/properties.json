@@ -17,5 +17,5 @@
 	"name" : "ZTimestampFormat",
 	"pools" : [
 		 ],
-	"super" : "Magnitude",
+	"super" : "Object",
 	"type" : "normal" }

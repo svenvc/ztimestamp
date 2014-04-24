@@ -18,4 +18,6 @@ abbreviatedTimeZones
 		#('CST' -6) 
 		#('CDT' -5) 
 		#('EST' -5) 
-		#('EDT' -4))
+		#('EDT' -4)
+		#('CEST' 2) 
+		)

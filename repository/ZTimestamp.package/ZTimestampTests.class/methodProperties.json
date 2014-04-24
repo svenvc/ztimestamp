@@ -12,7 +12,7 @@
 		"testBeginOfDay" : "SvenVanCaekenberghe 7/6/2012 17:31",
 		"testCalculations" : "SvenVanCaekenberghe 4/22/2012 16:51",
 		"testComparing" : "SvenVanCaekenberghe 4/22/2012 10:51",
-		"testConversions" : "SvenVanCaekenberghe 9/3/2012 19:49",
+		"testConversions" : "SvenVanCaekenberghe 3/28/2014 19:56",
 		"testCreationWithAllFields" : "SvenVanCaekenberghe 4/22/2012 11:47",
 		"testCreationWithDateFields" : "SvenVanCaekenberghe 4/22/2012 11:47",
 		"testEndOfDay" : "SvenVanCaekenberghe 7/6/2012 17:32",
@@ -36,5 +36,6 @@
 		"testSorting" : "SvenVanCaekenberghe 4/22/2012 11:03",
 		"testTimezoneFormatting" : "SvenVanCaekenberghe 4/22/2012 11:35",
 		"testUnixTime" : "SvenVanCaekenberghe 4/22/2012 11:03",
+		"testWithNowDo" : "SvenVanCaekenberghe 4/4/2014 07:36",
 		"testZTimestampFormatting" : "SvenVanCaekenberghe 6/12/2013 16:15",
 		"unixTimeBillenium" : "SvenVanCaekenberghe 4/22/2012 11:02" } }
