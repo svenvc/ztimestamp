@@ -10,4 +10,4 @@ readZoneTab
 			collect: [ :lines | 
 				| tokens |
 				tokens := lines findTokens: Character separators.
-				{ tokens third. tokens first } ]
+				{ tokens third asSymbol. tokens first } ]
