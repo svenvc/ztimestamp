@@ -24,6 +24,7 @@ formatSpecifications
 		'05'			minuteTwoDigits
 		'6'			second
 		'06'			secondTwoDigits
+		'7'			nanosecond
 		'Z'			timeZoneZ
 		'+00:00'	timeZone
 		'UTC'			timeZoneAbbreviated

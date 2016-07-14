@@ -1,12 +1,14 @@
 instance creation
 readFrom: stream
 	"Parse a ISO 8601 representation from stream, in the format
-	year[-]month[-]day[T]hour[:]minute[:]second[[+|-]hh[:]mm]
+	year[-]month[-]day[T]hour[:]minute[:]second[[+|-]hh[:][mm]]
 	where the whole part after T as well as the TZ offset is optional.
 	TZ offset can be Z, all separators can be any non digit"
 
-	| year month day hour minute second offset |
+	| negative year month day hour minute second offset |
+	negative := stream peekFor: $-.
 	year := self readInteger: 4 from: stream.
+	negative ifTrue: [ year := year negated ].
 	self readOptionalSeparatorFrom: stream.
 	month := self readInteger: 2 from: stream.
 	self readOptionalSeparatorFrom: stream.

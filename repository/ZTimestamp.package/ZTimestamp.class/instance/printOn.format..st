@@ -6,7 +6,12 @@ printOn: stream format: format
 	Each can be nil to skip that separator"
 	
 	self dayMonthYearDo: [ :day :month :year |
-		year printOn: stream base: 10 length: 4 padded: true.
+		year < 0
+			ifTrue: [ 
+				stream nextPut: $-. 
+				year abs printOn: stream base: 10 length: 4 padded: true  ]
+			ifFalse: [ 
+				year printOn: stream base: 10 length: 4 padded: true ].
 		(format at: 1) ifNotNil: [ :separator | stream nextPut: separator ].
 		month printOn: stream base: 10 length: 2 padded: true.
 		(format at: 1) ifNotNil: [ :separator | stream nextPut: separator ].

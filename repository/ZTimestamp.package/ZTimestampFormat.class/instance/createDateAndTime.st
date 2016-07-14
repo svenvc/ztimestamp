@@ -9,6 +9,7 @@ createDateAndTime
 			hour: (elements at: #hour ifAbsent: [ 0 ]) 
 			minute: (elements at: #minute ifAbsent: [ 0 ])  
 			second: (elements at: #second ifAbsent: [ 0 ]) 
+			nanoSecond: (elements at: #nanosecond ifAbsent: [ 0 ])
 			offset: (elements at: #offset ifAbsent: [ Duration zero ]).
 		(elements includesKey: #offset)
 			ifTrue: [ timestamp ]
