@@ -1,6 +1,8 @@
 parsing
 readFrom: stream
-	| offset elements |
+	"Parse stream according to my specification and return an instance as created by my constructor"
+
+	| elements |
 	elements := SmallDictionary new.
 	parser do: [ :each |
 		each isCharacter 

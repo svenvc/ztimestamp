@@ -30,6 +30,9 @@ and can print a representation in arbitrary timezones.
 
 	(ZTimestamp fromString: DateAndTime now truncated printString) localPrintString.
 
+## Time Zone Database
+https://www.iana.org/time-zones
+
 ## Installation
 
 This is a [Pharo Smalltalk](http://wwww.pharo.st) project 

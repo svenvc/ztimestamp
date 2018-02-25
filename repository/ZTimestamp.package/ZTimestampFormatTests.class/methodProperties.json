@@ -1,8 +1,6 @@
 {
-	"class" : {
-		 },
 	"instance" : {
-		"testAMPM" : "SvenVanCaekenberghe 11/1/2012 19:19",
+		"testAMPM" : "SvenVanCaekenberghe 2/16/2018 14:17",
 		"testCurrentTimezoneFormatting" : "SvenVanCaekenberghe 3/13/2014 15:33",
 		"testCurrentTimezoneParsing" : "SvenVanCaekenberghe 3/13/2014 15:53",
 		"testDateAndTime" : "SvenVanCaekenberghe 11/3/2012 20:32",
@@ -13,10 +11,13 @@
 		"testExplicitTimezoneFormatting" : "SvenVanCaekenberghe 3/13/2014 15:33",
 		"testFlatDateFormatting" : "SvenVanCaekenberghe 12/19/2012 13:33",
 		"testMonthNames" : "SvenVanCaekenberghe 2/1/2014 13:17",
-		"testPredefinedFormats" : "SvenVanCaekenberghe 3/13/2014 16:11",
+		"testPredefinedFormats" : "SvenVanCaekenberghe 10/23/2017 09:21",
 		"testReferenceDateAndTime" : "SvenVanCaekenberghe 11/3/2012 20:32",
 		"testRfc3339" : "SvenVanCaekenberghe 11/1/2012 20:39",
 		"testTimeCreation" : "SvenVanCaekenberghe 11/1/2012 10:47",
-		"testTimeFormatting" : "SvenVanCaekenberghe 10/30/2012 14:43",
-		"testTimeParsing" : "SvenVanCaekenberghe 10/31/2012 20:40",
-		"testWeekdayNames" : "SvenVanCaekenberghe 2/1/2014 15:36" } }
+		"testTimeFormatting" : "SvenVanCaekenberghe 2/16/2018 14:14",
+		"testTimeParsing" : "SvenVanCaekenberghe 2/16/2018 14:15",
+		"testWeekdayNames" : "SvenVanCaekenberghe 2/1/2014 15:36"
+	},
+	"class" : { }
+}

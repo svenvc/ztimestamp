@@ -1,4 +1,7 @@
 initialize-release
-specification: string
-	specification := string.
+specification: exampleString
+	"Initialize me based on exampleString.
+	See my class comment and class side examples."
+	
+	specification := exampleString.
 	self compileSpecification

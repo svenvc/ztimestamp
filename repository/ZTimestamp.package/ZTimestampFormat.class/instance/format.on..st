@@ -1,5 +1,7 @@
 formatting
 format: object on: stream
+	"Format object on stream according to my specification"
+
 	| local |
 	local := self gmtToLocal: object.
 	formatter do: [ :each |

@@ -1,5 +1,6 @@
 {
-	"class" : {
-		 },
 	"instance" : {
-		"subtractFromTimestamp:" : "SvenVanCaekenberghe 3/28/2014 17:08" } }
+		"subtractFromTimestamp:" : "SvenVanCaekenberghe 3/28/2014 17:08"
+	},
+	"class" : { }
+}

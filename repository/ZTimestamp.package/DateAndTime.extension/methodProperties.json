@@ -1,6 +1,7 @@
 {
-	"class" : {
-		 },
 	"instance" : {
 		"asZTimestamp" : "SvenVanCaekenberghe 3/29/2014 00:43",
-		"subtractFromTimestamp:" : "SvenVanCaekenberghe 3/28/2014 17:08" } }
+		"subtractFromTimestamp:" : "SvenVanCaekenberghe 3/28/2014 17:08"
+	},
+	"class" : { }
+}
