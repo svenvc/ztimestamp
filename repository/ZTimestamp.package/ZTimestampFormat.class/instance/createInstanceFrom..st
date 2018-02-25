@@ -1,4 +1,4 @@
-parsing
+private
 createInstanceFrom: elements
 	elements 
 		at: #daypart 

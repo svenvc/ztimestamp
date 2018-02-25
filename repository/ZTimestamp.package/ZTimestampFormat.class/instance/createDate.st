@@ -1,5 +1,7 @@
 initialize-release
 createDate
+	"Configure me to create Date instances when parsing"
+	
 	self constructor: [ :elements | 
 		Date 
 			year: (elements at: #year ifAbsent: [ 0 ]) 

@@ -4,6 +4,7 @@ jdnFromYear: year month: month day: day
 	See http://en.wikipedia.org/wiki/Julian_date#Converting_Gregorian_calendar_date_to_Julian_Day_Number"
 	 
 	| a y m |
+	self validateYear: year month: month day: day.
 	a := (14 - month) // 12.
 	y := year + 4800 - a.
 	m := month + (12 * a) - 3.

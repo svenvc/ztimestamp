@@ -5,9 +5,7 @@ readTimezoneWithId: id
 	"self readTimezoneWithId: #'Europe/Brussels'."
 
 	| location timezone |
-	
 	location := self locationForId: id.
 	timezone := self fromFile: location.
 	timezone id: id.
-	
 	^ timezone

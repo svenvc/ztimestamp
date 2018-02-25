@@ -1,5 +1,7 @@
 initialize-release
 createZTimestamp
+	"Configure me to create ZTimestamp instances when parsing (this is the default)"
+
 	self constructor: [ :elements | 
 		| timestamp |
 		timestamp := ZTimestamp 
