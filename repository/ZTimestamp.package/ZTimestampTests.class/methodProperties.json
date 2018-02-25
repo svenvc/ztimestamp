@@ -1,6 +1,4 @@
 {
-	"class" : {
-		 },
 	"instance" : {
 		"assertInvariants:" : "SvenVanCaekenberghe 4/24/2012 17:36",
 		"assertTimestamp:equalsTimestamp:" : "SvenVanCaekenberghe 7/10/2014 14:00",
@@ -27,8 +25,6 @@
 		"testNow" : "SvenVanCaekenberghe 4/21/2012 20:40",
 		"testOneDayDifference" : "SvenVanCaekenberghe 4/21/2012 21:28",
 		"testOneHourDifference" : "SvenVanCaekenberghe 4/21/2012 21:28",
-		"testOptionalTimezoneParsing" : "SvenVanCaekenberghe 2/25/2016 22:30",
-		"testParseEpoch" : "SvenVanCaekenberghe 5/28/2014 17:20",
 		"testParsing" : "SvenVanCaekenberghe 7/6/2012 17:14",
 		"testParsingDates" : "SvenVanCaekenberghe 4/21/2012 22:14",
 		"testParsingError" : "SvenVanCaekenberghe 6/27/2013 14:05",
@@ -40,4 +36,7 @@
 		"testUnixTime" : "SvenVanCaekenberghe 4/22/2012 11:03",
 		"testWithNowDo" : "SvenVanCaekenberghe 4/4/2014 07:36",
 		"testZTimestampFormatting" : "SvenVanCaekenberghe 6/12/2013 16:15",
-		"unixTimeBillenium" : "SvenVanCaekenberghe 4/22/2012 11:02" } }
+		"unixTimeBillenium" : "SvenVanCaekenberghe 4/22/2012 11:02"
+	},
+	"class" : { }
+}

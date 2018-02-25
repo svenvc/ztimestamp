@@ -1,5 +1,5 @@
 converting
 asDate
-	"Convert the receiver to a Date"
+	"Convert the receiver to a Date" 
 	
 	^ self asDateAndTime asDate

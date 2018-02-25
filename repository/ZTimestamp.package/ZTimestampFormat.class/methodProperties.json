@@ -1,23 +1,4 @@
 {
-	"class" : {
-		"abbreviatedTimeZones" : "SvenVanCaekenberghe 4/15/2014 14:52",
-		"ansiC" : "SvenVanCaekenberghe 10/29/2012 16:48",
-		"formatKeys" : "SvenVanCaekenberghe 11/3/2012 19:01",
-		"formatSpecifications" : "SvenVanCaekenberghe 6/10/2015 16:13",
-		"formats" : "SvenVanCaekenberghe 11/3/2012 19:01",
-		"fromString:" : "SvenVanCaekenberghe 10/29/2012 14:40",
-		"initialize" : "SvenVanCaekenberghe 4/15/2014 14:55",
-		"iso" : "SvenVanCaekenberghe 3/12/2014 23:23",
-		"isoCompact" : "SvenVanCaekenberghe 3/13/2014 15:52",
-		"isoTZ" : "SvenVanCaekenberghe 3/13/2014 15:52",
-		"kitchen" : "SvenVanCaekenberghe 11/1/2012 20:43",
-		"reference12" : "SvenVanCaekenberghe 11/1/2012 20:38",
-		"reference24" : "SvenVanCaekenberghe 11/1/2012 20:41",
-		"rfc3339" : "SvenVanCaekenberghe 10/29/2012 16:54",
-		"rfc822" : "SvenVanCaekenberghe 10/29/2012 16:49",
-		"rfc850" : "SvenVanCaekenberghe 2/1/2014 15:36",
-		"unixDate" : "SvenVanCaekenberghe 10/29/2012 16:49",
-		"verbose" : "SvenVanCaekenberghe 2/1/2014 15:36" },
 	"instance" : {
 		"abbreviationForTimeZoneOffset:" : "SvenVanCaekenberghe 2/12/2014 14:44",
 		"actualOffsetForTimestamp:" : "SvenVanCaekenberghe 3/12/2014 23:36",
@@ -50,7 +31,6 @@
 		"format:monthNameUppercasedOn:" : "SvenVanCaekenberghe 2/1/2014 13:13",
 		"format:monthOn:" : "SvenVanCaekenberghe 2/1/2014 13:14",
 		"format:monthTwoDigitsOn:" : "SvenVanCaekenberghe 12/19/2012 13:27",
-		"format:nanosecondOn:" : "SvenVanCaekenberghe 6/10/2015 16:27",
 		"format:on:" : "SvenVanCaekenberghe 3/12/2014 23:21",
 		"format:secondOn:" : "SvenVanCaekenberghe 11/3/2012 20:06",
 		"format:secondTwoDigitsOn:" : "SvenVanCaekenberghe 11/3/2012 20:06",
@@ -96,7 +76,6 @@
 		"parseMonthNameLowercasedFrom:" : "SvenVanCaekenberghe 11/3/2012 20:28",
 		"parseMonthNameUppercasedFrom:" : "SvenVanCaekenberghe 11/3/2012 20:28",
 		"parseMonthTwoDigitsFrom:" : "SvenVanCaekenberghe 11/3/2012 20:27",
-		"parseNanosecondFrom:" : "SvenVanCaekenberghe 7/3/2015 13:54",
 		"parseSecondFrom:" : "SvenVanCaekenberghe 11/3/2012 19:35",
 		"parseSecondTwoDigitsFrom:" : "SvenVanCaekenberghe 11/3/2012 20:30",
 		"parseTimeZoneAbbreviatedFrom:" : "SvenVanCaekenberghe 2/12/2014 14:30",
@@ -126,4 +105,26 @@
 		"timezone:" : "SvenVanCaekenberghe 3/12/2014 23:17",
 		"useCurrentTimezone" : "SvenVanCaekenberghe 3/12/2014 23:12",
 		"weekdayNames" : "SvenVanCaekenberghe 11/1/2012 10:41",
-		"weekdayNames:" : "SvenVanCaekenberghe 10/29/2012 13:52" } }
+		"weekdayNames:" : "SvenVanCaekenberghe 10/29/2012 13:52"
+	},
+	"class" : {
+		"abbreviatedTimeZones" : "SvenVanCaekenberghe 4/15/2014 14:52",
+		"ansiC" : "SvenVanCaekenberghe 10/29/2012 16:48",
+		"formatKeys" : "SvenVanCaekenberghe 11/3/2012 19:01",
+		"formatSpecifications" : "SvenVanCaekenberghe 6/10/2015 16:13",
+		"formats" : "SvenVanCaekenberghe 11/3/2012 19:01",
+		"fromString:" : "SvenVanCaekenberghe 10/29/2012 14:40",
+		"initialize" : "SvenVanCaekenberghe 4/15/2014 14:55",
+		"iso" : "SvenVanCaekenberghe 3/12/2014 23:23",
+		"isoCompact" : "SvenVanCaekenberghe 3/13/2014 15:52",
+		"isoTZ" : "SvenVanCaekenberghe 3/13/2014 15:52",
+		"kitchen" : "SvenVanCaekenberghe 11/1/2012 20:43",
+		"reference12" : "SvenVanCaekenberghe 11/1/2012 20:38",
+		"reference24" : "SvenVanCaekenberghe 11/1/2012 20:41",
+		"rfc3339" : "SvenVanCaekenberghe 10/29/2012 16:54",
+		"rfc822" : "SvenVanCaekenberghe 10/29/2012 16:49",
+		"rfc850" : "SvenVanCaekenberghe 2/1/2014 15:36",
+		"unixDate" : "SvenVanCaekenberghe 10/29/2012 16:49",
+		"verbose" : "SvenVanCaekenberghe 2/1/2014 15:36"
+	}
+}

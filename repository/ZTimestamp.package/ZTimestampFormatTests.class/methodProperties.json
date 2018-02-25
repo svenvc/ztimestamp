@@ -1,12 +1,9 @@
 {
-	"class" : {
-		 },
 	"instance" : {
 		"testAMPM" : "SvenVanCaekenberghe 11/1/2012 19:19",
 		"testCurrentTimezoneFormatting" : "SvenVanCaekenberghe 3/13/2014 15:33",
 		"testCurrentTimezoneParsing" : "SvenVanCaekenberghe 3/13/2014 15:53",
 		"testDateAndTime" : "SvenVanCaekenberghe 11/3/2012 20:32",
-		"testDateAndTimeWithNanoseconds" : "SvenVanCaekenberghe 6/10/2015 16:41",
 		"testDateCreation" : "SvenVanCaekenberghe 11/1/2012 10:44",
 		"testDateFormatting" : "SvenVanCaekenberghe 2/1/2014 13:16",
 		"testDateParsing" : "SvenVanCaekenberghe 2/1/2014 13:17",
@@ -19,4 +16,7 @@
 		"testTimeCreation" : "SvenVanCaekenberghe 11/1/2012 10:47",
 		"testTimeFormatting" : "SvenVanCaekenberghe 10/30/2012 14:43",
 		"testTimeParsing" : "SvenVanCaekenberghe 10/31/2012 20:40",
-		"testWeekdayNames" : "SvenVanCaekenberghe 2/1/2014 15:36" } }
+		"testWeekdayNames" : "SvenVanCaekenberghe 2/1/2014 15:36"
+	},
+	"class" : { }
+}

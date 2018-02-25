@@ -1,18 +1,19 @@
 {
+	"commentStamp" : "SvenVanCaekenberghe 4/23/2012 10:46",
+	"super" : "Magnitude",
 	"category" : "ZTimestamp",
-	"classinstvars" : [
-		 ],
+	"classinstvars" : [ ],
+	"pools" : [ ],
 	"classvars" : [
 		"ClockEpoch",
 		"ClockTimezoneOffset",
 		"UnixEpoch",
-		"Zero" ],
-	"commentStamp" : "SvenVanCaekenberghe 4/23/2012 10:46",
+		"Zero"
+	],
 	"instvars" : [
 		"jdn",
-		"secs" ],
+		"secs"
+	],
 	"name" : "ZTimestamp",
-	"pools" : [
-		 ],
-	"super" : "Magnitude",
-	"type" : "normal" }
+	"type" : "normal"
+}

@@ -1,12 +1,14 @@
 {
+	"commentStamp" : "SvenVanCaekenberghe 3/15/2014 15:36",
+	"super" : "Object",
 	"category" : "ZTimestamp",
-	"classinstvars" : [
-		 ],
+	"classinstvars" : [ ],
+	"pools" : [ ],
 	"classvars" : [
 		"Timezones",
 		"ZoneInfoLocation",
-		"ZoneTab" ],
-	"commentStamp" : "SvenVanCaekenberghe 3/15/2014 15:36",
+		"ZoneTab"
+	],
 	"instvars" : [
 		"id",
 		"transitions",
@@ -15,9 +17,8 @@
 		"standardIndicators",
 		"utcIndicators",
 		"subzonesIndex",
-		"localTransitions" ],
+		"localTransitions"
+	],
 	"name" : "ZTimezone",
-	"pools" : [
-		 ],
-	"super" : "Object",
-	"type" : "normal" }
+	"type" : "normal"
+}

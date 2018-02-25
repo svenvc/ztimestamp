@@ -1,14 +1,11 @@
 {
-	"category" : "ZTimestamp",
-	"classinstvars" : [
-		 ],
-	"classvars" : [
-		 ],
 	"commentStamp" : "SvenVanCaekenberghe 4/20/2012 16:54",
-	"instvars" : [
-		 ],
-	"name" : "ZTimestampTests",
-	"pools" : [
-		 ],
 	"super" : "TestCase",
-	"type" : "normal" }
+	"category" : "ZTimestamp",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "ZTimestampTests",
+	"type" : "normal"
+}

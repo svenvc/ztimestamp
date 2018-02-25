@@ -1,6 +1,4 @@
 {
-	"class" : {
-		"logClockDifferenceLargerThan:" : "SvenVanCaekenberghe 5/31/2013 09:35" },
 	"instance" : {
 		"clockDifference" : "SvenVanCaekenberghe 2/26/2013 09:44",
 		"close" : "SvenVanCaekenberghe 2/25/2013 14:54",
@@ -25,4 +23,9 @@
 		"sync" : "SvenVanCaekenberghe 2/25/2013 23:33",
 		"timestampAt:in:" : "SvenVanCaekenberghe 2/25/2013 23:17",
 		"timestampFromSeconds:fraction:" : "SvenVanCaekenberghe 2/25/2013 20:25",
-		"transmitOffset" : "SvenVanCaekenberghe 2/25/2013 23:20" } }
+		"transmitOffset" : "SvenVanCaekenberghe 2/25/2013 23:20"
+	},
+	"class" : {
+		"logClockDifferenceLargerThan:" : "SvenVanCaekenberghe 5/31/2013 09:35"
+	}
+}

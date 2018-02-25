@@ -1,11 +1,13 @@
 {
+	"commentStamp" : "SvenVanCaekenberghe 3/12/2014 22:45",
+	"super" : "Object",
 	"category" : "ZTimestamp",
-	"classinstvars" : [
-		 ],
+	"classinstvars" : [ ],
+	"pools" : [ ],
 	"classvars" : [
 		"FormatKeys",
-		"Formats" ],
-	"commentStamp" : "SvenVanCaekenberghe 3/12/2014 22:45",
+		"Formats"
+	],
 	"instvars" : [
 		"specification",
 		"formatter",
@@ -13,9 +15,8 @@
 		"constructor",
 		"weekdayNames",
 		"monthNames",
-		"timezone" ],
+		"timezone"
+	],
 	"name" : "ZTimestampFormat",
-	"pools" : [
-		 ],
-	"super" : "Object",
-	"type" : "normal" }
+	"type" : "normal"
+}
