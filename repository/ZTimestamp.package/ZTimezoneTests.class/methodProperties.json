@@ -9,6 +9,7 @@
 		"testGmtToLocal" : "SvenVanCaekenberghe 3/16/2014 16:25",
 		"testIdentifiers" : "SvenVanCaekenberghe 3/11/2014 20:40",
 		"testLocalToGmt" : "SvenVanCaekenberghe 3/16/2014 16:26",
+		"testLocaltime" : "SvenVanCaekenberghe 6/27/2017 17:10",
 		"testParsing" : "SvenVanCaekenberghe 3/11/2014 22:41",
 		"testReadAll" : "SvenVanCaekenberghe 3/12/2014 16:20",
 		"testZoneInfoLocation" : "SvenVanCaekenberghe 3/11/2014 20:43"

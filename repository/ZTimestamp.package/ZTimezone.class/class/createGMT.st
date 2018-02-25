@@ -1,9 +1,9 @@
 private
 createGMT
-	^ ZTimezone new
+	^ self new
 		id: #GMT;
 		transitions: #();
-		subzonesIndex: #[0];
-		subzones: {(ZSubTimezone gmt)};
+		subzonesIndex: #[ 0 ];
+		subzones: { ZSubTimezone gmt };
 		resolveSubzonesIndex;
 		yourself

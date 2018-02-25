@@ -10,9 +10,8 @@ readTimezoneOffsetFrom: stream
 		ifTrue: [
 			sign := stream next = $- ifTrue: [ -1 ] ifFalse: [ 1 ].
 			hour := self readInteger: 2 from: stream.
-			((self readOptionalSeparatorFrom: stream) notNil
-					or: [ '0123456789' includes: stream peek ])
-				ifTrue: [ minute := self readInteger: 2 from: stream ]
-				ifFalse: [ minute := 0 ].
+			minute := (self readOptionalSeparatorExpecting: '0123456789' from: stream)
+				ifTrue: [  self readInteger: 2 from: stream ]
+				ifFalse: [ 0 ].
 			sign * ((hour * 3600) + (minute * 60)) ]
 		ifFalse: [ 0 ]

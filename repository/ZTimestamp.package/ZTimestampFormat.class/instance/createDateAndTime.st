@@ -1,5 +1,7 @@
 initialize-release
 createDateAndTime
+	"Configure me to create DateAndTime instances when parsing"
+
 	self constructor: [ :elements | 
 		| timestamp |
 		timestamp := DateAndTime 

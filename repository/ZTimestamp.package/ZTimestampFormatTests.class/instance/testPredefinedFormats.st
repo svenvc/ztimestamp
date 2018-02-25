@@ -3,7 +3,7 @@ testPredefinedFormats
 	| reference now |
 	reference := ZTimestampFormat reference24.
 	now := DateAndTime now truncated.
-	#(ansiC verbose kitchen rfc3339 rfc822 rfc850 unixDate) 
+	#(ansiC verbose kitchen clock rfc3339 rfc822 rfc850 unixDate euDate usDate isoDate) 
 		do: [ :each | | format target |
 			format := ZTimestampFormat perform: each.
 			target := format specification copy replaceAll: $_ with: $ . 
