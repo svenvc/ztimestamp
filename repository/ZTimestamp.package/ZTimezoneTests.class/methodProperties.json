@@ -1,20 +1,19 @@
 {
 	"instance" : {
 		"assertIsTimezoneEuropeBrussels:" : "SvenVanCaekenberghe 3/11/2014 22:40",
+		"checkZoneInfoLocation" : "HenrikNergaard 2/28/2018 17:50",
 		"europeBrusselsContents" : "SvenVanCaekenberghe 3/11/2014 20:23",
-		"runningOnWindows" : "SvenVanCaekenberghe 3/11/2014 20:35",
-		"testCET" : "HenrikNergaard 2/25/2018 23:31",
+		"testCET" : "HenrikNergaard 2/28/2018 17:52",
 		"testDaylightSavingTimeTransition" : "SvenVanCaekenberghe 3/16/2014 18:45",
 		"testEuropeBrussels" : "SvenVanCaekenberghe 3/11/2014 22:41",
 		"testGMT" : "SvenVanCaekenberghe 3/11/2014 20:42",
 		"testGmtToLocal" : "SvenVanCaekenberghe 3/16/2014 16:25",
-		"testIdentifiers" : "SvenVanCaekenberghe 3/11/2014 20:40",
-		"testInvalidId" : "HenrikNergaard 2/25/2018 23:48",
+		"testIdentifiers" : "HenrikNergaard 2/28/2018 17:51",
 		"testLocalToGmt" : "SvenVanCaekenberghe 3/16/2014 16:26",
 		"testLocaltime" : "SvenVanCaekenberghe 6/27/2017 17:10",
 		"testParsing" : "SvenVanCaekenberghe 3/11/2014 22:41",
-		"testReadAll" : "SvenVanCaekenberghe 3/12/2014 16:20",
-		"testZoneInfoLocation" : "SvenVanCaekenberghe 3/11/2014 20:43"
+		"testReadAll" : "HenrikNergaard 2/28/2018 17:50",
+		"testZoneInfoLocation" : "HenrikNergaard 2/28/2018 17:50"
 	},
 	"class" : { }
 }
