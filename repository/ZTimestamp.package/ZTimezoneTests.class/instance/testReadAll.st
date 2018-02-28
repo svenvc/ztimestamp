@@ -1,7 +1,7 @@
 testing
 testReadAll
 	| timezones timezone |
-	self runningOnWindows ifTrue: [ self skip ].
+	self checkZoneInfoLocation.
 	timezones := ZTimezone timezoneIdentifiers 
 		collect: [ :each | ZTimezone readTimezoneWithId: each ].
 	self deny: timezones isEmpty.

@@ -5,6 +5,6 @@ testCET
 	 
 	timestamp := ZTimestamp now.
 	timeA := (ZTimezone id: 'CET') localToGmt: timestamp.
-	timeB := (ZTimezone id: 'Europe/Paris') localToGmt: timestamp.
+	timeB := (ZTimezone id: 'Europe/Brussels') localToGmt: timestamp.
 	
 	self assert: timeA equals: timeB

@@ -1,4 +1,5 @@
 testing
 testZoneInfoLocation
-	self runningOnWindows ifTrue: [ self skip ].
+
+	self checkZoneInfoLocation.
 	self assert: ZTimezone zoneInfoLocation exists
