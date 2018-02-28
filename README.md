@@ -33,7 +33,7 @@ and can print a representation in arbitrary timezones.
 ## Time Zone Database
 https://www.iana.org/time-zones
 
-Latest version: [tzcode-latest.tar.gz](https://www.iana.org/time-zones/repository/tzcode-latest.tar.gz)
+Latest version: [tzdata-latest.tar.gz](https://www.iana.org/time-zones/repository/tzdata-latest.tar.gz)
 
 
 ## Installation
