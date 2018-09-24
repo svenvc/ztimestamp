@@ -1,7 +1,7 @@
 {
 	"commentStamp" : "",
 	"super" : "BaselineOf",
-	"category" : "ZTimestamp",
+	"category" : "BaselineOfZTimestamp",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
