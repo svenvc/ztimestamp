@@ -1,3 +1,0 @@
-constants
-originateOffset
-	^ 25

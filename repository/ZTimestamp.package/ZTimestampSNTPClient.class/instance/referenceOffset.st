@@ -1,3 +1,0 @@
-constants
-referenceOffset
-	^ 17

@@ -1,3 +1,0 @@
-acccessing
-centralEuropeanAliases
-	^ #(CET CEST)

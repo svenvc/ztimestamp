@@ -1,1 +1,0 @@
-I am ZTimestampSNTPClientTests, a test suite for ZTimestampSNTPClient.

@@ -1,1 +1,0 @@
-I am ZTimestampTests, a test suite for ZnTimestamp.

@@ -1,3 +1,0 @@
-constants
-receiveOffset
-	^ 33

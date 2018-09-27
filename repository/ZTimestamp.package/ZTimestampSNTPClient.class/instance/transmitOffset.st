@@ -1,3 +1,0 @@
-constants
-transmitOffset
-	^ 41
