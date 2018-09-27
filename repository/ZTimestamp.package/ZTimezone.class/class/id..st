@@ -9,7 +9,7 @@ id: id
 		ifTrue: [ ^ self localtime ].
 	(self centralEuropeanAliases includes: id) 
 		ifTrue: [ ^ self defaultZoneCET ] .
-		
+
 	^ self timezones
 		at: id
 		ifAbsentPut: [ self readTimezoneWithId: id ]

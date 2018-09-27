@@ -1,8 +1,5 @@
 acccessing
 defaultZoneCET
-
-	^ self id: 'Europe/Brussels'
-
+	"The timezone identifiers in #centralEuropeanAliases resolve to this actual timezone"
 	
-
-			
+	^ self id: 'Europe/Brussels'

@@ -7,4 +7,4 @@ defaultZoneInfoLocation
 	standardLocation := '/usr/share/zoneinfo/' asFileReference.
 	^ standardLocation exists
 		ifTrue: [ standardLocation ]
-		ifFalse: [ self errorCannotUseDefaultZoneInfoLocation. nil ]
+		ifFalse: [ self errorCannotUseDefaultZoneInfoLocation ]

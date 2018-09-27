@@ -1,14 +1,15 @@
 {
-	"category" : "ConfigurationOfZTimestamp",
-	"classinstvars" : [
-		 ],
-	"classvars" : [
-		"LastVersionLoad" ],
 	"commentStamp" : "SvenVanCaekenberghe 2/1/2014 17:23",
-	"instvars" : [
-		"project" ],
-	"name" : "ConfigurationOfZTimestamp",
-	"pools" : [
-		 ],
 	"super" : "Object",
-	"type" : "normal" }
+	"category" : "ConfigurationOfZTimestamp",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [
+		"LastVersionLoad"
+	],
+	"instvars" : [
+		"project"
+	],
+	"name" : "ConfigurationOfZTimestamp",
+	"type" : "normal"
+}
