@@ -1,7 +1,10 @@
+"
+I am ZTimezoneTests, a test suite for ZTimezone.
+"
 Class {
 	#name : #ZTimezoneTests,
 	#superclass : #TestCase,
-	#category : 'ZTimestamp'
+	#category : #ZTimestamp
 }
 
 { #category : #testing }

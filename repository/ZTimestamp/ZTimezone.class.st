@@ -216,7 +216,8 @@ ZTimezone class >> id: id [
 { #category : #'instance creation' }
 ZTimezone class >> localtime [
 	"Return the special localtime timezone, 
-	containing the current local timezone offset as one fixed transition"
+	containing the current local timezone offset as one fixed transition.
+	Note that the cached version might go stale after DST transitions (use #cleanUp)"
 	
 	^ self timezones at: #localtime ifAbsentPut: [ self createLocaltime ]
 ]

@@ -16,12 +16,12 @@ I can be used to verify the current clock.
 		
 	ZTimestampPreciseSNTPClient logClockDifferenceLargerThan: 1 second.
 
-Normally this difference should be just just fractions of a seconds. If not, make sure your computer's clock itself is properly synchronized.
+Normally this difference should be just just fractions of a second. If not, make sure your computer's clock itself is properly synchronized.
 "
 Class {
 	#name : #ZTimestampPreciseSNTPClient,
 	#superclass : #ZTimestampSNTPClient,
-	#category : 'ZTimestamp'
+	#category : #ZTimestamp
 }
 
 { #category : #accessing }

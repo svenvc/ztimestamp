@@ -1,10 +1,10 @@
 "
-I am ZTimestampTests, a test suite for ZnTimestamp.
+I am ZTimestampTests, a test suite for ZTimestamp.
 "
 Class {
 	#name : #ZTimestampTests,
 	#superclass : #TestCase,
-	#category : 'ZTimestamp'
+	#category : #ZTimestamp
 }
 
 { #category : #asserting }
