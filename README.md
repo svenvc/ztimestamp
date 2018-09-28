@@ -1,5 +1,7 @@
 # ZTimestamp
 
+[![Build Status](https://travis-ci.org/svenvc/ztimestamp.svg?branch=master)](https://travis-ci.org/svenvc/ztimestamp)
+
 I am ZTimestamp.
 
 
