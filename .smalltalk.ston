@@ -1,0 +1,9 @@
+SmalltalkCISpec {
+  #loading : [
+    SCIMetacelloLoadSpec {
+      #baseline : 'ZTimestamp',
+      #directory : 'repository',
+      #platforms : [ #pharo ]
+    }
+  ]
+}
