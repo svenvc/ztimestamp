@@ -32,6 +32,7 @@ and can print a representation in arbitrary timezones.
 
 	(ZTimestamp fromString: DateAndTime now truncated printString) localPrintString.
 
+
 ## Time Zone Database
 https://www.iana.org/time-zones
 
@@ -40,9 +41,28 @@ Latest data: [tzdata-latest.tar.gz](https://www.iana.org/time-zones/repository/t
 Github repository: https://github.com/eggert/tz
 
 
+## Formatting & Parsing
+
+Also contains ZTimestampFormat, a 'by example' formatter/parser for DateAndTime, TimeStamp, Date, Time and ZTimestamp.
+
+
+## SNTP
+
+Also contains ZTimestampSNTPClient, a simple SNTP client to check your local clock.
+
+
 ## Installation
 
 This is a [Pharo Smalltalk](http://wwww.pharo.st) project 
-using [Monticello Filetree](https://github.com/dalehenrich/filetree).
+using the [Tonel](https://github.com/pharo-vcs/tonel) source code format.
 
-Sven Van Caekenberghe, April, 2012. MIT Licensed.
+In Pharo 6.1 and up you can use Iceberg to load this project.
+
+You can also load using the following expression:
+
+    Metacello new
+      baseline: 'ZTimestamp';
+      repository: 'github://svenvc/ztimestamp';
+      load.
+   
+Written and supported by Sven Van Caekenberghe. MIT Licensed.
