@@ -12,6 +12,14 @@ ZTimestampSNTPClientTests >> clientClass [
 	^ ZTimestampSNTPClient 
 ]
 
+{ #category : #accessing }
+ZTimestampSNTPClientTests >> delta [
+	"Return the maximum number of seconds of delta that we allow.
+	Note that under CI servers we need more time."
+	
+	^ 5
+]
+
 { #category : #testing }
 ZTimestampSNTPClientTests >> testClockDifferenceMulti [
 	| differences |
@@ -21,7 +29,9 @@ ZTimestampSNTPClientTests >> testClockDifferenceMulti [
 		difference := client clockDifference.
 		client close.
 		difference seconds ].
-	self assert: differences average <= 2
+	self 
+		assert: differences average <= self delta
+		description: ('average differences too large, {1} > {2}s' format: { differences average. self delta })
 ]
 
 { #category : #testing }
@@ -33,15 +43,17 @@ ZTimestampSNTPClientTests >> testClockDifferenceSingle [
 		difference := client clockDifference.
 		difference seconds ].
 	client close.
-	self assert: differences average <= 2
+	self 
+		assert: differences average <= self delta
+		description: ('average differences too large, {1} > {2}s' format: { differences average. self delta })
 ]
 
 { #category : #testing }
 ZTimestampSNTPClientTests >> testEnforceClockDifference [
 	self clientClass new 
-		enforceClockDifference: 5 seconds 
+		enforceClockDifference: self delta seconds 
 		ifFail: [ :difference | 
-			self fail: ('Clock difference too large ({1} > 5s)' format: { difference } ) ]
+			self fail: ('Clock difference too large ({1} > {2}s)' format: { difference. self delta } ) ]
 ]
 
 { #category : #testing }
@@ -50,7 +62,9 @@ ZTimestampSNTPClientTests >> testLocalClockOffset [
 	client := self clientClass new.
 	offset := client localClockOffset.
 	client close.
-	self assert: offset <= 2 seconds
+	self 
+		assert: offset <= self delta seconds
+		description: ('localClockOffset too large, {1} > {2}s' format: { offset. self delta })
 ]
 
 { #category : #testing }
@@ -59,5 +73,7 @@ ZTimestampSNTPClientTests >> testRoundtripDelay [
 	client := self clientClass new.
 	delay := client roundtripDelay.
 	client close.
-	self assert: delay <= 2 seconds
+	self 
+		assert: delay <= self delta seconds 
+		description: ('roundTripDelay too large, {1} > {2}s' format: { delay. self delta })
 ]
