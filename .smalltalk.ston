@@ -3,6 +3,7 @@ SmalltalkCISpec {
     SCIMetacelloLoadSpec {
       #baseline : 'ZTimestamp',
       #directory : 'repository',
+      #useLatestMetacello : true,
       #platforms : [ #pharo ]
     }
   ]
