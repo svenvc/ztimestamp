@@ -2,6 +2,7 @@
 I am ZTimezone, representing the timezone information in the standard Olsen database.
 
   http://en.wikipedia.org/wiki/Tz_database
+  https://www.iana.org/time-zones
 
 Usage
 
@@ -13,7 +14,7 @@ To access a timezone do
 
   ZTimezone id: 'Europe/Brussels'.
 
-The necessary information will be loaded, parsed and cached from a binary file of the zoneinfo database (see also man tzfile). This should work automagically on Mac OS X and Unix, on Windows you have to download the necessary files and specify their location 
+The necessary information will be loaded, parsed and cached from a binary file of the zoneinfo database (see also man tzfile). This should work automagically on macOS and Unix, on Windows you have to download the necessary files and specify their location although there is a fallback that downloads the dataset (see #downloadFallbackZoneinfoDataset)
 
   ZTimezone zoneInfoLocation: FileLocator C / 'foo' / 'bar' / 'zoneinfo'.
 
@@ -60,7 +61,7 @@ Class {
 		'ZoneInfoLocation',
 		'ZoneTab'
 	],
-	#category : 'ZTimestamp'
+	#category : #ZTimestamp
 }
 
 { #category : #acccessing }
