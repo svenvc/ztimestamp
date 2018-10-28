@@ -169,6 +169,27 @@ ZTimezoneTests >> testReadAll [
 ]
 
 { #category : #testing }
+ZTimezoneTests >> testReadAllUsingFallback [
+	| zoneInfoLocation zonetab timezones europeBrussels |
+	"Test downloading and using the fallback dataset, being careful not to modify any class side state"
+	zoneInfoLocation := ZTimezone downloadFallbackZoneinfoDataset.
+	zonetab := ZTimezone readZoneTabFrom: zoneInfoLocation.
+	timezones := zonetab
+		collect: [ :each | | id location timezone |
+			id := each first.
+			location := ZTimezone locationForId: id relativeTo: zoneInfoLocation.
+			self assert: location exists.
+			timezone := ZTimezone fromFile: location.
+			timezone id: id.
+			timezone ].
+	self deny: timezones isEmpty.
+	europeBrussels := timezones 
+		detect: [ :each | each id = #'Europe/Brussels' ]
+		ifNone: [ self fail ].
+	self assertIsTimezoneEuropeBrussels: europeBrussels
+]
+
+{ #category : #testing }
 ZTimezoneTests >> testZoneInfoLocation [
 	self checkZoneInfoLocation.
 	self assert: ZTimezone zoneInfoLocation exists

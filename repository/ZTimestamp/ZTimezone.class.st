@@ -124,14 +124,41 @@ ZTimezone class >> defaultZoneCET [
 
 { #category : #acccessing }
 ZTimezone class >> defaultZoneInfoLocation [
-	"On Mac OS X and Linux/Unix there is a standard location.
-	On Windows there is not, so the location has to be specified using #zoneInfoLocation:"
+	"On macOS and Linux/Unix there is a standard location.
+	On Windows there is not, so the location has to be specified using #zoneInfoLocation:
+	On systems that do not seem to have the dataset at the normal location,
+	we attempt to download a fallback copy in the current directory"
 
 	| standardLocation |
 	standardLocation := '/usr/share/zoneinfo/' asFileReference.
-	^ standardLocation exists
-		ifTrue: [ standardLocation ]
-		ifFalse: [ self errorCannotUseDefaultZoneInfoLocation ]
+	standardLocation exists
+		ifTrue: [ ^ standardLocation ].
+	[ ^ self downloadFallbackZoneinfoDataset ] 
+		on: Error 
+		do: [ :exception |
+			self notify: 'Failed to download fallback zoneinfo dataset with ' , exception printString.
+			self errorCannotUseDefaultZoneInfoLocation ]
+]
+
+{ #category : #utilties }
+ZTimezone class >> downloadFallbackZoneinfoDataset [
+	"Download a fallback copy of the zoneinfo dataset and return its location.
+	See #fallbackZoneinfoDatasetURL for more info and a warning"
+	
+	| zipLocation zoneinfoLocation |
+	zipLocation := self fallbackZoneinfoDatasetURL file asFileReference.
+	zipLocation ensureDelete.
+	ZnClient new 
+		url: self fallbackZoneinfoDatasetURL; 
+		downloadTo: zipLocation;
+		close.
+	zoneinfoLocation := zipLocation parent / 'zoneinfo'.
+	zoneinfoLocation ensureDeleteAll.
+	ZipArchive new
+		readFrom: zipLocation;
+		extractAllTo: zoneinfoLocation parent;
+		close.
+	^ zoneinfoLocation
 ]
 
 { #category : #private }
@@ -140,6 +167,16 @@ ZTimezone class >> errorCannotUseDefaultZoneInfoLocation [
 		error:
 			'Cannot default to standard /usr/share/zoneinfo/ location,' , 
 			'please specify a location using #zoneInfoLocation:'
+]
+
+{ #category : #acccessing }
+ZTimezone class >> fallbackZoneinfoDatasetURL [
+	"The URL to the ZIP archive zoneinfo.zip which is offered as a fallback for 
+	systems (such as Windows) that do no have their own copy of this data. 
+	Note that it is highly recommended that you use such a OS maintained dataset, 
+	as this data is changed (being added to) each year."
+	
+	^ 'https://github.com/svenvc/ztimestamp/raw/master/rsrc/zoneinfo.zip' asUrl
 ]
 
 { #category : #'instance creation' }
@@ -232,8 +269,17 @@ ZTimezone class >> locationForId: id [
 	"Return a FileReference to the file containing the compiled binary data 
 	for the timezone identified by id, with $/ indicating directory levels"
 	
+	^ self locationForId: id relativeTo: self zoneInfoLocation
+]
+
+{ #category : #acccessing }
+ZTimezone class >> locationForId: id relativeTo: zoneInfoLocation [
+	"Return a FileReference to the file containing the compiled binary data 
+	for the timezone identified by id, with $/ indicating directory levels,
+	starting at (i.e. relative to) the directory zoneInfoLocation"
+	
 	| location |
-	location := self zoneInfoLocation.
+	location := zoneInfoLocation asFileReference.
 	($/ split: id) do: [ :each |
 		location := location / each ].
 	^ location
@@ -269,8 +315,15 @@ ZTimezone class >> readZoneTab [
 	"Parse and load the zone tab file, do not cache"
 	"self readZoneTab"
 
+	^ self readZoneTabFrom: self zoneInfoLocation
+]
+
+{ #category : #utilties }
+ZTimezone class >> readZoneTabFrom: zoneInfoLocation [
+	"Parse and load the zone tab file from zoneInfoLocation, do not cache"
+
 	| file contents |
-	file := self zoneInfoLocation / 'zone.tab'.
+	file := zoneInfoLocation asFileReference / 'zone.tab'.
 	contents := file readStreamDo: [ :in | in upToEnd ].
 	^ (contents lines reject: [ :line | line first = $# ])
 			collect: [ :lines | 
