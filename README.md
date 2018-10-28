@@ -34,7 +34,13 @@ and can print a representation in arbitrary timezones.
 
 
 ## Time Zone Database
-https://www.iana.org/time-zones
+
+ZTimezone adds proper timezone support based on the standard Olsen Timezone database. 
+
+- http://en.wikipedia.org/wiki/Tz_database
+- https://www.iana.org/time-zones
+
+The necessary information will be loaded, parsed and cached from a binary file of the zoneinfo database (see also man tzfile). This should work automagically on macOS and Unix, on Windows you have to download the necessary files and specify their location although there is a fallback that downloads the dataset (see #downloadFallbackZoneinfoDataset)
 
 Latest data: [tzdata-latest.tar.gz](https://www.iana.org/time-zones/repository/tzdata-latest.tar.gz)
 
