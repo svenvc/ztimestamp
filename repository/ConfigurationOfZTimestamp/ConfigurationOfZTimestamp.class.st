@@ -177,7 +177,12 @@ ConfigurationOfZTimestamp >> project [
 ConfigurationOfZTimestamp >> stable: spec [
 	<symbolicVersion: #'stable'>
 	
-	spec for: #common version: '23'
+	spec for: #common version: '24'. "pharo 6.1 and higher track the latest-release git branch"
+
+	spec for: #'pharo3.x' version: '23'.
+	spec for: #'pharo4.x' version: '23'.
+	spec for: #'pharo5.x' version: '23'.
+	spec for: #'pharo6.0' version: '23'.
 ]
 
 { #category : #versions }
@@ -328,6 +333,20 @@ ConfigurationOfZTimestamp >> version23: spec [
 		spec
 			blessing: #release;
 			package: 'ZTimestamp' with: 'ZTimestamp-SvenVanCaekenberghe.68' ]
+]
+
+{ #category : #versions }
+ConfigurationOfZTimestamp >> version24: spec [
+	<version: '24'>
+	spec for: #common do: [ 
+		spec
+			blessing: #release;
+			baseline: 'ZTimestamp'
+			with: [
+				"This refers to the latest-release branch to follow releases automatically" 
+				spec
+					className: 'BaselineOfZTimestamp';
+					repository: 'github://svenvc/ztimestamp:latest-release' ] ]
 ]
 
 { #category : #versions }
