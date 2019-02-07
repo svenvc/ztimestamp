@@ -128,12 +128,11 @@ ZTimezone class >> defaultZoneInfoLocation [
 	"On macOS and Linux/Unix there is a standard location.
 	On Windows there is not, so the location has to be specified using #zoneInfoLocation:
 	On systems that do not seem to have the dataset at the normal location,
-	we attempt to download a fallback copy in the current directory"
+	we attempt to download a fallback copy in the current directory.
+	Return the location where the caller will cache it, see #zoneInfoLocation."
 
-	| standardLocation |
-	standardLocation := '/usr/share/zoneinfo/' asFileReference.
-	standardLocation exists
-		ifTrue: [ ^ standardLocation ].
+	self standardZoneInfoLocation exists
+		ifTrue: [ ^ self standardZoneInfoLocation ].
 	[ ^ self downloadFallbackZoneinfoDataset ] 
 		on: Error 
 		do: [ :exception |
@@ -143,7 +142,8 @@ ZTimezone class >> defaultZoneInfoLocation [
 
 { #category : #utilties }
 ZTimezone class >> downloadFallbackZoneinfoDataset [
-	"Download a fallback copy of the zoneinfo dataset and return its location.
+	"Download a fallback copy of the zoneinfo dataset in the current directory and 
+	return its location where the caller will cache it, see #zoneInfoLocation.
 	See #fallbackZoneinfoDatasetURL for more info and a warning"
 	
 	| zipLocation zoneinfoLocation |
@@ -153,7 +153,7 @@ ZTimezone class >> downloadFallbackZoneinfoDataset [
 		url: self fallbackZoneinfoDatasetURL; 
 		downloadTo: zipLocation;
 		close.
-	zoneinfoLocation := zipLocation parent / 'zoneinfo'.
+	zoneinfoLocation := zipLocation parent / self standardZoneInfoLocation basename.
 	zoneinfoLocation ensureDeleteAll.
 	ZipArchive new
 		readFrom: zipLocation;
@@ -351,6 +351,15 @@ ZTimezone class >> resetZoneInfoLocation [
 	self zoneInfoLocation: nil
 ]
 
+{ #category : #acccessing }
+ZTimezone class >> standardZoneInfoLocation [
+	"Return a file reference to the standard zone info location directory.
+	On macOS and Linux/Unix there is a well-known standard location as maintained by the OS.
+	On Windows there is not, see #defaultZonInfoLocation for the behavior in that case."
+
+	^ '/usr/share/zoneinfo/' asFileReference
+]
+
 { #category : #utilties }
 ZTimezone class >> statistics [
 	"Give an indication of the amount of data I currently cache"
@@ -381,7 +390,8 @@ ZTimezone class >> timezones [
 
 { #category : #acccessing }
 ZTimezone class >> zoneInfoLocation [
-	"Return the zone info database location currently in use"
+	"Return the zone info database location currently in use.
+	If the location is not yet set, let #defaultZoneInfoLocation figure it out and cache the result."
 	
 	^ ZoneInfoLocation ifNil: [ ZoneInfoLocation := self defaultZoneInfoLocation ]
 ]
