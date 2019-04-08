@@ -6,7 +6,7 @@ I am ZTimezone, representing the timezone information in the standard Olsen data
 
 Usage
 
-You reference timezones by their ID. The list of supported identifiers is accessible using
+You reference timezones by their ID. The list of modern identifiers is accessible using
 
   ZTimezone timezoneIdentifiers.
 
@@ -302,11 +302,10 @@ ZTimezone class >> readTimezoneWithId: id [
 	"self readTimezoneWithId: #'Europe/Brussels'."
 
 	| location timezone |
-	self zoneTab 
-		detect: [ :each | each first = id ] 
-		ifNone: [ ^ self error: 'Unknown Timezone ID: ' , id asString ].
 	location := self locationForId: id.
-	timezone := self fromFile: location.
+	timezone := [ self fromFile: location ] 
+		on: FileDoesNotExistException 
+		do: [ ^ self error: 'Unknown Timezone ID: ' , id asString ].
 	timezone id: id.
 	^ timezone
 ]
@@ -374,7 +373,8 @@ ZTimezone class >> statistics [
 
 { #category : #acccessing }
 ZTimezone class >> timezoneIdentifiers [
-	"Return the list of supported timezone identifiers.
+	"Return the list of modern Area/Location timezone identifiers from zonetab.
+	In principle each file found in zoneinfo is supported.
 	#gmtAliases and #localtimeAliases are special cases that are also supported, 
 	but are not in the zonetab. Identifiers are case sensitive."
 	

@@ -156,6 +156,18 @@ ZTimezoneTests >> testParsing [
 ]
 
 { #category : #testing }
+ZTimezoneTests >> testROK [
+	
+	| timestamp timeA timeB |
+	 
+	timestamp := ZTimestamp now.
+	timeA := (ZTimezone id: 'ROK') localToGmt: timestamp.
+	timeB := (ZTimezone id: 'Asia/Seoul') localToGmt: timestamp.
+	
+	self assert: timeA equals: timeB
+]
+
+{ #category : #testing }
 ZTimezoneTests >> testReadAll [
 	| timezones timezone |
 	self checkZoneInfoLocation.
@@ -187,6 +199,11 @@ ZTimezoneTests >> testReadAllUsingFallback [
 		detect: [ :each | each id = #'Europe/Brussels' ]
 		ifNone: [ self fail ].
 	self assertIsTimezoneEuropeBrussels: europeBrussels
+]
+
+{ #category : #testing }
+ZTimezoneTests >> testUnknownID [
+	self should: [ ZTimezone id: 'FooBar' ] raise: Error
 ]
 
 { #category : #testing }
