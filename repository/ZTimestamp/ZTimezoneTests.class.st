@@ -202,6 +202,18 @@ ZTimezoneTests >> testReadAllUsingFallback [
 ]
 
 { #category : #testing }
+ZTimezoneTests >> testTimezoneWithNoSubzoneIndex [
+	"The first one is manually constructed, not read"
+	self 
+		assert: (ZTimezone gmt offsetForTimestamp: DateAndTime now) 
+		equals: Duration zero.
+	"The second one is read, has only 1 sub zone, but no transitions and an empty index"
+	self 
+		assert: ((ZTimezone id: 'Etc/GMT') offsetForTimestamp: DateAndTime now) 
+		equals: Duration zero
+]
+
+{ #category : #testing }
 ZTimezoneTests >> testUnknownID [
 	self should: [ ZTimezone id: 'FooBar' ] raise: Error
 ]

@@ -99,7 +99,6 @@ ZTimezone class >> createGMT [
 	^ self new
 		id: #GMT;
 		transitions: #();
-		subzonesIndex: #[ 0 ];
 		subzones: { ZSubTimezone gmt };
 		resolveSubzonesIndex;
 		yourself
@@ -110,7 +109,6 @@ ZTimezone class >> createLocaltime [
 	^ self new
 		id: #localtime;
 		transitions: #();
-		subzonesIndex: #[ 0 ];
 		subzones: { ZSubTimezone localtime };
 		resolveSubzonesIndex;
 		yourself
@@ -525,6 +523,8 @@ ZTimezone >> resolveSubzones: rawSubzones abbreviations: abbreviations [
 { #category : #private }
 ZTimezone >> resolveSubzonesIndex [
 	| resolvedSubzonesIndex |
+	(subzonesIndex isNil or: [ subzonesIndex isEmpty ])
+		ifTrue: [ subzonesIndex := #[ 0 ] ].
 	resolvedSubzonesIndex := Array new: subzonesIndex size.
 	1 to: subzonesIndex size do: [ :each |
 		| index |
