@@ -708,7 +708,7 @@ ZTimestampFormat >> french [
 		'Janvier' 'Février' 'Mars' 'Avril' 'Mai' 'Juin' 
 		'Juillet' 'Août' 'Septembre' 'Octobre' 'Novembre' 'Décembre' ).
 	self weekdayNames: #( 
-		'Dimanche' 'Lundi' 'Mardi' 'Mecredi' 'Jeudi' 'Vendredi' 'Samedi' )
+		'Dimanche' 'Lundi' 'Mardi' 'Mercredi' 'Jeudi' 'Vendredi' 'Samedi' )
 ]
 
 { #category : #'initialize-release' }
