@@ -31,11 +31,6 @@ ZSubTimezone class >> gmt [
 	^ self abbreviation: #GMT offset: 0 dst: false
 ]
 
-{ #category : #'instance creation' }
-ZSubTimezone class >> localtime [
-	^ self abbreviation: #localtime offset: ZTimestamp localTimeZone offset dst: false
-]
-
 { #category : #accessing }
 ZSubTimezone >> abbreviation [
 	^ abbreviation

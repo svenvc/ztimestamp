@@ -247,15 +247,6 @@ ZTimestampTests >> testJulianDate [
 ]
 
 { #category : #testing }
-ZTimestampTests >> testLocalPrintString [
-	| now timestamp reference |
-	now := DateAndTime now.
-	timestamp := now asUTC asZTimestamp localPrintString.
-	reference := now truncated printString.
-	self assert: timestamp equals: reference
-]
-
-{ #category : #testing }
 ZTimestampTests >> testLunarLanding [
 	| timestamp |
 	timestamp := self lunarLanding.
@@ -380,14 +371,6 @@ ZTimestampTests >> testPrintString [
 	self assert: timestamp printString equals: '2012-04-20T15:50:10Z'.
 	timestamp := ZTimestamp year: -12 month: 4 day: 20 hour: 15 minute: 50 second: 10.
 	self assert: timestamp printString equals: '-0012-04-20T15:50:10Z'
-]
-
-{ #category : #testing }
-ZTimestampTests >> testPrintStringCompatibility [
-	| dateTime timestamp |
-	dateTime := DateAndTime now truncated printString.
-	timestamp := (ZTimestamp fromString: dateTime) localPrintString.
-	self assert: dateTime equals: timestamp
 ]
 
 { #category : #testing }

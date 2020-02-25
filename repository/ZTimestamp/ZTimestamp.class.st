@@ -20,9 +20,17 @@ Examples:
 
 There is some compatibility with existing, standard Chronology objects.
 I correctly parse representations with a timezone designator
-and can print a representation in arbitrary timezones. 
+and can print a representation in arbitrary timezone offsets. 
 
-	(ZTimestamp fromString: DateAndTime now truncated printString) localPrintString.
+The key idea of ZTimestamp is to store and work with timestamps in UTC internally, 
+while converting to and from specific local representations when needed interfacing with the user or other systems.
+
+ZTimestampFormat, working with ZTimezone, is the tool to do these conversions.
+
+ZCurrentTimezone
+	value: (ZTimezone id: #'Europe/Brussels')
+	during: [ ZTimestampFormat isoTZ useCurrentTimezone format: ZTimestamp now ].
+
 "
 Class {
 	#name : #ZTimestamp,
@@ -33,11 +41,10 @@ Class {
 	],
 	#classVars : [
 		'ClockEpoch',
-		'ClockTimezoneOffset',
 		'UnixEpoch',
 		'Zero'
 	],
-	#category : 'ZTimestamp'
+	#category : #ZTimestamp
 }
 
 { #category : #'instance creation' }
@@ -49,8 +56,8 @@ ZTimestamp class >> @ stringOrStream [
 
 { #category : #private }
 ZTimestamp class >> clockEpoch [
-	"Return the epoch of the clock that we use as an instance (cached), see #now
-	This is expressed in UTC regardless of #clockSeconds, see #clockTimezoneOffset"
+	"Return the epoch of the clock that we use as an instance (cached), see #now.
+	This is expressed in UTC in Pharo 3 and higher."
 	
 	^ ClockEpoch ifNil: [
 		ClockEpoch := self year: 1901 month: 1 day: 1 ]
@@ -58,23 +65,15 @@ ZTimestamp class >> clockEpoch [
 
 { #category : #private }
 ZTimestamp class >> clockSeconds [
-	"Return the total seconds count of the clock that we use as an Integer since the #clockEpoch, 
-	see #now. This can be in UTC or not, then it will be compensated using #clockTimezoneOffset"
+	"Return the total seconds count of the clock that we use as an integer since #clockEpoch, 
+	see #now. This is always in UTC in Pharo 3 and higher."
 
 	^ Time totalSeconds
 ]
 
-{ #category : #private }
-ZTimestamp class >> clockTimezoneOffset [
-	"Return the timezone offset of the clock that we use as an Integer seconds (cached), see #now.
-	In a 3.0 image, which implements #primUTCMicrosecondsClock, Time>>#totalSeconds is UTC,
-	where in 2.0 it is in local time."
-
-	^ ClockTimezoneOffset
-		ifNil: [ 
-			ClockTimezoneOffset := (Time respondsTo: #primUTCMicrosecondsClock)
-				ifTrue: [ 0 ]
-				ifFalse: [ DateAndTime localTimeZone offset asSeconds ] ]
+{ #category : #'instance creation' }
+ZTimestamp class >> current [
+	^ self now
 ]
 
 { #category : #private }
@@ -163,18 +162,11 @@ ZTimestamp class >> jdnFromYear: year month: month day: day [
 		- 32045
 ]
 
-{ #category : #accessing }
-ZTimestamp class >> localTimeZone [
-	"Return the current machine's local timezone offset as a Duration"
-	
-	^ DateAndTime localTimeZone
-]
-
 { #category : #'instance creation' }
 ZTimestamp class >> now [
 	"Create and return a new ZTimestamp equal to the current system time"
 	
-	^ self fromClockSeconds: (self clockSeconds - self clockTimezoneOffset)
+	^ self fromClockSeconds: self clockSeconds
 ]
 
 { #category : #'instance creation' }
@@ -268,13 +260,6 @@ ZTimestamp class >> readTimezoneOffsetFrom: stream [
 
 ]
 
-{ #category : #'system startup' }
-ZTimestamp class >> startUp [
-	"Clear the cached clock timezone offset"
-	
-	ClockTimezoneOffset := nil
-]
-
 { #category : #'instance creation' }
 ZTimestamp class >> today [
 	"Create and return a new ZTimestamp equal to the current date"
@@ -341,7 +326,7 @@ ZTimestamp class >> withNowDo: block [
 	microsecondClockValue := Time microsecondClockValue.
 	totalSeconds := microsecondClockValue // 1e6.
 	^ block 
-		cull: (self fromClockSeconds: totalSeconds - self clockTimezoneOffset)
+		cull: (self fromClockSeconds: totalSeconds)
 		cull: microsecondClockValue - (totalSeconds * 1e6)
 ]
 
@@ -621,14 +606,6 @@ ZTimestamp >> julianDayNumber [
 	^ jdn
 ]
 
-{ #category : #printing }
-ZTimestamp >> localPrintString [
-	"Convencience method to convert the receiver in an ISO 8601 representation using the local timezone"
-
-	^ String streamContents: [ :stream |
-		self printLocalOn: stream ]
-]
-
 { #category : #accessing }
 ZTimestamp >> minute [
 	"Return the number of minutes in the receiver after full hours have been removed, 
@@ -697,22 +674,12 @@ ZTimestamp >> offset [
 ]
 
 { #category : #printing }
-ZTimestamp >> printLocalOn: stream [
-	"Print the receiver on stream in ISO 8601 extended format in the local timezone"
-	
-	self 
-		printOn: stream 
-		format: #($- $T $: nil) 
-		timezone: self class localTimeZone offset
-]
-
-{ #category : #printing }
 ZTimestamp >> printOn: stream [
 	"Print the receiver on stream in ISO 8601 extended format"
 	
 	self 
 		printOn: stream 
-		format: #($- $T $: $Z)
+		format: '-T:Z'
 ]
 
 { #category : #printing }

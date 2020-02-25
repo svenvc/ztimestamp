@@ -45,6 +45,31 @@ ZTimezoneTests >> testCET [
 ]
 
 { #category : #testing }
+ZTimezoneTests >> testCurrent [
+	| current newYorkTZ |
+	current := ZTimezone current.
+	self assert: ZCurrentTimezone value equals: current.
+	newYorkTZ := ZTimezone id: 'America/New_York'.
+	ZCurrentTimezone
+		value: newYorkTZ 
+		during: [ self assert: ZCurrentTimezone value equals: newYorkTZ ].
+	ZCurrentTimezone
+		value: ZTimezone gmt 
+		during: [ self assert: ZCurrentTimezone value equals: ZTimezone gmt ].
+	ZCurrentTimezone
+		value: nil 
+		during: [ self assert: ZCurrentTimezone value equals: current ].
+	[ 
+		ZTimezone current: newYorkTZ.
+		self assert: ZTimezone current equals: newYorkTZ.
+		self assert: ZCurrentTimezone value equals: newYorkTZ.
+		ZCurrentTimezone
+			value: nil 
+			during: [ self assert: ZCurrentTimezone value equals: newYorkTZ ] ] 
+				ensure: [ ZTimezone current: current ] 
+]
+
+{ #category : #testing }
 ZTimezoneTests >> testDaylightSavingTimeTransition [
 	"Daylight Saving Time (DST) creates a discontinuity 
 	in the local wall time when the transition occurs.
@@ -132,18 +157,6 @@ ZTimezoneTests >> testLocalToGmt [
 	self 
 		assert: (timezone localToGmt: (ZTimestamp fromString: '2014-08-15T12:00:00Z'))
 		equals: (ZTimestamp fromString: '2014-08-15T10:00:00Z').
-]
-
-{ #category : #testing }
-ZTimezoneTests >> testLocaltime [
-	| timezone subTimezone |
-	timezone := ZTimezone localtime.
-	self assert: timezone id equals: #localtime.
-	subTimezone := timezone subzoneForTimestamp: ZTimestamp now.
-	self assert: subTimezone abbreviation equals: #localtime.
-	self assert: subTimezone offset equals: ZTimestamp localTimeZone offset.
-	self deny: subTimezone isDaylightSaving.
-	self assert: (ZTimezone id: #localtime) equals: timezone
 ]
 
 { #category : #testing }

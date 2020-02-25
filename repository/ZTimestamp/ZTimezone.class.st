@@ -35,6 +35,19 @@ The are 2 more convenience methods to quickly convert between GTM and local wall
 
 Also note the zoneTab and the timezones are cached in the image. When the TZ database changes, it might be necessary to either call #cleanUp or #reloadAll. When moving images between machines, either all info should be loaded and cached, or it might be necessary to use #zoneInfoLocation: again.
 
+Together with ZCurrentTimezone I maintain a global and/or process specific user specified default timezone to use. Unfortunately, there is no reliable cross platform way to retrieve the OS's default timezone (identifier as opposed to the offset) - for this a new primitive is needed. So this must be set manually.
+
+	ZTimezone current: #'Europe/Brussels'.
+	ZTimezone current: (ZTimezone id: #'Europe/Brussels').
+
+The global default is then
+
+	ZTimezone current
+	
+When not set or nil, ZTimezone gmt will be returned. This is also the fallback of
+
+	ZCurrentTimezone value	
+
 Implementation
 
 A chronological array of transition points in unix time specifies which sub zone is active from that point on to the next.
@@ -57,6 +70,7 @@ Class {
 		'localTransitions'
 	],
 	#classVars : [
+		'Current',
 		'Timezones',
 		'ZoneInfoLocation',
 		'ZoneTab'
@@ -104,14 +118,24 @@ ZTimezone class >> createGMT [
 		yourself
 ]
 
-{ #category : #private }
-ZTimezone class >> createLocaltime [
-	^ self new
-		id: #localtime;
-		transitions: #();
-		subzones: { ZSubTimezone localtime };
-		resolveSubzonesIndex;
-		yourself
+{ #category : #acccessing }
+ZTimezone class >> current [
+	"Return the current Timezone to use, as set manually by the user.
+	If not set, the GMT timezone will be returned.
+	See also ZCurrentTimezone."
+	
+	^ Current ifNil: [ Current := self gmt ]
+]
+
+{ #category : #acccessing }
+ZTimezone class >> current: identifierOrTimezone [
+	"Set the current Timezone to use, using either a timezone identifier or object.
+	If not set or set to nil, the GMT timezone will be returned by #current.
+	See also ZCurrentTimezone."
+	
+	Current := identifierOrTimezone isString 
+		ifTrue: [ self id: identifierOrTimezone ] 
+		ifFalse: [ identifierOrTimezone ]
 ]
 
 { #category : #acccessing }
@@ -239,28 +263,12 @@ ZTimezone class >> id: id [
 	
 	(self gmtAliases includes: id) 
 		ifTrue: [ ^ self gmt ].
-	(self localtimeAliases includes: id)
-		ifTrue: [ ^ self localtime ].
 	(self centralEuropeanAliases includes: id) 
 		ifTrue: [ ^ self defaultZoneCET ] .
 
 	^ self timezones
 		at: id
 		ifAbsentPut: [ self readTimezoneWithId: id ]
-]
-
-{ #category : #'instance creation' }
-ZTimezone class >> localtime [
-	"Return the special localtime timezone, 
-	containing the current local timezone offset as one fixed transition.
-	Note that the cached version might go stale after DST transitions (use #cleanUp)"
-	
-	^ self timezones at: #localtime ifAbsentPut: [ self createLocaltime ]
-]
-
-{ #category : #acccessing }
-ZTimezone class >> localtimeAliases [
-	^ #(local localtime)
 ]
 
 { #category : #acccessing }
@@ -338,6 +346,7 @@ ZTimezone class >> reloadAll [
 	self cleanUp.
 	self timezoneIdentifiers 
 		do: [ :each | self id: each ].
+	self current: self current id.
 	^ self timezones
 ]
 
