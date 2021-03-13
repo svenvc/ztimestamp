@@ -1,6 +1,6 @@
 # ZTimestamp
 
-[![Build Status](https://travis-ci.org/svenvc/ztimestamp.svg?branch=master)](https://travis-ci.org/svenvc/ztimestamp)
+[![CI](https://github.com/svenvc/ztimestamp/actions/workflows/CI.yml/badge.svg)](https://github.com/svenvc/ztimestamp/actions/workflows/CI.yml)
 
 I am ZTimestamp.
 
