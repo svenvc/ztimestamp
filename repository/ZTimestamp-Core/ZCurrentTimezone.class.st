@@ -20,7 +20,7 @@ Any object that responds to #offsetForTimestamp: can be a timezone.
 Class {
 	#name : #ZCurrentTimezone,
 	#superclass : #DynamicVariable,
-	#category : #'ZTimestamp-Core-ZTimestamp-Core'
+	#category : #'ZTimestamp-Core'
 }
 
 { #category : #accessing }

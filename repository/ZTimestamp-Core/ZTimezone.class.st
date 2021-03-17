@@ -75,7 +75,7 @@ Class {
 		'ZoneInfoLocation',
 		'ZoneTab'
 	],
-	#category : #'ZTimestamp-Core-ZTimestamp-Core'
+	#category : #'ZTimestamp-Core'
 }
 
 { #category : #acccessing }

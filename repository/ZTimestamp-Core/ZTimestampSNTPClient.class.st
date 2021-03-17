@@ -28,7 +28,7 @@ Class {
 		'socket',
 		'serverAddress'
 	],
-	#category : #'ZTimestamp-Core-ZTimestamp-Core'
+	#category : #'ZTimestamp-Core'
 }
 
 { #category : #convenience }

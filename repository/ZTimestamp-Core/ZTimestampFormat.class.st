@@ -43,7 +43,7 @@ Class {
 		'FormatKeys',
 		'Formats'
 	],
-	#category : #'ZTimestamp-Core-ZTimestamp-Core'
+	#category : #'ZTimestamp-Core'
 }
 
 { #category : #accessing }

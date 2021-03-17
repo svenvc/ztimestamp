@@ -14,7 +14,7 @@ Class {
 		'offset',
 		'isDaylightSaving'
 	],
-	#category : #'ZTimestamp-Core-ZTimestamp-Core'
+	#category : #'ZTimestamp-Core'
 }
 
 { #category : #'instance creation' }

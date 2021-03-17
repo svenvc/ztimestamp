@@ -21,7 +21,7 @@ Normally this difference should be just just fractions of a second. If not, make
 Class {
 	#name : #ZTimestampPreciseSNTPClient,
 	#superclass : #ZTimestampSNTPClient,
-	#category : #'ZTimestamp-Core-ZTimestamp-Core'
+	#category : #'ZTimestamp-Core'
 }
 
 { #category : #accessing }

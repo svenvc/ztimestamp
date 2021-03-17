@@ -44,7 +44,7 @@ Class {
 		'UnixEpoch',
 		'Zero'
 	],
-	#category : #'ZTimestamp-Core-ZTimestamp-Core'
+	#category : #'ZTimestamp-Core'
 }
 
 { #category : #'instance creation' }
