@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+ZTimestampSNTPClientTests class >> defaultTimeLimit [
+	^ 20 seconds
+]
+
+{ #category : #accessing }
 ZTimestampSNTPClientTests >> clientClass [
 	^ ZTimestampSNTPClient 
 ]
