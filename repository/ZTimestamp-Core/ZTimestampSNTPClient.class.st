@@ -38,7 +38,7 @@ ZTimestampSNTPClient class >> logClockDifferenceLargerThan: duration [
 	self new
 		enforceClockDifference: duration
 		ifFail: [ :delta |
-			self crLog:  ('Warning: clock difference {1} > {2}' format: { delta. duration }) ];
+			self crTrace:  ('Warning: clock difference {1} > {2}' format: { delta. duration }) ];
 		close
 ]
 
