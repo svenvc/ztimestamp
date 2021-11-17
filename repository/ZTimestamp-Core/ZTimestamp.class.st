@@ -179,6 +179,15 @@ ZTimestamp class >> now [
 ]
 
 { #category : #'instance creation' }
+ZTimestamp class >> nowTruncated [
+	"Create and return a new ZTimestamp equal to the current system time,
+	immediately truncated to whole seconds, thus containing no fractional seconds.
+	This is equivalent but more efficient than (self now truncated)."
+	
+	^ self fromClockNanoseconds: Time totalSeconds * 1e9
+]
+
+{ #category : #'instance creation' }
 ZTimestamp class >> readFrom: stream [
 	"Parse a ISO 8601 representation from stream, in the format
 	year[-]month[-]day[T]hour[:]minute[:]second[.nanosecond][[+|-]hh[:][mm]]
@@ -780,12 +789,15 @@ ZTimestamp >> printOn: stream format: format timezone: timezone [
 
 { #category : #converting }
 ZTimestamp >> rounded [
-	"Return a timestamp rounded to the nearest second of the receiver.
-	The result will contain no fractional seconds."
+	"Return a timestamp rounded to the nearest whole second of the receiver.
+	The result will contain no fractional seconds.
+	If I have no fractional seconds, I am already rounded/truncated and I return myself."
 	
-	| seconds |
+	| nanoseconds seconds |
+	nanoseconds := ns \\ 1e9.
+	nanoseconds = 0 ifTrue: [ ^ self ].
 	seconds := ns // 1e9.
-	ns \\ 1e9 < 5e8 ifFalse: [ seconds := seconds + 1 ].
+	nanoseconds < 5e8 ifFalse: [ seconds := seconds + 1 ].
 	^ self class new 
 		jdn: jdn 
 		ns: seconds * 1e9
@@ -856,6 +868,21 @@ ZTimestamp >> subtractTimestamp: timestamp [
 	^ Duration nanoSeconds: 
 			((jdn - timestamp julianDayNumber) * 86400000000000) 
 			+ (ns - timestamp nanosecondsSinceMidnight)
+]
+
+{ #category : #converting }
+ZTimestamp >> truncated [
+	"Return a timestamp truncated to the nearest preceding whole second of the receiver.
+	The result will contain no fractional seconds.
+	If I have no fractional seconds, I am already truncated/rounded and I return myself."
+	
+	| nanoseconds seconds |
+	nanoseconds := ns \\ 1e9.
+	nanoseconds = 0 ifTrue: [ ^ self ].
+	seconds := ns // 1e9.
+	^ self class new 
+		jdn: jdn 
+		ns: seconds * 1e9
 ]
 
 { #category : #accessing }

@@ -375,6 +375,37 @@ ZTimestampTests >> testPrintString [
 ]
 
 { #category : #testing }
+ZTimestampTests >> testRoundedAndTruncated [
+	| timestamp |
+	timestamp := ZTimestamp now.
+	"On the odd chance that we get no fractional seconds"
+	[ timestamp nanoseconds isZero ] whileTrue: [ 
+		1 milliSecond wait.
+		timestamp := ZTimestamp now ].
+	self deny: timestamp nanoseconds isZero.
+	self assert: timestamp rounded nanoseconds isZero.
+	self assert: timestamp truncated nanoseconds isZero.
+	self assert: timestamp truncated <= timestamp rounded.
+	timestamp := ZTimestamp nowTruncated.
+	self assert: timestamp nanoseconds isZero.
+	self assert: timestamp truncated equals: timestamp.
+	self assert: timestamp rounded equals: timestamp.
+	self assert: ZTimestamp nowTruncated <= ZTimestamp now.
+	timestamp := ZTimestamp fromString: '2021-11-17T13:11:56.555555Z'.
+	self assert: timestamp rounded nanoseconds isZero.
+	self assert: timestamp truncated nanoseconds isZero.
+	self assert: timestamp truncated < timestamp rounded.
+	self assert: timestamp rounded printString equals: '2021-11-17T13:11:57Z'.
+	self assert: timestamp truncated printString equals: '2021-11-17T13:11:56Z'.
+	timestamp := ZTimestamp fromString: '2021-11-17T13:11:56.455555Z'.
+	self assert: timestamp rounded nanoseconds isZero.
+	self assert: timestamp truncated nanoseconds isZero.
+	self assert: timestamp truncated = timestamp rounded.
+	self assert: timestamp rounded printString equals: '2021-11-17T13:11:56Z'.
+	self assert: timestamp truncated printString equals: '2021-11-17T13:11:56Z'.
+]
+
+{ #category : #testing }
 ZTimestampTests >> testSTON [
 	Smalltalk at: #STON ifPresent: [ :ston | 
 		| now |
