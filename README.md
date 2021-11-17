@@ -12,25 +12,33 @@ I represent a point in time, a combination of a date and a time.
 
 
 I am an alternative for DateAndTime and TimeStamp.  
-I have second precision and live in the UTC/GMT/Zulu timezone.  
+I have nanosecond precision and live in the UTC/GMT/Zulu timezone.  
 I use ISO/International conventions and protocols only.   
 I support some essential arithmetic.  
 
 I have an efficient internal representation:
 
 	jnd - the julian day number <SmallInteger>
-	secs - the number of seconds since midnight, the beginning of the day <SmallInteger>
+	ns - the number of nanoseconds since midnight, the beginning of the day <SmallInteger>
 
 Examples:
 
 	ZTimestamp now.
 	ZTimestamp fromString: '1969-07-20T20:17:40Z'.
+	ZTimestamp fromString: '2021-11-17T09:05:12.94603Z'.
 
 There is some compatibility with existing, standard Chronology objects.
 I correctly parse representations with a timezone designator
-and can print a representation in arbitrary timezones. 
+and can print a representation in arbitrary timezone offsets. 
 
-	(ZTimestamp fromString: DateAndTime now truncated printString) localPrintString.
+The key idea of ZTimestamp is to store and work with timestamps in UTC internally, 
+while converting to and from specific local representations when needed interfacing with the user or other systems.
+
+ZTimestampFormat, working with ZTimezone, is the tool to do these conversions.
+
+	ZCurrentTimezone
+	  value: (ZTimezone id: #'Europe/Brussels')
+	  during: [ ZTimestampFormat isoTZ useCurrentTimezone format: ZTimestamp now ].
 
 
 ## Time Zone Database
