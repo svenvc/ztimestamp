@@ -1,5 +1,5 @@
 "
-I am ZTimestampSNTPClient, I can access an NTP server to retrieve an external time stamp.
+I am ZTimestampSNTPClient, I can access an NTP server to retrieve an external timestamp.
 
 I can be used to verify the current clock.
 
@@ -13,9 +13,8 @@ I can be used to verify the current clock.
 		
 	ZTimestampSNTPClient logClockDifferenceLargerThan: 1 second. 
 
-Normally this difference should be just one or two seconds. If not, make sure your computer's clock itself is properly synchronized.
-
-Note that following the design of ZTimestamp we work in second precision.
+Normally this difference should be just one or two seconds. 
+If not, make sure your computer's clock itself is properly synchronized.
 
 See 
 	http://en.wikipedia.org/wiki/Network_Time_Protocol
@@ -210,7 +209,7 @@ ZTimestampSNTPClient >> timestampAt: offset in: bytes [
 
 { #category : #private }
 ZTimestampSNTPClient >> timestampFromSeconds: seconds fraction: fraction [
-	^ self ntpEpoch + seconds seconds + fraction rounded
+	^ self ntpEpoch + seconds seconds + (fraction * (10 raisedToInteger: 9)) nanoSeconds
 ]
 
 { #category : #constants }
