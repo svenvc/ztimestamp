@@ -3,12 +3,11 @@ Extension { #name : #DateAndTime }
 { #category : #'*ZTimestamp-Core' }
 DateAndTime >> asZTimestamp [
 	"Convert the receiver to a ZTimestamp.
-	Note that we are implicitly converting to UTC by ignoring the offset.
-	Note also that nano seconds are dropped."
+	Note that we are implicitly converting to UTC by ignoring the offset."
 
 	^ ZTimestamp new
 		jdn: julianDayNumber 
-		secs: seconds
+		ns: seconds * 1e9 + nanos
 ]
 
 { #category : #'*ZTimestamp-Core' }

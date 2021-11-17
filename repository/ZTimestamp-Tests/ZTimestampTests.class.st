@@ -183,7 +183,7 @@ ZTimestampTests >> testDateError [
 ZTimestampTests >> testEndOfDay [
 	| timestamp |
 	timestamp := ZTimestamp year: 2012 month: 4 day: 20 hour: 15 minute: 50 second: 10.
-	self assert: timestamp asEndOfDay equals: (ZTimestamp year: 2012 month: 4 day: 20 hour: 23 minute: 59 second: 59)
+	self assert: timestamp asEndOfDay equals: (ZTimestamp year: 2012 month: 4 day: 20 hour: 23 minute: 59 second: 59 nanoSecond: 1e9 - 1)
 ]
 
 { #category : #testing }
@@ -202,12 +202,13 @@ ZTimestampTests >> testEpoch [
 
 { #category : #testing }
 ZTimestampTests >> testEquality [
-	| t1 t2 |
+	| t1 t2 now |
 	t1 := ZTimestamp year: 2012 month: 8 day: 7 hour: 14 minute: 20 second: 11.
 	t2 := ZTimestamp year: 2012 month: 8 day: 7 hour: 14 minute: 20 second: 11.
-	self assert: t1 = t2.
-	self assert: ZTimestamp now = ZTimestamp now.
-	self assert: ZTimestamp unixEpoch = ZTimestamp unixEpoch.
+	self assert: t1 equals: t2.
+	now := ZTimestamp now.
+	self assert: now equals: now.
+	self assert: ZTimestamp unixEpoch equals: ZTimestamp unixEpoch.
 ]
 
 { #category : #testing }
@@ -427,15 +428,6 @@ ZTimestampTests >> testUnixTime [
 	billenium := self unixTimeBillenium.
 	self assert: timestamp equals: billenium.
 	self assert: billenium asUnixTime equals: 1000000000
-]
-
-{ #category : #testing }
-ZTimestampTests >> testWithNowDo [
-	(Time respondsTo: #microsecondClockValue)
-		ifFalse: [ self skip ].
-	ZTimestamp withNowDo: [ :timestamp :microseconds |
-		self assertInvariants: timestamp.
-		self assert: (microseconds between: 0 and: 1e6 - 1) ]
 ]
 
 { #category : #testing }

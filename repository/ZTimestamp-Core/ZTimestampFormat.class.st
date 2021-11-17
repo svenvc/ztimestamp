@@ -410,6 +410,7 @@ ZTimestampFormat >> createZTimestamp [
 			hour: (elements at: #hour ifAbsent: [ 0 ]) 
 			minute: (elements at: #minute ifAbsent: [ 0 ])  
 			second: (elements at: #second ifAbsent: [ 0 ]) 
+			nanoSecond: (elements at: #nanosecond ifAbsent: [ 0 ])
 			offset: (elements at: #offset ifAbsent: [ 0 ]).
 		(elements includesKey: #offset)
 			ifTrue: [ timestamp ]

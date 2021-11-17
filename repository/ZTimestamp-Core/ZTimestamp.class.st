@@ -4,19 +4,20 @@ I am a Magnitude.
 I represent a point in time, a combination of a date and a time.
 
 I am an alternative for DateAndTime and TimeStamp.
-I have second precision and live in the UTC/GMT/Zulu timezone.
+I have nanosecond precision and live in the UTC/GMT/Zulu timezone.
 I use ISO/International conventions and protocols only. 
 I support some essential arithmetic.
 
 I have an efficient internal representation:
 
 	jnd - the julian day number <SmallInteger>
-	secs - the number of seconds since midnight, the beginning of the day <SmallInteger>
+	ns - the number of nanoseconds since midnight, the beginning of the day <SmallInteger>
 
 Examples:
 
 	ZTimestamp now.
 	ZTimestamp fromString: '1969-07-20T20:17:40Z'.
+	ZTimestamp fromString: '2021-11-17T09:05:12.94603Z'.
 
 There is some compatibility with existing, standard Chronology objects.
 I correctly parse representations with a timezone designator
@@ -37,7 +38,7 @@ Class {
 	#superclass : #Magnitude,
 	#instVars : [
 		'jdn',
-		'secs'
+		'ns'
 	],
 	#classVars : [
 		'ClockEpoch',
@@ -57,18 +58,27 @@ ZTimestamp class >> @ stringOrStream [
 { #category : #private }
 ZTimestamp class >> clockEpoch [
 	"Return the epoch of the clock that we use as an instance (cached), see #now.
-	This is expressed in UTC in Pharo 3 and higher."
+	This is expressed in UTC."
 	
-	^ ClockEpoch ifNil: [
-		ClockEpoch := self year: 1901 month: 1 day: 1 ]
+	^ ClockEpoch 
+		ifNil: [ ClockEpoch := self year: 1901 month: 1 day: 1 ]
 ]
 
 { #category : #private }
-ZTimestamp class >> clockSeconds [
-	"Return the total seconds count of the clock that we use as an integer since #clockEpoch, 
-	see #now. This is always in UTC in Pharo 3 and higher."
+ZTimestamp class >> clockNanoseconds [
+	"Return the total nanoseconds count since #clockEpoch of the clock that we use
+	as an integer, see #now. This is always in UTC.
+	Note that since I use a microseconds clock, my precision is limited 
+	to 6 digits for fractional seconds. The last 3 nanosecond digits will always be zero."
 
-	^ Time totalSeconds
+	^ Time microsecondClockValue * 1e3
+]
+
+{ #category : #private }
+ZTimestamp class >> clockPrecision [
+	"Return the duration of my clock's theoretical precision."
+	
+	^ 1000 nanoSeconds 
 ]
 
 { #category : #'instance creation' }
@@ -89,13 +99,12 @@ ZTimestamp class >> epoch [
 ]
 
 { #category : #private }
-ZTimestamp class >> fromClockSeconds: seconds [
-	"Create and return a new instance from a specific number of seconds since our clock epoch, see #now"
+ZTimestamp class >> fromClockNanoseconds: nanoseconds [
+	"Create and return a new instance from a specific number of nanoseconds since our clock epoch, see #now"
 	
 	^ self new
-		jdn: self clockEpoch julianDayNumber + (seconds // 86400)
-		secs: self clockEpoch secondsSinceMidnight + (seconds \\ 86400)
-	
+		jdn: self clockEpoch julianDayNumber + (nanoseconds // 86400000000000)
+		ns: self clockEpoch nanosecondsSinceMidnight + (nanoseconds \\ 86400000000000)
 ]
 
 { #category : #'instance creation' }
@@ -104,7 +113,7 @@ ZTimestamp class >> fromJulianDate: julianDate [
 	
 	^ self new
 		jdn: julianDate truncated
-		secs: (julianDate fractionPart * 86400) truncated
+		ns: (julianDate fractionPart * 86400000000000) truncated
 		
 ]
 
@@ -140,7 +149,7 @@ ZTimestamp class >> fromUnixTime: integer [
 
 { #category : #'class initialization' }
 ZTimestamp class >> initialize [
-	Smalltalk addToStartUpList: self.
+	ClockEpoch := Zero := UnixEpoch := nil
 ]
 
 { #category : #accessing }
@@ -166,18 +175,18 @@ ZTimestamp class >> jdnFromYear: year month: month day: day [
 ZTimestamp class >> now [
 	"Create and return a new ZTimestamp equal to the current system time"
 	
-	^ self fromClockSeconds: self clockSeconds
+	^ self fromClockNanoseconds: self clockNanoseconds
 ]
 
 { #category : #'instance creation' }
 ZTimestamp class >> readFrom: stream [
 	"Parse a ISO 8601 representation from stream, in the format
-	year[-]month[-]day[T]hour[:]minute[:]second[[+|-]hh[:][mm]]
+	year[-]month[-]day[T]hour[:]minute[:]second[.nanosecond][[+|-]hh[:][mm]]
 	where the whole part after T as well as the TZ offset is optional.
 	TZ offset can be Z, all separators can be any non digit.
 	Supports reduced accuracy from least to most significant in time."
 
-	| negative year month day hour minute second offset |
+	| negative year month day hour minute second nanosecond offset |
 	negative := stream peekFor: $-.
 	year := self readInteger: 4 from: stream.
 	negative ifTrue: [ year := year negated ].
@@ -185,7 +194,7 @@ ZTimestamp class >> readFrom: stream [
 	month := self readInteger: 2 from: stream.
 	self readOptionalSeparatorExpecting: '0123456789' from: stream.
 	day := self readInteger: 2 from: stream.
-	hour := minute := second := offset := 0.
+	hour := minute := second := nanosecond := offset := 0.
 	(self readOptionalSeparatorExpecting: '0123456789' from: stream)
 		ifTrue: [
 			hour := self readInteger: 2 from: stream.
@@ -193,7 +202,10 @@ ZTimestamp class >> readFrom: stream [
 				ifTrue: [
 					minute := self readInteger: 2 from: stream.
 					(self readOptionalSeparatorExpecting: '0123456789' from: stream)
-						ifTrue: [ second := self readInteger: 2 from: stream ] ]. 
+						ifTrue: [ 
+							second := self readInteger: 2 from: stream.
+							(stream peekFor: $.)
+								ifTrue: [ nanosecond := self readNanosecondFrom: stream ] ] ]. 
 			offset := self readTimezoneOffsetFrom: stream ].
 	^ self 
 		year: year
@@ -202,6 +214,7 @@ ZTimestamp class >> readFrom: stream [
 		hour: hour
 		minute: minute
 		second: second
+		nanoSecond: nanosecond 
 		offset: (offset = 0 ifTrue: [ 0 ] ifFalse: [ offset seconds ])
 ]
 
@@ -227,6 +240,18 @@ ZTimestamp class >> readInteger: numberOfDigits from: stream [
 			ifTrue: [ integer := (integer * 10) + char digitValue ]
 			ifFalse: [ self error: 'Decimal digit expected' ] ].
 	^ integer
+]
+
+{ #category : #private }
+ZTimestamp class >> readNanosecondFrom: stream [
+	| fraction power |
+	fraction := 0.
+	power := 1.
+	[ stream atEnd not and: [ stream peek isDigit ] ]
+		whileTrue: [ 
+			fraction := fraction * 10 + stream next digitValue.
+			power := power * 10 ].
+	^ fraction / power * 1e9
 ]
 
 { #category : #private }
@@ -315,28 +340,13 @@ ZTimestamp class >> withJdn: jdn dayMonthYearDo: block [
 		value: (y - 4800 + ((m + 2) // 12)) 
 ]
 
-{ #category : #accessing }
-ZTimestamp class >> withNowDo: block [
-	"Evaluate block with 2 arguments: ZTimestamp now and the residual microseconds.
-	Return the value of block. Works only on Pharo 3.0 and higher."
-	
-	"self withNowDo: [ :timestamp :microseconds | { timestamp. microseconds } ]"
-	
-	| microsecondClockValue totalSeconds |
-	microsecondClockValue := Time microsecondClockValue.
-	totalSeconds := microsecondClockValue // 1e6.
-	^ block 
-		cull: (self fromClockSeconds: totalSeconds)
-		cull: microsecondClockValue - (totalSeconds * 1e6)
-]
-
 { #category : #'instance creation' }
 ZTimestamp class >> year: year month: month day: day [
 	"Create and return a new ZTimestamp for the Gregorian calendar date described by year, month and date"
 	
 	^ self new
 		jdn: (self jdnFromYear: year month: month day: day)
-		secs: 0
+		ns: 0
 ]
 
 { #category : #'instance creation' }
@@ -346,7 +356,30 @@ ZTimestamp class >> year: year month: month day: day hour: hour minute: minute s
 
 	^ self new
 		jdn: (self jdnFromYear: year month: month day: day)
-		secs: (hour * 3600) + (minute * 60) + second
+		ns: ((hour * 3600) + (minute * 60) + second) * 1e9
+]
+
+{ #category : #'instance creation' }
+ZTimestamp class >> year: year month: month day: day hour: hour minute: minute second: second nanoSecond: nanosecond [
+	"Create and return a new ZTimestamp for the Gregorian calendar date described by year, month and date
+	and the Civil time of day on that date described by hour, minute, second and nanosecond"
+
+	^ self new
+		jdn: (self jdnFromYear: year month: month day: day)
+		ns: ((hour * 3600) + (minute * 60) + second) * 1e9 + nanosecond
+]
+
+{ #category : #'instance creation' }
+ZTimestamp class >> year: year month: month day: day hour: hour minute: minute second: second nanoSecond: nanosecond offset: offset [
+	"Create and return a new ZTimestamp for the Gregorian calendar date described by year, month and date
+	and the Civil time of day on that date described by hour, minute, second and nanosecond.
+	If offset is non zero, the result is shifted accordingly."
+
+	| timestamp |
+	timestamp := self year: year month: month day: day hour: hour minute: minute second: second nanoSecond: nanosecond.
+	offset isZero 
+		ifFalse: [ timestamp := timestamp - offset ].
+	^ timestamp 
 ]
 
 { #category : #'instance creation' }
@@ -356,9 +389,7 @@ ZTimestamp class >> year: year month: month day: day hour: hour minute: minute s
 	If offset is non zero, the result is shifted accordingly."
 
 	| timestamp |
-	(timestamp := self new)
-		jdn: (self jdnFromYear: year month: month day: day)
-		secs: (hour * 3600) + (minute * 60) + second.
+	timestamp := self year: year month: month day: day hour: hour minute: minute second: second.
 	offset isZero 
 		ifFalse: [ timestamp := timestamp - offset ].
 	^ timestamp 
@@ -369,8 +400,7 @@ ZTimestamp class >> zero [
 	"Return my zero instance, the point in time from which we start counting, see #epoch"
 
 	^ Zero 
-		ifNil: [ 
-			Zero :=  self new jdn: 0 secs: 0 ]
+		ifNil: [ Zero := self new jdn: 0 ns: 0 ]
 ]
 
 { #category : #arithmetic }
@@ -380,7 +410,7 @@ ZTimestamp >> + operand [
 	
 	^ self class new
 		jdn: jdn
-		secs: secs + operand asDuration asSeconds
+		ns: ns + operand asDuration asNanoSeconds
 ]
 
 { #category : #arithmetic }
@@ -400,7 +430,7 @@ ZTimestamp >> < aZTimestamp [
 	Part of the Magnitude protocol"
 	
 	^ jdn = aZTimestamp julianDayNumber
-		ifTrue: [ secs < aZTimestamp secondsSinceMidnight ]
+		ifTrue: [ ns < aZTimestamp nanosecondsSinceMidnight ]
 		ifFalse: [ jdn < aZTimestamp julianDayNumber ]
 ]
 
@@ -412,7 +442,7 @@ ZTimestamp >> = aZTimestamp [
 	self == aZTimestamp ifTrue: [ ^ true ].
 	self class = aZTimestamp class ifFalse: [ ^ false ].
 	^ jdn = aZTimestamp julianDayNumber
-		and: [ secs = aZTimestamp secondsSinceMidnight ]
+		and: [ ns = aZTimestamp nanosecondsSinceMidnight ]
 ]
 
 { #category : #converting }
@@ -420,7 +450,7 @@ ZTimestamp >> asBeginOfDay [
 	"Return a timestamp at the begin of the day that I represent"
 	
 	^ self class new
-		jdn: jdn secs: 0 
+		jdn: jdn ns: 0 
 ]
 
 { #category : #converting }
@@ -433,12 +463,12 @@ ZTimestamp >> asDate [
 { #category : #converting }
 ZTimestamp >> asDateAndTime [ 
 	"Convert the receiver to a DateAndTime.
-	Note that I am in the UTC/GMT/Zulu timezone and have second precision"
+	Note that I am in the UTC/GMT/Zulu timezone."
 	
 	^ DateAndTime new
 		setJdn: jdn 
-		seconds: secs 
-		nano: 0 
+		seconds: self secondsSinceMidnight
+		nano: self nanoseconds 
 		offset: self offset
 ]
 
@@ -447,7 +477,7 @@ ZTimestamp >> asEndOfDay [
 	"Return a timestamp at the end of the day that I represent"
 	
 	^ self class new
-		jdn: jdn secs: 86399
+		jdn: jdn ns: 86399999999999
 ]
 
 { #category : #converting }
@@ -459,10 +489,9 @@ ZTimestamp >> asMonth [
 
 { #category : #converting }
 ZTimestamp >> asTime [
-	"Convert the receiver to a Time in the current day.
-	Note that I have second precision"
+	"Convert the receiver to a Time in the current day."
 	
-	^ Time seconds: secs
+	^ Time seconds: self secondsSinceMidnight nanoSeconds: self nanoseconds
 ]
 
 { #category : #converting }
@@ -565,14 +594,14 @@ ZTimestamp >> hash [
 	"Return an Integer hash value for the receiver.
 	Part of the Magnitude protocl"
 	
-	^ jdn hashMultiply bitXor: secs
+	^ jdn hashMultiply bitXor: ns
 ]
 
 { #category : #accessing }
 ZTimestamp >> hour [
 	"Return the number of hours in the receiver, according to Civil time, a number between 0 and 23"
 
-	^ (secs \\ 86400) // 3600
+	^ ns // 1e9 \\ 86400 // 3600
 ]
 
 { #category : #accessing }
@@ -583,12 +612,12 @@ ZTimestamp >> hours [
 ]
 
 { #category : #'initialize-release' }
-ZTimestamp >> jdn: julianDayNumber secs: secondsSinceMidnight [
-	"Initialize the receiver with julianDayNumber and secondsSinceMidnight,
-	then normalize so that secondsSinceMidnight is within the expected range"
+ZTimestamp >> jdn: julianDayNumber ns: nanosecondsSinceMidnight [
+	"Initialize the receiver with julianDayNumber and nanosecondsSinceMidnight,
+	then normalize so that nanosecondsSinceMidnight is within the expected range"
 	
 	jdn := julianDayNumber.
-	secs := secondsSinceMidnight.
+	ns := nanosecondsSinceMidnight.
 	self normalize
 ]
 
@@ -596,7 +625,7 @@ ZTimestamp >> jdn: julianDayNumber secs: secondsSinceMidnight [
 ZTimestamp >> julianDate [
 	"Return the scientific Julian Date, a Float number of Julian Days"
 	
-	^ jdn + (secs / 86400.0)
+	^ jdn + (ns / 86400000000000.0)
 ]
 
 { #category : #accessing }
@@ -611,7 +640,7 @@ ZTimestamp >> minute [
 	"Return the number of minutes in the receiver after full hours have been removed, 
 	according to Civil Time, a number between 0 and 59"
 
-	^ (secs \\ 3600) // 60
+	^ ns // 1e9 \\ 3600 // 60
 ]
 
 { #category : #accessing }
@@ -650,19 +679,41 @@ ZTimestamp >> monthName [
 
 { #category : #accessing }
 ZTimestamp >> nanoSecond [
-	"For compatibility: make clear that I have second precision and no fractions of a second."
-	 
-	^ 0
+	^ self nanosecond
+]
+
+{ #category : #accessing }
+ZTimestamp >> nanosecond [
+	"Return the number of nanoseconds in the receiver after full hours, minutes and second have been removed, 
+	according to Civil Time, a number between 0 and 999999999"
+
+	^ ns \\ 1e9
+]
+
+{ #category : #accessing }
+ZTimestamp >> nanoseconds [
+	"Return the number of nanoseconds in the receiver after full hours, minutes and second have been removed, 
+	according to Civil Time, a number between 0 and 999999999"
+
+	^ self nanosecond
+]
+
+{ #category : #accessing }
+ZTimestamp >> nanosecondsSinceMidnight [
+	"Return the nanoseconds since midnight since the beginning of the Julian Day of the receiver, 
+	an Integer between 0 and 86399999999999, inclusive"
+	
+	^ ns
 ]
 
 { #category : #'initialize-release' }
 ZTimestamp >> normalize [
-	"Normalize the receiver such that 0 <= secs < 86400"
+	"Normalize the receiver such that 0 <= ns < 86400000000000"
 	 
-	(secs between: 0 and: 86399)
-		ifFalse: [
-			jdn := jdn + (secs // 86400).
-			secs := secs \\ 86400 ]
+	(ns between: 0 and: 86399999999999)
+		ifTrue: [ ^ self ].
+	jdn := jdn + (ns // 86400000000000).
+	ns := ns \\ 86400000000000
 ]
 
 { #category : #accessing }
@@ -679,14 +730,14 @@ ZTimestamp >> printOn: stream [
 	
 	self 
 		printOn: stream 
-		format: '-T:Z'
+		format: '-T:Z.'
 ]
 
 { #category : #printing }
 ZTimestamp >> printOn: stream format: format [
 	"Print the receiver on stream using format, following ISO 8601.
 	Format defines 4 characters to use:
-	#(dateSeparator dateTimeSeparator timeSeparator timeZoneIndicator)
+	#(dateSeparator dateTimeSeparator timeSeparator timeZoneIndicator decimalMark)
 	Each can be nil to skip that separator"
 	
 	self dayMonthYearDo: [ :day :month :year |
@@ -706,6 +757,13 @@ ZTimestamp >> printOn: stream format: format [
 	self minute printOn: stream base: 10 length: 2 padded: true.
 	(format at: 3) ifNotNil: [ :separator | stream nextPut: separator ].
 	self second printOn: stream base: 10 length: 2 padded: true.
+	self nanosecond = 0
+		ifFalse: [ | n len |
+			n := self nanosecond.
+			len := 9.
+			[ n \\ 10 = 0 ] whileTrue: [ n := n / 10. len := len - 1 ].
+			(format at: 5) ifNotNil: [ :separator | stream nextPut: separator ].
+			n printOn: stream base: 10 length: len padded: true ].
 	(format at: 4) ifNotNil: [ :separator | stream nextPut: separator ]
 ]
 
@@ -720,12 +778,25 @@ ZTimestamp >> printOn: stream format: format timezone: timezone [
 	timezone minutes printOn: stream base: 10 length: 2 padded: true
 ]
 
+{ #category : #converting }
+ZTimestamp >> rounded [
+	"Return a timestamp rounded to the nearest second of the receiver.
+	The result will contain no fractional seconds."
+	
+	| seconds |
+	seconds := ns // 1e9.
+	ns \\ 1e9 < 5e8 ifFalse: [ seconds := seconds + 1 ].
+	^ self class new 
+		jdn: jdn 
+		ns: seconds * 1e9
+]
+
 { #category : #accessing }
 ZTimestamp >> second [
 	"Return the number of seconds in the receiver after full hours and minutes have been removed, 
 	according to Civil Time, a number between 0 and 59"
 
-	^ secs \\ 60
+	^ ns // 1e9 \\ 60
 ]
 
 { #category : #accessing }
@@ -741,7 +812,7 @@ ZTimestamp >> secondsSinceMidnight [
 	"Return the seconds since midnight since the beginning of the Julian Day of the receiver, 
 	an Integer between 0 and 86399, inclusive"
 	
-	^ secs
+	^ ns // 1e9
 ]
 
 { #category : #accessing }
@@ -749,7 +820,7 @@ ZTimestamp >> secondsSinceMidnightUTC [
 	"Return the seconds since midnight since the beginning of the Julian Day of the receiver, 
 	an Integer between 0 and 86399, inclusive - we're always in UTC"
 	
-	^ secs
+	^ ns // 1e9
 ]
 
 { #category : #ston }
@@ -761,9 +832,7 @@ ZTimestamp >> stonContainSubObjects [
 ZTimestamp >> stonOn: stonWriter [
 	"Use an ISO representation with all details"
 	
-	stonWriter writeObject: self listSingleton: 
-		(String new: 20 streamContents: [ :stream |
-			self printOn: stream ])
+	stonWriter writeObject: self listSingleton: self printString
 ]
 
 { #category : #arithmetic }
@@ -784,9 +853,9 @@ ZTimestamp >> subtractFromTimestamp: timestamp [
 ZTimestamp >> subtractTimestamp: timestamp [
 	"Part of the double dispatch implementation of ZTimestamp>>#-"
 	
-	^ Duration seconds: 
-			((jdn - timestamp julianDayNumber) * 86400) 
-			+ (secs - timestamp secondsSinceMidnight)
+	^ Duration nanoSeconds: 
+			((jdn - timestamp julianDayNumber) * 86400000000000) 
+			+ (ns - timestamp nanosecondsSinceMidnight)
 ]
 
 { #category : #accessing }

@@ -205,7 +205,7 @@ ZTimestampFormatTests >> testPredefinedFormats [
 			(format := ZTimestampFormat perform: each)
 				createDateAndTime.
 			self assert: (format parse: (format format: now)) equals: now ].
-	now := ZTimestamp now.
+	now := ZTimestamp now rounded.
 	#(isoCompact) 
 		do: [ :each | | format|
 			format := ZTimestampFormat perform: each.
@@ -235,7 +235,7 @@ ZTimestampFormatTests >> testReferenceDateAndTime [
 { #category : #testing }
 ZTimestampFormatTests >> testRfc3339 [
 	| now |
-	now := ZTimestamp now.
+	now := ZTimestamp now rounded.
 	self 
 		assert: (ZTimestampFormat rfc3339 format: now)
 		equals: now printString.
