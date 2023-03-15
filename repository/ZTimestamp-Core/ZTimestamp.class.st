@@ -433,21 +433,21 @@ ZTimestamp >> - operand [
 	^ operand subtractFromTimestamp: self
 ]
 
-{ #category : #testing }
+{ #category : #comparing }
 ZTimestamp >> < aZTimestamp [
 	"Answer true when aZTimestamp is strictly later than me, false otherwise.
 	Part of the Magnitude protocol"
-	
+
 	^ jdn = aZTimestamp julianDayNumber
 		ifTrue: [ ns < aZTimestamp nanosecondsSinceMidnight ]
 		ifFalse: [ jdn < aZTimestamp julianDayNumber ]
 ]
 
-{ #category : #testing }
+{ #category : #comparing }
 ZTimestamp >> = aZTimestamp [
 	"Answer true when aZTimestamp equals the receiver, false otherwise.
 	Part of the Magnitude protocol"
-	
+
 	self == aZTimestamp ifTrue: [ ^ true ].
 	self class = aZTimestamp class ifFalse: [ ^ false ].
 	^ jdn = aZTimestamp julianDayNumber
@@ -598,11 +598,11 @@ ZTimestamp >> format: formatSpecification on: stream [
 			format: self on: stream
 ]
 
-{ #category : #hash }
+{ #category : #comparing }
 ZTimestamp >> hash [
 	"Return an Integer hash value for the receiver.
 	Part of the Magnitude protocl"
-	
+
 	^ jdn hashMultiply bitXor: ns
 ]
 
