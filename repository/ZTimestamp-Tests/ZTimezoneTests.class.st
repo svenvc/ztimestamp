@@ -211,7 +211,8 @@ ZTimezoneTests >> testReadAllUsingFallback [
 	europeBrussels := timezones 
 		detect: [ :each | each id = #'Europe/Brussels' ]
 		ifNone: [ self fail ].
-	self assertIsTimezoneEuropeBrussels: europeBrussels
+	self assertIsTimezoneEuropeBrussels: europeBrussels.
+	zoneInfoLocation ensureDeleteAll
 ]
 
 { #category : #testing }
