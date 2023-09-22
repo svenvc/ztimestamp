@@ -549,6 +549,7 @@ ZTimezone >> resolveUtcIndicators: flags [
 
 { #category : #accessing }
 ZTimezone >> resolvedLocalTransitions [
+	self localTransitions ifEmpty: [ ^#() ].
 	^ self localTransitions
 		with: self subzonesIndex
 		collect: [ :transition :subzone | (ZTimestamp fromUnixTime: transition) -> subzone ]
@@ -556,6 +557,7 @@ ZTimezone >> resolvedLocalTransitions [
 
 { #category : #accessing }
 ZTimezone >> resolvedTransitions [
+	self transitions ifEmpty: [ ^#() ].
 	^ self transitions
 		with: self subzonesIndex
 		collect: [ :transition :subzone | (ZTimestamp fromUnixTime: transition) -> subzone ]
