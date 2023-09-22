@@ -70,7 +70,7 @@ Also contains ZTimestampSNTPClient, a simple SNTP client to check your local clo
 This is a [Pharo Smalltalk](http://wwww.pharo.st) project 
 using the [Tonel](https://github.com/pharo-vcs/tonel) source code format.
 
-In Pharo 6.1 and up you can use Iceberg to load this project.
+In Pharo 7 and up you can use Iceberg to load this project.
 
 You can also load using the following expression:
 
@@ -78,5 +78,7 @@ You can also load using the following expression:
       baseline: 'ZTimestamp';
       repository: 'github://svenvc/ztimestamp';
       load.
-   
+
+There is also a ZTimestamp-GT package with extensions for GToolkit, which can be loaded with the 'gt' group.
+
 Written and supported by Sven Van Caekenberghe. MIT Licensed.
