@@ -6,9 +6,10 @@ ZTimestampFormat >> gtViewDetailsIn: composite [
 	^ composite columnedList
 		title: 'Details';
 		items: [ {('specification by example' -> self specification).
-			('now' -> (self format: ZTimestamp now)).
+			('now utc' -> (self format: ZTimestamp now)).
+			('now local' -> (self format: DateAndTime now)).
 			('elements' -> (self specificationElements)).
-			('timezone' -> (self timezone ifNil: [ #UTC ])) } ];
+			('timezone' -> (self timezone ifNil: [ #'N/A' ])) } ];
 		column: 'Key' text: #key;
 		column: 'Value' text: #value;
 		send: #value
