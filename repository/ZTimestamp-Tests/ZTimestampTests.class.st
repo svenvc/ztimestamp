@@ -7,6 +7,33 @@ Class {
 	#category : #'ZTimestamp-Tests'
 }
 
+{ #category : #accessing }
+ZTimestampTests class >> lunarLanding [
+	"First manned lunar landing, Apollo 11, Mare Tranquillitatis"
+	
+	<gtExample>
+	
+	^ ZTimestamp fromString: '1969-07-20T20:17:40Z'
+]
+
+{ #category : #accessing }
+ZTimestampTests class >> marsLanding [
+	"First unmanned soft Mars landing, Viking 1, Chryse Planitia"
+	
+	<gtExample>
+	
+	^ ZTimestamp fromString: '1979-07-20T11:53:06Z'
+]
+
+{ #category : #accessing }
+ZTimestampTests class >> unixTimeBillenium [
+	"1 billion seconds since the Unix Epoch"
+	
+	<gtExample>
+	
+	^ ZTimestamp fromString: '2001-09-09T01:46:40Z'.
+]
+
 { #category : #asserting }
 ZTimestampTests >> assertInvariants: timestamp [
 	self assert: (timestamp isKindOf: ZTimestamp).
@@ -35,16 +62,12 @@ ZTimestampTests >> assertTimestamp: timestamp equalsTimestamp: reference [
 
 { #category : #accessing }
 ZTimestampTests >> lunarLanding [
-	"First lunar landing, Apollo 11, Mare Tranquillitatis"
-	
-	^ ZTimestamp fromString: '1969-07-20T20:17:40Z'
+	^ self class lunarLanding
 ]
 
 { #category : #accessing }
 ZTimestampTests >> marsLanding [
-	"First soft Mars landing, Viking 1, Chryse Planitia"
-	
-	^ ZTimestamp fromString: '1979-07-20T11:53:06Z'
+	^ self class marsLanding
 ]
 
 { #category : #testing }
@@ -476,7 +499,5 @@ ZTimestampTests >> testZTimestampFormatting [
 
 { #category : #accessing }
 ZTimestampTests >> unixTimeBillenium [
-	"1 billion seconds since the Unix Epoch"
-	
-	^ ZTimestamp fromString: '2001-09-09T01:46:40Z'.
+	^ self class unixTimeBillenium
 ]

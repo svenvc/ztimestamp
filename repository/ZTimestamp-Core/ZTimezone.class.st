@@ -142,7 +142,7 @@ ZTimezone class >> current: identifierOrTimezone [
 ZTimezone class >> defaultZoneCET [
 	"The timezone identifiers in #centralEuropeanAliases resolve to this actual timezone"
 	
-	^ self id: 'Europe/Brussels'
+	^ self europeBrussels
 ]
 
 { #category : #acccessing }
@@ -190,6 +190,15 @@ ZTimezone class >> errorCannotUseDefaultZoneInfoLocation [
 		error:
 			'Cannot default to standard /usr/share/zoneinfo/ location,' , 
 			'please specify a location using #zoneInfoLocation:'
+]
+
+{ #category : #acccessing }
+ZTimezone class >> europeBrussels [
+	"Return the timezone Europe/Brussels"
+	
+	<gtExample>
+	
+	^ self id: 'Europe/Brussels'
 ]
 
 { #category : #acccessing }
@@ -247,6 +256,8 @@ ZTimezone class >> fromStream: in [
 { #category : #'instance creation' }
 ZTimezone class >> gmt [
 	"Return the special GMT timezone, also known as UTC or Zulu"
+	
+	<gtExample>
 	
 	^ self timezones at: #GMT ifAbsentPut: [ self createGMT ]
 ]

@@ -83,6 +83,10 @@ ZTimestamp class >> clockPrecision [
 
 { #category : #'instance creation' }
 ZTimestamp class >> current [
+	"Create and return a new ZTimestamp equal to the current system time"
+	
+	<gtExample>
+	
 	^ self now
 ]
 
@@ -94,6 +98,8 @@ ZTimestamp class >> dateError: message [
 { #category : #accessing }
 ZTimestamp class >> epoch [
 	"Return the epoch of my instances, the point in time from which they start counting, as an instance"
+	
+	<gtExample>
 	
 	^ self zero
 ]
@@ -175,6 +181,8 @@ ZTimestamp class >> jdnFromYear: year month: month day: day [
 ZTimestamp class >> now [
 	"Create and return a new ZTimestamp equal to the current system time"
 	
+	<gtExample>
+	
 	^ self fromClockNanoseconds: self clockNanoseconds
 ]
 
@@ -183,6 +191,8 @@ ZTimestamp class >> nowTruncated [
 	"Create and return a new ZTimestamp equal to the current system time,
 	immediately truncated to whole seconds, thus containing no fractional seconds.
 	This is equivalent but more efficient than (self now truncated)."
+	
+	<gtExample>
 	
 	^ self fromClockNanoseconds: Time totalSeconds * 1e9
 ]
@@ -305,6 +315,8 @@ ZTimestamp class >> today [
 ZTimestamp class >> unixEpoch [
 	"Return the Unix or POSIX epoch as a ZTimestamp"
 	
+	<gtExample>
+	
 	^ UnixEpoch 
 		ifNil: [ UnixEpoch := self year: 1970 month: 1 day: 1 ]
 ]
@@ -407,6 +419,8 @@ ZTimestamp class >> year: year month: month day: day hour: hour minute: minute s
 { #category : #accessing }
 ZTimestamp class >> zero [
 	"Return my zero instance, the point in time from which we start counting, see #epoch"
+	
+	<gtExample>
 
 	^ Zero 
 		ifNil: [ Zero := self new jdn: 0 ns: 0 ]

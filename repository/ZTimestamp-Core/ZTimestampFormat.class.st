@@ -77,6 +77,8 @@ ZTimestampFormat class >> ansiC [
 	"WeekdayAbbreviated MonthNameAbbreviated DayInMonth HH:MM:SS Year"
 	"ZTimestampFormat ansiC format: ZTimestamp now"
 	
+	<gtExample>
+	
 	^ self fromString: 'Sat Feb _3 16:05:06 2001'
 ]
 
@@ -86,6 +88,8 @@ ZTimestampFormat class >> clock [
 	"HH:MM"
 	"ZTimestampFormat clock format: ZTimestamp now"
 	"ZTimestampFormat clock format: Time now"
+	
+	<gtExample>
 
 	^ self fromString: '16:05'
 ]
@@ -96,6 +100,8 @@ ZTimestampFormat class >> euDate [
 	"DD/MM/YYYY"
 	"ZTimestampFormat euDate format: ZTimestamp today"
 	"ZTimestampFormat euDate format: Date today"
+	
+	<gtExample>
 
 	^ self fromString: '03/02/2001'
 ]
@@ -183,6 +189,8 @@ ZTimestampFormat class >> iso [
 	"ZTimestampFormat iso format: ZTimestamp now"
 	"ZTimestampFormat iso format: DateAndTime now"
 	
+	<gtExample>
+	
 	^ self fromString: '2001-02-03T16:05:06Z'
 ]
 
@@ -191,6 +199,8 @@ ZTimestampFormat class >> isoCompact [
 	"The standard ISO 8601 date/time format with minimal separators and implied timezone UTC"
 	"YYYYMMDDTHHMMSS"
 	"ZTimestampFormat isoCompact format: ZTimestamp now"
+	
+	<gtExample>
 
 	^ self fromString: '20010203T160506'
 ]
@@ -200,8 +210,22 @@ ZTimestampFormat class >> isoDate [
 	"ISO date format"
 	"YYYY/MM/DD"
 	"ZTimestampFormat isoDate format: ZTimestamp now"
+	
+	<gtExample>
 
 	^ self fromString: '2001/02/03'
+]
+
+{ #category : #accessing }
+ZTimestampFormat class >> isoNanoTZ [
+	"The standard ISO 8601 date/time format with separators, nanosecond precision and full timezone offset"
+	"YYYY-MM-DDTHH:MM:SS.NNNNNNNNN+ZZ:zz"
+	"ZTimestampFormat isoTZ format: ZTimestamp now"
+	"ZTimestampFormat isoTZ format: DateAndTime now"
+	
+	<gtExample>
+
+	^ self fromString: '2001-02-03T16:05:06.7+00:00'
 ]
 
 { #category : #accessing }
@@ -210,6 +234,8 @@ ZTimestampFormat class >> isoTZ [
 	"YYYY-MM-DDTHH:MM:SS+ZZ:zz"
 	"ZTimestampFormat isoTZ format: ZTimestamp now"
 	"ZTimestampFormat isoTZ format: DateAndTime now"
+	
+	<gtExample>
 
 	^ self fromString: '2001-02-03T16:05:06+00:00'
 ]
@@ -220,6 +246,8 @@ ZTimestampFormat class >> kitchen [
 	"HH:MM"
 	"ZTimestampFormat kitchen format: ZTimestamp now"
 	"ZTimestampFormat kitchen format: Time now"
+	
+	<gtExample>
 
 	^ self fromString: '04:05PM'
 ]
@@ -228,6 +256,8 @@ ZTimestampFormat class >> kitchen [
 ZTimestampFormat class >> reference12 [
 	"The ZTimestamp instance used as a reference for specifying a format by example.
 	The possible components are numbered from largest to smallest unit."
+	
+	<gtExample>
 
 	^ ZTimestamp year: 2001 month: 2 day: 3 hour: 4 minute: 5 second: 6
 ]
@@ -236,12 +266,18 @@ ZTimestampFormat class >> reference12 [
 ZTimestampFormat class >> reference24 [
 	"The ZTimestamp instance used as a reference for specifying a format by example.
 	The possible components are numbered from largest to smallest unit."
+	
+	<gtExample>
 
 	^ ZTimestamp year: 2001 month: 2 day: 3 hour: 16 minute: 5 second: 6
 ]
 
 { #category : #accessing }
 ZTimestampFormat class >> rfc3339 [
+	"RFC3339 based layout"
+
+	<gtExample>
+	
 	^ self iso
 ]
 
@@ -251,6 +287,8 @@ ZTimestampFormat class >> rfc822 [
 	"DayInMonth MonthNameAbbreviated Year2Digits HH:MM TimezoneAbbreviated"
 	"ZTimestampFormat rfc822 format: ZTimestamp now"
 	
+	<gtExample>
+	
 	^ self fromString: '03 Feb 01 16:05 UTC'
 ]
 
@@ -259,6 +297,8 @@ ZTimestampFormat class >> rfc850 [
 	"RFC 850 usenet format"
 	"WeekdayName, DayInMonth-MonthNameAbbreviated-Year2Digits HH:MM TimezoneAbbreviated"
 	"ZTimestampFormat rfc850 format: ZTimestamp now"
+	
+	<gtExample>
 
 	^ self fromString: 'Saturday, 03-Feb-01 16:05:06 UTC'
 ]
@@ -269,6 +309,8 @@ ZTimestampFormat class >> unixDate [
 	"WeekdayNameAbbreviated MonthNameAbbreviated DayInMonth HH:MM:SS TimezoneAbbreviated Year"
 	"ZTimestampFormat unixDate format: ZTimestamp now"
 	
+	<gtExample>
+	
 	^ self fromString: 'Sat Feb _3 16:05:06 UTC 2001'
 ]
 
@@ -278,6 +320,8 @@ ZTimestampFormat class >> usDate [
 	"MM/DD/YYYY"
 	"ZTimestampFormat usDate format: ZTimestamp today"
 	"ZTimestampFormat usDate format: Date today"
+	
+	<gtExample>
 
 	^ self fromString: '02/03/2001'
 ]
@@ -288,6 +332,8 @@ ZTimestampFormat class >> verbose [
 	"WeekdayName, DayInMonth-MonthName-Year HH:MM:SS DayPart (+ZZ:zz"
 	"ZTimestampFormat verbose format: ZTimestamp now"
 	"ZTimestampFormat verbose format: DateAndTime now"
+	
+	<gtExample>
 
 	^ self fromString: 'Saturday, 03-February-2001 04:05:06 PM (+00:00)'
 ]
