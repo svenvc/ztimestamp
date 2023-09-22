@@ -3,7 +3,7 @@ I am BaselineOfZTimestamp, a Metacello baseline to load ZTimestamp.
 
 ZTimestamp, a Magnitude, represents a point in time, a combination of a date and a time.
 It is an alternative for DateAndTime and TimeStamp.
-It has second precision and lives in the UTC/GMT/Zulu timezone.
+It has nanosecond precision and lives in the UTC/GMT/Zulu timezone.
 It uses ISO/International conventions and protocols only. 
 ZTimestamp is more efficient: it uses half the memory of DateAndTime and is faster.
 
@@ -29,7 +29,9 @@ BaselineOfZTimestamp >> baseline: spec [
 		spec 
 			package: 'ZTimestamp-Core';
 			package: 'ZTimestamp-Tests' with: [ spec requires: #('ZTimestamp-Core') ];
+			package: 'ZTimestamp-GT' with: [ spec requires: #('ZTimestamp-Core') ];
 			group: 'default' with: #('core' 'tests');
 			group: 'core' with: #('ZTimestamp-Core');
-			group: 'tests' with: #('ZTimestamp-Tests') ]
+			group: 'tests' with: #('ZTimestamp-Tests');
+			group: 'gt' with: #('ZTimestamp-GT') ]
 ]
