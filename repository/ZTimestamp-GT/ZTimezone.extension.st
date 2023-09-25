@@ -54,17 +54,21 @@ ZTimezone class >> gtViewCachedTimezonesFor: aView [
 					tooltip: 'Search cached timezones by id';
 					id: GtPharoSearchCodeButtonId;
 					objectActOn: [ :anActOnEvent :anItem :theButton | 
-						(anItem isKindOf: ZTimezone) ifTrue: [ 
-							| columnedList |
+						| targetTimezone |
+						targetTimezone := anActOnEvent objectToSend.
+						(targetTimezone isKindOf: ZTimezone) 
+							ifTrue: [ 
+								| columnedList |
 						
-							columnedList := theButton phlow viewContent 
-								allChildrenBreadthFirstDetect: [ :child | 
-									child isKindOf:  BrColumnedList ] 
-								ifFound: [ :child | child ].
-							columnedList scrollToItem: anItem.
-							columnedList selectOne: (columnedList items indexOf: anItem).
-						
-							anActOnEvent beActed ] ];
+								columnedList := theButton phlow viewContent 
+									allChildrenBreadthFirstDetect: [ :child | 
+										child isKindOf:  BrColumnedList ] 
+									ifFound: [ :child | child ].
+								columnedList scrollToItem: targetTimezone.
+								columnedList selectOne: (columnedList items 
+									indexOf: targetTimezone).
+								
+								anActOnEvent beActed ] ];
 					asElement ]
 			tooltip: 'Search cached timezones by id'
 ]
@@ -98,17 +102,20 @@ ZTimezone class >> gtViewTimezoneIdentifiersFor: aView [
 					tooltip: 'Search timezone identifiers';
 					id: GtPharoSearchCodeButtonId;
 					objectActOn: [ :anActOnEvent :anItem :theButton | 
-						(anItem isKindOf: Symbol) ifTrue: [ 
-							| columnedList |
+						| targetTimezone |
+						targetTimezone := anActOnEvent objectToSend.
+						(targetTimezone isKindOf: ZTimezone) 
+							ifTrue: [ 
+								| columnedList |
 						
-							columnedList := theButton phlow viewContent 
-								allChildrenBreadthFirstDetect: [ :child | 
-									child isKindOf:  BrColumnedList ] 
-								ifFound: [ :child | child ].
-							columnedList scrollToItem: anItem.
-							columnedList selectOne: (columnedList items indexOf: anItem).
-						
-							anActOnEvent beActed ] ];
+								columnedList := theButton phlow viewContent 
+									allChildrenBreadthFirstDetect: [ :child | 
+										child isKindOf:  BrColumnedList ] 
+									ifFound: [ :child | child ].
+								columnedList scrollToItem: targetTimezone id.
+								columnedList selectOne: (columnedList items 
+									indexOf: targetTimezone id) ].
+						anActOnEvent beActed ];
 					asElement ]
 			tooltip: 'Search timezone identifiers'
 ]
