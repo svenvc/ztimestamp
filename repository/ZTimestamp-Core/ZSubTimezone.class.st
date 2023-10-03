@@ -42,6 +42,12 @@ ZSubTimezone >> abbreviation: string [
 ]
 
 { #category : #accessing }
+ZSubTimezone >> description [
+	^ String streamContents: [ :out |
+		self printDetailsOn: out ]
+]
+
+{ #category : #accessing }
 ZSubTimezone >> isDaylightSaving [
 	^ isDaylightSaving
 ]
@@ -62,10 +68,18 @@ ZSubTimezone >> offset: integer [
 ]
 
 { #category : #printing }
+ZSubTimezone >> printDetailsOn: stream [
+	stream
+		<< abbreviation;
+		space;
+		print: offset.
+	isDaylightSaving ifTrue: [ stream << ' DST' ]
+]
+
+{ #category : #printing }
 ZSubTimezone >> printOn: stream [
 	super printOn: stream.
 	stream nextPut: $(.
-	stream << abbreviation; space; print: offset.
-	isDaylightSaving ifTrue: [ stream << ' DST' ]. 
+	self printDetailsOn: stream.
 	stream nextPut: $)
 ]
