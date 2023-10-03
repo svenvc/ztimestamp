@@ -74,13 +74,28 @@ ZTimezone class >> gtViewCachedTimezonesFor: aView [
 ]
 
 { #category : #'*ZTimestamp-GT' }
+ZTimezone class >> gtViewCurrentTimezoneIn: composite [
+	<gtView>
+	<gtClassView>
+	^ composite columnedList
+		title: 'Default';
+		priority: 11;
+		items: [ {('image default' -> self current id)} ];
+		column: 'Key' text: #key;
+		column: 'Value' text: #value;
+		send: [ self current ]
+]
+
+{ #category : #'*ZTimestamp-GT' }
 ZTimezone >> gtViewDetailsIn: composite [
 	<gtView>
 	^ composite columnedList
 		title: 'Details';
 		items: [ {('id' -> self id).
+			('now' -> (ZTimestampFormat isoNanoTZ timezone: self; format: ZTimestamp now)).
 			('current offset' -> (self offsetForTimestamp: ZTimestamp now)).
-			('current subzone' -> (self subzoneForTimestamp: ZTimestamp now)) } ];
+			('currently daylight saving' -> (self subzoneForTimestamp: ZTimestamp now) isDaylightSaving).
+			('current subzone' -> (self subzoneForTimestamp: ZTimestamp now) description ) } ];
 		column: 'Key' text: #key;
 		column: 'Value' text: #value;
 		send: #value
@@ -126,7 +141,10 @@ ZTimezone >> gtViewTransitionsIn: composite [
 	^ composite columnedList
 		title: 'Transitions';
 		items: [ self resolvedTransitions ];
-		column: 'Start' text: #key;
-		column: 'Subzone' text: #value;
-		send: #value
+		column: 'Start absolute' text: [ :association | association key ];
+		column: ('Start ' , self id) 
+			text: [ :association | ZTimestampFormat isoTZ timezone: self; format: association key ];
+		column: ('Start ' , ZCurrentTimezone value id) 
+			text: [ :association | ZTimestampFormat isoTZ useCurrentTimezone; format: association key ];
+		column: 'Subzone' text: [ :association | association value description ]
 ]

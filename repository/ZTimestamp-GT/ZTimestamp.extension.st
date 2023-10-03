@@ -6,6 +6,7 @@ ZTimestamp >> gtViewDetailsIn: composite [
 	^ composite columnedList
 		title: 'Details';
 		items: [ {('iso' -> self printString).
+			(ZTimezone current id asLowercase -> (ZTimestampFormat isoNanoTZ useCurrentTimezone; format: self)).
 			('year' -> self year).
 			('month' -> self monthIndex).
 			('month name' -> self monthName).
