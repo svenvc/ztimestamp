@@ -361,7 +361,13 @@ ZTimestampFormat >> compileSpecification [
 	| elements |
 	elements := self specificationElements.
 	formatter := elements
-			collect: [ :each | each isCharacter ifTrue: [ each ] ifFalse: [ (#format: , each , #On:) asSymbol ] ].
+			collect: [ :each | 
+				each isCharacter 
+					ifTrue: [ each ] 
+					ifFalse: [
+						(each beginsWith: #timeZone)
+							ifTrue: [ (#format: , each , #'On:usingOffset:') asSymbol ]
+							ifFalse: [ (#format: , each , #On:) asSymbol ] ] ].
 	parser := elements
 			collect: [ :each | 
 				each isCharacter
@@ -627,12 +633,16 @@ ZTimestampFormat >> format: object nanosecondOn: stream [
 ZTimestampFormat >> format: object on: stream [
 	"Format object on stream according to my specification"
 
-	| local |
+	| local offset|
 	local := self gmtToLocal: object.
+	offset := self actualOffsetForTimestamp: object.
 	formatter do: [ :each |
 		each isCharacter 
 			ifTrue: [ stream nextPut: each ] 
-			ifFalse: [ self perform: each with: local with: stream ] ]
+			ifFalse: [ 
+				each numArgs = 2
+					ifTrue: [ self perform: each with: local with: stream ]
+					ifFalse: [self perform: each with: local with: stream with: offset ] ] ]
 ]
 
 { #category : #formatters }
@@ -655,9 +665,23 @@ ZTimestampFormat >> format: object timeZoneAbbreviatedLongOn: stream [
 ]
 
 { #category : #formatters }
+ZTimestampFormat >> format: object timeZoneAbbreviatedLongOn: stream usingOffset: offset [
+	offset isZero
+		ifTrue: [ stream << #UTC ]
+		ifFalse: [ stream << (self abbreviationForTimeZoneOffset: offset) ]
+]
+
+{ #category : #formatters }
 ZTimestampFormat >> format: object timeZoneAbbreviatedOn: stream [
 	| offset |
 	offset := self actualOffsetForTimestamp: object.
+	offset isZero
+		ifTrue: [ stream << #UTC ]
+		ifFalse: [ stream << (self abbreviationForTimeZoneOffset: offset) ]
+]
+
+{ #category : #formatters }
+ZTimestampFormat >> format: object timeZoneAbbreviatedOn: stream usingOffset: offset [
 	offset isZero
 		ifTrue: [ stream << #UTC ]
 		ifFalse: [ stream << (self abbreviationForTimeZoneOffset: offset) ]
@@ -676,9 +700,32 @@ ZTimestampFormat >> format: object timeZoneOn: stream [
 ]
 
 { #category : #formatters }
+ZTimestampFormat >> format: object timeZoneOn: stream usingOffset: offset [
+	stream nextPut: (offset positive ifTrue: [ $+ ] ifFalse: [ $- ]).
+	offset hours abs
+		printOn: stream base: 10 length: 2 padded: true.
+	stream nextPut: $:.
+	offset minutes
+		printOn: stream base: 10 length: 2 padded: true 
+]
+
+{ #category : #formatters }
 ZTimestampFormat >> format: object timeZoneZOn: stream [
 	| offset |
 	offset := self actualOffsetForTimestamp: object.
+	offset isZero
+		ifTrue: [ stream nextPut: $Z ]
+		ifFalse: [ 
+			stream nextPut: (offset positive ifTrue: [ $+ ] ifFalse: [ $- ]).
+			offset hours abs
+				printOn: stream base: 10 length: 2 padded: true.
+			stream nextPut: $:.
+			offset minutes
+				printOn: stream base: 10 length: 2 padded: true ]
+]
+
+{ #category : #formatters }
+ZTimestampFormat >> format: object timeZoneZOn: stream usingOffset: offset [
 	offset isZero
 		ifTrue: [ stream nextPut: $Z ]
 		ifFalse: [ 

@@ -141,9 +141,13 @@ ZTimezone >> gtViewTransitionsIn: composite [
 	^ composite columnedList
 		title: 'Transitions';
 		items: [ self resolvedTransitions ];
-		column: 'Start absolute' text: [ :association | association key ];
-		column: ('Start ' , self id) 
-			text: [ :association | ZTimestampFormat isoTZ timezone: self; format: association key ];
+		column: 'Start absolute' 
+			text: [ :association | association key ];
+		column: 'Start local' 
+			text: [ :association | 
+				((ZTimestampFormat fromString: '2001-02-03 T 16:05:06+00:00') timezone: self; format: association key - 1 second) , 
+				' > ' , 
+				((ZTimestampFormat fromString: '16:05:06+00:00') timezone: self; format: association key) ];
 		column: ('Start ' , ZCurrentTimezone value id) 
 			text: [ :association | ZTimestampFormat isoTZ useCurrentTimezone; format: association key ];
 		column: 'Subzone' text: [ :association | association value description ]

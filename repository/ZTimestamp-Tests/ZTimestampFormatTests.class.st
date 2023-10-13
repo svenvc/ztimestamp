@@ -287,6 +287,30 @@ ZTimestampFormatTests >> testTimeParsing [
 		equals: (ZTimestamp year: 1 month: 1 day: 1 hour: 23 minute: 30 second: 19).
 ]
 
+{ #category : #accessing }
+ZTimestampFormatTests >> testTransitionFormatting [
+	| t1 t2 |
+	t1 := ZTimestamp fromUnixTime: 1679792400. "winter->summer"
+	t2 := ZTimestamp fromUnixTime: 1698541200. "summer->winter"
+	ZCurrentTimezone
+		value: ZTimezone europeBrussels
+		during: [
+			self
+				assert: (ZTimestampFormat isoTZ useCurrentTimezone; format: t1)
+				equals: '2023-03-26T03:00:00+02:00'.
+			self
+				assert: (ZTimestampFormat isoTZ useCurrentTimezone; format: t1 - 1 second)
+				equals: '2023-03-26T01:59:59+01:00'.
+
+			self
+				assert: (ZTimestampFormat isoTZ useCurrentTimezone; format: t2)
+				equals: '2023-10-29T02:00:00+01:00'.
+			self
+				assert: (ZTimestampFormat isoTZ useCurrentTimezone; format: t2 - 1 second)
+				equals: '2023-10-29T02:59:59+02:00'.
+ ]
+]
+
 { #category : #testing }
 ZTimestampFormatTests >> testWeekdayNames [
 	| timestamp |
