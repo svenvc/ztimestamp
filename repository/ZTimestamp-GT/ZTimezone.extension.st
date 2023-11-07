@@ -78,7 +78,7 @@ ZTimezone class >> gtViewCurrentTimezoneIn: composite [
 	<gtView>
 	<gtClassView>
 	^ composite columnedList
-		title: 'Default';
+		title: 'Current';
 		priority: 11;
 		items: [ {('image default' -> self current id)} ];
 		column: 'Key' text: #key;
