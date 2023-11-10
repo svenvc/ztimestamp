@@ -29,9 +29,7 @@ BaselineOfZTimestamp >> baseline: spec [
 		spec 
 			package: 'ZTimestamp-Core';
 			package: 'ZTimestamp-Tests' with: [ spec requires: #('ZTimestamp-Core') ];
-			package: 'ZTimestamp-GT' with: [ spec requires: #('ZTimestamp-Core') ];
 			group: 'default' with: #('core' 'tests');
 			group: 'core' with: #('ZTimestamp-Core');
-			group: 'tests' with: #('ZTimestamp-Tests');
-			group: 'gt' with: #('ZTimestamp-GT') ]
+			group: 'tests' with: #('ZTimestamp-Tests') ]
 ]
