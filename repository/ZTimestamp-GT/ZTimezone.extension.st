@@ -78,12 +78,27 @@ ZTimezone class >> gtViewCurrentTimezoneIn: composite [
 	<gtView>
 	<gtClassView>
 	^ composite columnedList
-		title: 'Default';
+		title: 'Current';
 		priority: 11;
-		items: [ {('image default' -> self current id)} ];
+		items: [ { ('image default' -> self current id) } ];
 		column: 'Key' text: #key;
 		column: 'Value' text: #value;
-		send: [ self current ]
+		send: [ self current ];
+		actionDropdownButtonLabel: 'Set' 
+			tooltip: 'Set the defult image timezone'
+			content: [ :aButton :aTab |
+				BrSimpleList new 
+					items: ZTimezone timezoneIdentifiers sorted;
+					stencil: [ :aString |
+						BrLabel new 
+							aptitude: BrGlamorousLabelAptitude new + 			
+								BrGlamorousListItemAptitude;
+							text: aString;
+							when: BlClickEvent do: [ :anEvent | 
+								ZTimezone current: (ZTimezone id: aString).
+								self inform: ('image timezone set to {1}' format: { aString }).
+								aTab viewContentElement phlow update.
+								anEvent target fireEvent: BrDropdownHideWish new] ] ]
 ]
 
 { #category : #'*ZTimestamp-GT' }
