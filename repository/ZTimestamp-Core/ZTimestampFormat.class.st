@@ -882,7 +882,7 @@ ZTimestampFormat >> parseDayTwoDigitsSpacePaddedFrom: stream [
 ZTimestampFormat >> parseDaypartLowercasedFrom: stream [
 	| part |
 	part := stream next: 2.
-	self assert: (#(#am #pm) includes: part).
+	self assert: (#('am' 'pm') includes: part).
 	^ #daypart -> part asSymbol
 ]
 
@@ -890,7 +890,7 @@ ZTimestampFormat >> parseDaypartLowercasedFrom: stream [
 ZTimestampFormat >> parseDaypartUppercasedFrom: stream [
 	| part |
 	part := stream next: 2.
-	self assert: (#(#AM #PM) includes: part).
+	self assert: (#('AM' 'PM') includes: part).
 	^ #daypart -> part asLowercase asSymbol
 ]
 
