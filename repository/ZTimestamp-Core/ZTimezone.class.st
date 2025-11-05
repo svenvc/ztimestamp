@@ -57,8 +57,8 @@ Limitations
 The format 2 data following the format 1 data is not read as it is a duplicate. Leap seconds, the standard/wall indicators and the UTC/local indicators are currently ignored, but their information is read and stored.
 "
 Class {
-	#name : #ZTimezone,
-	#superclass : #Object,
+	#name : 'ZTimezone',
+	#superclass : 'Object',
 	#instVars : [
 		'id',
 		'transitions',
@@ -75,15 +75,16 @@ Class {
 		'ZoneInfoLocation',
 		'ZoneTab'
 	],
-	#category : #'ZTimestamp-Core'
+	#category : 'ZTimestamp-Core',
+	#package : 'ZTimestamp-Core'
 }
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> centralEuropeanAliases [
 	^ #(CET CEST)
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimezone class >> checkMagicFrom: in [
 	| version |
 	self assert: (in next: 4) = 'TZif' asByteArray.
@@ -94,7 +95,7 @@ ZTimezone class >> checkMagicFrom: in [
 	in skip: 15
 ]
 
-{ #category : #utilties }
+{ #category : 'utilties' }
 ZTimezone class >> cleanUp [
 	"Clear our cached data"
 	"self cleanUp"
@@ -102,13 +103,13 @@ ZTimezone class >> cleanUp [
 	ZoneTab := Timezones := nil
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimezone class >> count: count do: block [
 	^ Array new: count streamContents: [ :out |
 		count timesRepeat: [ block value: out ] ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimezone class >> createGMT [
 	^ self new
 		id: #GMT;
@@ -118,7 +119,7 @@ ZTimezone class >> createGMT [
 		yourself
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> current [
 	"Return the current Timezone to use, as set manually by the user.
 	If not set, the GMT timezone will be returned.
@@ -127,7 +128,7 @@ ZTimezone class >> current [
 	^ Current ifNil: [ Current := self gmt ]
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> current: identifierOrTimezone [
 	"Set the current Timezone to use, using either a timezone identifier or object.
 	If not set or set to nil, the GMT timezone will be returned by #current.
@@ -138,14 +139,14 @@ ZTimezone class >> current: identifierOrTimezone [
 		ifFalse: [ identifierOrTimezone ]
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> defaultZoneCET [
 	"The timezone identifiers in #centralEuropeanAliases resolve to this actual timezone"
 	
 	^ self europeBrussels
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> defaultZoneInfoLocation [
 	"On macOS and Linux/Unix there is a standard location.
 	On Windows there is not, so the location has to be specified using #zoneInfoLocation:
@@ -162,7 +163,7 @@ ZTimezone class >> defaultZoneInfoLocation [
 			self errorCannotUseDefaultZoneInfoLocation ]
 ]
 
-{ #category : #utilties }
+{ #category : 'utilties' }
 ZTimezone class >> downloadFallbackZoneinfoDataset [
 	"Download a fallback copy of the zoneinfo dataset in the current directory and 
 	return its location where the caller will cache it, see #zoneInfoLocation.
@@ -184,7 +185,7 @@ ZTimezone class >> downloadFallbackZoneinfoDataset [
 	^ zoneinfoLocation
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimezone class >> errorCannotUseDefaultZoneInfoLocation [
 	^ self
 		error:
@@ -192,7 +193,7 @@ ZTimezone class >> errorCannotUseDefaultZoneInfoLocation [
 			'please specify a location using #zoneInfoLocation:'
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> europeBrussels [
 	"Return the timezone Europe/Brussels"
 	
@@ -201,7 +202,7 @@ ZTimezone class >> europeBrussels [
 	^ self id: 'Europe/Brussels'
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> fallbackZoneinfoDatasetURL [
 	"The URL to the ZIP archive zoneinfo.zip which is offered as a fallback for 
 	systems (such as Windows) that do no have their own copy of this data. 
@@ -211,7 +212,7 @@ ZTimezone class >> fallbackZoneinfoDatasetURL [
 	^ 'https://github.com/svenvc/ztimestamp/raw/master/rsrc/zoneinfo.zip' asUrl
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ZTimezone class >> fromFile: file [
 	"Parse the binary compiled tzfile at file and return a timezone. Do not cache."
 	"self fromFile: '/usr/share/zoneinfo/Europe/Brussels'."
@@ -228,7 +229,7 @@ ZTimezone class >> fromFile: file [
 				self fromStream: in ] ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ZTimezone class >> fromStream: in [
 	"Parse binary tzfile format data from in and return a timezone"
 	
@@ -253,7 +254,7 @@ ZTimezone class >> fromStream: in [
 	^ timezone
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ZTimezone class >> gmt [
 	"Return the special GMT timezone, also known as UTC or Zulu"
 	
@@ -262,12 +263,12 @@ ZTimezone class >> gmt [
 	^ self timezones at: #GMT ifAbsentPut: [ self createGMT ]
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> gmtAliases [
 	^ #(GMT UTC Z Zulu Zero)
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ZTimezone class >> id: id [
 	"Return the timezone identified by id, either from cache or loading it if necessary.
 	See #timezoneIdentifiers for the list of available identifiers. id is case sensitive."
@@ -282,7 +283,7 @@ ZTimezone class >> id: id [
 		ifAbsentPut: [ self readTimezoneWithId: id ]
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> locationForId: id [
 	"Return a FileReference to the file containing the compiled binary data 
 	for the timezone identified by id, with $/ indicating directory levels"
@@ -290,7 +291,7 @@ ZTimezone class >> locationForId: id [
 	^ self locationForId: id relativeTo: self zoneInfoLocation
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> locationForId: id relativeTo: zoneInfoLocation [
 	"Return a FileReference to the file containing the compiled binary data 
 	for the timezone identified by id, with $/ indicating directory levels,
@@ -303,7 +304,7 @@ ZTimezone class >> locationForId: id relativeTo: zoneInfoLocation [
 	^ location
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimezone class >> readHeaderFrom: in [
 	| header |
 	header := Dictionary new.
@@ -312,7 +313,7 @@ ZTimezone class >> readHeaderFrom: in [
 	^ header
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ZTimezone class >> readTimezoneWithId: id [
 	"Parse and load the timezone with id, do not cache"
 
@@ -327,7 +328,7 @@ ZTimezone class >> readTimezoneWithId: id [
 	^ timezone
 ]
 
-{ #category : #utilties }
+{ #category : 'utilties' }
 ZTimezone class >> readZoneTab [
 	"Parse and load the zone tab file, do not cache"
 	"self readZoneTab"
@@ -335,7 +336,7 @@ ZTimezone class >> readZoneTab [
 	^ self readZoneTabFrom: self zoneInfoLocation
 ]
 
-{ #category : #utilties }
+{ #category : 'utilties' }
 ZTimezone class >> readZoneTabFrom: zoneInfoLocation [
 	"Parse and load the zone tab file from zoneInfoLocation, do not cache"
 
@@ -349,7 +350,7 @@ ZTimezone class >> readZoneTabFrom: zoneInfoLocation [
 				{ tokens third asSymbol. tokens first } ]
 ]
 
-{ #category : #utilties }
+{ #category : 'utilties' }
 ZTimezone class >> reloadAll [
 	"Clear all cached data and load ALL timezone data. Do cache."
 	"self reloadAll"
@@ -361,14 +362,14 @@ ZTimezone class >> reloadAll [
 	^ self timezones
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> resetZoneInfoLocation [
 	"Reset the zone info database location so that the default will be used"
 	
 	self zoneInfoLocation: nil
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> standardZoneInfoLocation [
 	"Return a file reference to the standard zone info location directory.
 	On macOS and Linux/Unix there is a well-known standard location as maintained by the OS.
@@ -380,7 +381,7 @@ ZTimezone class >> standardZoneInfoLocation [
 		ifAbsent: [ '/usr/share/zoneinfo/' asFileReference ]
 ]
 
-{ #category : #utilties }
+{ #category : 'utilties' }
 ZTimezone class >> statistics [
 	"Give an indication of the amount of data I currently cache"
 	"self statistics."
@@ -392,7 +393,7 @@ ZTimezone class >> statistics [
 		} asDictionary 
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> timezoneIdentifiers [
 	"Return the list of modern Area/Location timezone identifiers from zonetab.
 	In principle each file found in zoneinfo is supported.
@@ -402,14 +403,14 @@ ZTimezone class >> timezoneIdentifiers [
 	^ self zoneTab collect: #first
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> timezones [
 	"Return the currently cached timezones as a Dictionary"
 	
 	^ Timezones ifNil: [ Timezones := Dictionary new ]
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> zoneInfoLocation [
 	"Return the zone info database location currently in use.
 	If the location is not yet set, let #defaultZoneInfoLocation figure it out and cache the result."
@@ -417,21 +418,21 @@ ZTimezone class >> zoneInfoLocation [
 	^ ZoneInfoLocation ifNil: [ ZoneInfoLocation := self defaultZoneInfoLocation ]
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> zoneInfoLocation: directory [
 	"Set the location of the zone info database to directory"
 	
 	ZoneInfoLocation := directory asFileReference
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 ZTimezone class >> zoneTab [
 	"Return the zone tab, a list of pairs, timezone identifier and country code"
 	
 	^ ZoneTab ifNil: [ ZoneTab := self readZoneTab ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimezone >> byteArrayToBits: byteArray [
 	| bits |
 	bits := 0.
@@ -440,7 +441,7 @@ ZTimezone >> byteArrayToBits: byteArray [
 	^ bits
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 ZTimezone >> gmtToLocal: timestamp [
 	"Return a copy of timestamp shifted from GMT to 
 	the local wall time as defined by the receiver.
@@ -451,27 +452,27 @@ ZTimezone >> gmtToLocal: timestamp [
 	^ timestamp + offset
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> id [
 	^ id
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> id: anObject [
 	id := anObject asSymbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> leapSeconds [
 	^ leapSeconds
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> leapSeconds: anObject [
 	leapSeconds := anObject
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 ZTimezone >> localToGmt: timestamp [
 	"Return a copy of timestamp shifted from the local wall time 
 	as defined by the receiver to GMT.
@@ -482,7 +483,7 @@ ZTimezone >> localToGmt: timestamp [
 	^ timestamp - offset
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> localTransitions [
 	"Lazily computed transition table in local wall time"
 
@@ -493,7 +494,7 @@ ZTimezone >> localTransitions [
 					each + (self subzoneForTransitionAt: index) offset asSeconds ] ]
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 ZTimezone >> offsetForLocalTimestamp: timestamp [
 	"Return the offset Duration to be subtracted from timestamp (interpreted as
 	local wall time) to get the correct GMT time in the timezone that I represent.
@@ -505,7 +506,7 @@ ZTimezone >> offsetForLocalTimestamp: timestamp [
 	^ subzone offset 
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 ZTimezone >> offsetForTimestamp: timestamp [
 	"Return the offset Duration to be added to timestamp (interpreted as GMT)
 	to get the correct local wall time in the timezone that I represent.
@@ -517,7 +518,7 @@ ZTimezone >> offsetForTimestamp: timestamp [
 	^ subzone offset 
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 ZTimezone >> printOn: stream [
 	super printOn: stream.
 	stream nextPut: $(.
@@ -525,12 +526,12 @@ ZTimezone >> printOn: stream [
 	stream nextPut: $)
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimezone >> resolveStandardIndicators: flags [
 	self standardIndicators: (self byteArrayToBits: flags)
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimezone >> resolveSubzones: rawSubzones abbreviations: abbreviations [
 	subzones := rawSubzones collect: [ :each | 
 		| start stop |
@@ -543,7 +544,7 @@ ZTimezone >> resolveSubzones: rawSubzones abbreviations: abbreviations [
 	self resolveSubzonesIndex 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimezone >> resolveSubzonesIndex [
 	| resolvedSubzonesIndex |
 	(subzonesIndex isNil or: [ subzonesIndex isEmpty ])
@@ -556,12 +557,12 @@ ZTimezone >> resolveSubzonesIndex [
 	subzonesIndex := resolvedSubzonesIndex 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimezone >> resolveUtcIndicators: flags [
 	self utcIndicators: (self byteArrayToBits: flags)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> resolvedLocalTransitions [
 	self localTransitions ifEmpty: [ ^#() ].
 	^ self localTransitions
@@ -569,7 +570,7 @@ ZTimezone >> resolvedLocalTransitions [
 		collect: [ :transition :subzone | (ZTimestamp fromUnixTime: transition) -> subzone ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> resolvedTransitions [
 	self transitions ifEmpty: [ ^#() ].
 	^ self transitions
@@ -577,17 +578,17 @@ ZTimezone >> resolvedTransitions [
 		collect: [ :transition :subzone | (ZTimestamp fromUnixTime: transition) -> subzone ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> standardIndicators [
 	^ standardIndicators
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> standardIndicators: anObject [
 	standardIndicators := anObject
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 ZTimezone >> subzoneForLocalTimestamp: timestamp [
 	"Return the ZSubTimezone instance for timestamp (interpreted as local wall time)
 	to get the correct GMT time in the timezone that I represent.
@@ -599,7 +600,7 @@ ZTimezone >> subzoneForLocalTimestamp: timestamp [
 	^ self subzoneForLocalUnixTime: timestamp asUnixTime 
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 ZTimezone >> subzoneForLocalUnixTime: unixTime [
 	"Given unixTime, the number of seconds since 1970-01-01, 
 	return the TSubTimezone containing more information,
@@ -616,7 +617,7 @@ ZTimezone >> subzoneForLocalUnixTime: unixTime [
 			self subzoneForTransitionAt: index ]
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 ZTimezone >> subzoneForTimestamp: timestamp [
 	"Return the ZSubTimezone instance for timestamp (interpreted as GMT)
 	to get the correct local wall time in the timezone that I represent.
@@ -628,12 +629,12 @@ ZTimezone >> subzoneForTimestamp: timestamp [
 	^ self subzoneForUnixTime: timestamp asUnixTime 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimezone >> subzoneForTransitionAt: index [
 	^ subzonesIndex at: index
 ]
 
-{ #category : #public }
+{ #category : 'public' }
 ZTimezone >> subzoneForUnixTime: unixTime [
 	"Given unixTime, the number of seconds since 1970-01-01, 
 	return the TSubTimezone containing more information,
@@ -650,42 +651,42 @@ ZTimezone >> subzoneForUnixTime: unixTime [
 			self subzoneForTransitionAt: index ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> subzones [
 	^ subzones
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> subzones: anObject [
 	subzones := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> subzonesIndex [
 	^ subzonesIndex
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> subzonesIndex: anObject [
 	subzonesIndex := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> transitions [
 	^ transitions
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> transitions: anObject [
 	transitions := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> utcIndicators [
 	^ utcIndicators
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimezone >> utcIndicators: anObject [
 	utcIndicators := anObject
 ]

@@ -2,22 +2,23 @@
 I am ZTimestampSNTPClientTests, a test suite for ZTimestampSNTPClient.
 "
 Class {
-	#name : #ZTimestampSNTPClientTests,
-	#superclass : #TestCase,
-	#category : #'ZTimestamp-Tests'
+	#name : 'ZTimestampSNTPClientTests',
+	#superclass : 'TestCase',
+	#category : 'ZTimestamp-Tests',
+	#package : 'ZTimestamp-Tests'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampSNTPClientTests class >> defaultTimeLimit [
 	^ 20 seconds
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampSNTPClientTests >> clientClass [
 	^ ZTimestampSNTPClient 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampSNTPClientTests >> delta [
 	"Return the maximum number of seconds of delta that we allow.
 	Note that under CI servers we need more time."
@@ -25,7 +26,7 @@ ZTimestampSNTPClientTests >> delta [
 	^ 5
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampSNTPClientTests >> testClockDifferenceMulti [
 	| differences |
 	differences := (1 to: 10) collect: [ :each |
@@ -39,7 +40,7 @@ ZTimestampSNTPClientTests >> testClockDifferenceMulti [
 		description: ('average differences too large, {1} > {2}s' format: { differences average. self delta })
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampSNTPClientTests >> testClockDifferenceSingle [
 	| differences client |
 	client := self clientClass new.
@@ -53,7 +54,7 @@ ZTimestampSNTPClientTests >> testClockDifferenceSingle [
 		description: ('average differences too large, {1} > {2}s' format: { differences average. self delta })
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampSNTPClientTests >> testEnforceClockDifference [
 	self clientClass new 
 		enforceClockDifference: self delta seconds 
@@ -61,7 +62,7 @@ ZTimestampSNTPClientTests >> testEnforceClockDifference [
 			self fail: ('Clock difference too large ({1} > {2}s)' format: { difference. self delta } ) ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampSNTPClientTests >> testLocalClockOffset [
 	| client offset |
 	client := self clientClass new.
@@ -72,7 +73,7 @@ ZTimestampSNTPClientTests >> testLocalClockOffset [
 		description: ('localClockOffset too large, {1} > {2}s' format: { offset. self delta })
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampSNTPClientTests >> testRoundtripDelay [
 	| client delay |
 	client := self clientClass new.

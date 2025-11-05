@@ -28,8 +28,8 @@ I can translate month and weekday names to 4 different languages, English, Frenc
 I can optionally use a timezone to convert UTC/GMT/Zulu timestamps to local time.
 "
 Class {
-	#name : #ZTimestampFormat,
-	#superclass : #Object,
+	#name : 'ZTimestampFormat',
+	#superclass : 'Object',
 	#instVars : [
 		'specification',
 		'formatter',
@@ -43,10 +43,11 @@ Class {
 		'FormatKeys',
 		'Formats'
 	],
-	#category : #'ZTimestamp-Core'
+	#category : 'ZTimestamp-Core',
+	#package : 'ZTimestamp-Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> abbreviatedTimeZones [
 	"Map TimeZone abbreviations to their offsets"
 	"Order matters for lookup by offset !"
@@ -71,7 +72,7 @@ ZTimestampFormat class >> abbreviatedTimeZones [
 		)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> ansiC [
 	"ANSI C date/time format"
 	"WeekdayAbbreviated MonthNameAbbreviated DayInMonth HH:MM:SS Year"
@@ -82,7 +83,7 @@ ZTimestampFormat class >> ansiC [
 	^ self fromString: 'Sat Feb _3 16:05:06 2001'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> clock [
 	"Simple 24 hour clock format"
 	"HH:MM"
@@ -94,7 +95,7 @@ ZTimestampFormat class >> clock [
 	^ self fromString: '16:05'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> euDate [
 	"Most common EU format"
 	"DD/MM/YYYY"
@@ -106,14 +107,14 @@ ZTimestampFormat class >> euDate [
 	^ self fromString: '03/02/2001'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> formatKeys [
 	"Return the collection of recognized format keys in specifications"
 	
 	^ FormatKeys 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> formatSpecifications [
 	"A collection pair-wise defining format keys recognized in specifications with their interpretation.
 	See the 'parsers' and 'formatter' instance side protocols with methods for each interpretation."
@@ -155,14 +156,14 @@ ZTimestampFormat class >> formatSpecifications [
 		'SAT' weekdayNameAbbreviatedUppercased )
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> formats [
 	"Return a dictionary mapping each format key with its interpretation (see #formatSpecifications)"
 	
 	^ Formats
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ZTimestampFormat class >> fromString: example [
 	"Create an instance of me, based on the example."
 	
@@ -172,7 +173,7 @@ ZTimestampFormat class >> fromString: example [
 	
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 ZTimestampFormat class >> initialize [
 	"Initialize this class, to be redone every time #formatSpecifications changes."
 	
@@ -182,7 +183,7 @@ ZTimestampFormat class >> initialize [
 	FormatKeys := Formats keys sorted: [ :x :y | x size >= y size ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> iso [
 	"The standard ISO 8601 date/time format with separators"
 	"YYYY-MM-DDTHH:MM:SSZ"
@@ -194,7 +195,7 @@ ZTimestampFormat class >> iso [
 	^ self fromString: '2001-02-03T16:05:06Z'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> isoCompact [
 	"The standard ISO 8601 date/time format with minimal separators and implied timezone UTC"
 	"YYYYMMDDTHHMMSS"
@@ -205,7 +206,7 @@ ZTimestampFormat class >> isoCompact [
 	^ self fromString: '20010203T160506'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> isoDate [
 	"ISO date format"
 	"YYYY/MM/DD"
@@ -216,7 +217,7 @@ ZTimestampFormat class >> isoDate [
 	^ self fromString: '2001/02/03'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> isoNanoTZ [
 	"The standard ISO 8601 date/time format with separators, nanosecond precision and full timezone offset"
 	"YYYY-MM-DDTHH:MM:SS.NNNNNNNNN+ZZ:zz"
@@ -228,7 +229,7 @@ ZTimestampFormat class >> isoNanoTZ [
 	^ self fromString: '2001-02-03T16:05:06.7+00:00'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> isoTZ [
 	"The standard ISO 8601 date/time format with separators with full timezone offset"
 	"YYYY-MM-DDTHH:MM:SS+ZZ:zz"
@@ -240,7 +241,7 @@ ZTimestampFormat class >> isoTZ [
 	^ self fromString: '2001-02-03T16:05:06+00:00'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> kitchen [
 	"Simple 12 hour clock format"
 	"HH:MM"
@@ -252,7 +253,7 @@ ZTimestampFormat class >> kitchen [
 	^ self fromString: '04:05PM'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> reference12 [
 	"The ZTimestamp instance used as a reference for specifying a format by example.
 	The possible components are numbered from largest to smallest unit."
@@ -262,7 +263,7 @@ ZTimestampFormat class >> reference12 [
 	^ ZTimestamp year: 2001 month: 2 day: 3 hour: 4 minute: 5 second: 6
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> reference24 [
 	"The ZTimestamp instance used as a reference for specifying a format by example.
 	The possible components are numbered from largest to smallest unit."
@@ -272,7 +273,7 @@ ZTimestampFormat class >> reference24 [
 	^ ZTimestamp year: 2001 month: 2 day: 3 hour: 16 minute: 5 second: 6
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> rfc3339 [
 	"RFC3339 based layout"
 
@@ -281,7 +282,7 @@ ZTimestampFormat class >> rfc3339 [
 	^ self iso
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> rfc822 [
 	"RFC 822 email format"
 	"DayInMonth MonthNameAbbreviated Year2Digits HH:MM TimezoneAbbreviated"
@@ -292,7 +293,7 @@ ZTimestampFormat class >> rfc822 [
 	^ self fromString: '03 Feb 01 16:05 UTC'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> rfc850 [
 	"RFC 850 usenet format"
 	"WeekdayName, DayInMonth-MonthNameAbbreviated-Year2Digits HH:MM TimezoneAbbreviated"
@@ -303,7 +304,19 @@ ZTimestampFormat class >> rfc850 [
 	^ self fromString: 'Saturday, 03-Feb-01 16:05:06 UTC'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
+ZTimestampFormat class >> rfc9110 [
+	"The HTTP date format https://datatracker.ietf.org/doc/html/rfc9110#section-5.6.7
+	Note that this specification does not include the legacy formats rfc850 and ansiC"
+	"ZTimestampFormat rfc9110 parse: 'Sun, 06 Nov 1994 08:49:37 GMT'"
+	"ZTimestampFormat rfc9110 format: (ZTimestamp year: 1994 month: 11 day: 6 hour: 8 minute: 49 second: 37)"
+	
+	<gtExample>
+	
+	^ self fromString: 'Sat, 03 Feb 2001 16:05:06 GMT'
+]
+
+{ #category : 'accessing' }
 ZTimestampFormat class >> unixDate [
 	"Unix format as used by the date command line command"
 	"WeekdayNameAbbreviated MonthNameAbbreviated DayInMonth HH:MM:SS TimezoneAbbreviated Year"
@@ -314,7 +327,7 @@ ZTimestampFormat class >> unixDate [
 	^ self fromString: 'Sat Feb _3 16:05:06 UTC 2001'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> usDate [
 	"The common US format"
 	"MM/DD/YYYY"
@@ -326,7 +339,7 @@ ZTimestampFormat class >> usDate [
 	^ self fromString: '02/03/2001'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat class >> verbose [
 	"A verbose, non-abbreviated format"
 	"WeekdayName, DayInMonth-MonthName-Year HH:MM:SS DayPart (+ZZ:zz"
@@ -338,7 +351,7 @@ ZTimestampFormat class >> verbose [
 	^ self fromString: 'Saturday, 03-February-2001 04:05:06 PM (+00:00)'
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampFormat >> abbreviationForTimeZoneOffset: offset [
 	"(TimeZone offset: offset) abbreviation"
 
@@ -349,14 +362,14 @@ ZTimestampFormat >> abbreviationForTimeZoneOffset: offset [
 	self error: 'Cannot find time zone for offset ' , offset asString
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampFormat >> actualOffsetForTimestamp: timestamp [
 	^ self timezone value
 		ifNil: [ timestamp offset ]
 		ifNotNil: [ :actualTimezone | actualTimezone offsetForTimestamp: timestamp ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampFormat >> compileSpecification [
 	| elements |
 	elements := self specificationElements.
@@ -375,12 +388,12 @@ ZTimestampFormat >> compileSpecification [
 					ifFalse: [ (#parse , each capitalized , #From:) asSymbol ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat >> constructor [
 	^ constructor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat >> constructor: block [
 	"Set my constructor, a block that creates instances based on parsed elements, passed in as a dictionary.
 	See #createZTimestamp, #createDateAndTime and friends."
@@ -388,7 +401,7 @@ ZTimestampFormat >> constructor: block [
 	constructor := block
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 ZTimestampFormat >> createDate [
 	"Configure me to create Date instances when parsing"
 	
@@ -399,7 +412,7 @@ ZTimestampFormat >> createDate [
 			day: (elements at: #day ifAbsent: [ 0 ]) ]
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 ZTimestampFormat >> createDateAndTime [
 	"Configure me to create DateAndTime instances when parsing"
 
@@ -419,7 +432,7 @@ ZTimestampFormat >> createDateAndTime [
 			ifFalse: [ self localToGmt: timestamp ] ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampFormat >> createInstanceFrom: elements [
 	elements 
 		at: #daypart 
@@ -432,7 +445,7 @@ ZTimestampFormat >> createInstanceFrom: elements [
 	^ self constructor value: elements
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 ZTimestampFormat >> createTime [
 	"Configure me to create Time instances when parsing"
 
@@ -443,7 +456,7 @@ ZTimestampFormat >> createTime [
 			second: (elements at: #second ifAbsent: [ 0 ]) ]
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 ZTimestampFormat >> createZTimestamp [
 	"Configure me to create ZTimestamp instances when parsing (this is the default)"
 
@@ -463,7 +476,7 @@ ZTimestampFormat >> createZTimestamp [
 			ifFalse: [ self localToGmt: timestamp ] ]
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 ZTimestampFormat >> createZTimestampDefaultDate111 [
 	"Configure me to create ZTimestamp instances when parsing where the default date is 1-1-1.
 	This is a (not so useful) hack to ignore the date component (but keep it a legal value), mainly used for testing."
@@ -483,7 +496,7 @@ ZTimestampFormat >> createZTimestampDefaultDate111 [
 			ifFalse: [ self localToGmt: timestamp ] ]
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 ZTimestampFormat >> dutch [
 	self monthNames: #( 
 		'Januari' 'Februari' 'Maart' 'April' 'Mei' 'Juni' 
@@ -492,7 +505,7 @@ ZTimestampFormat >> dutch [
 		'Zondag' 'Maandag' 'Dinsdag' 'Woensdag' 'Donderdag' 'Vrijdag' 'Zaterdag' )
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 ZTimestampFormat >> english [
 	self monthNames: #( 
 		January February March April May June 
@@ -501,7 +514,7 @@ ZTimestampFormat >> english [
 		Sunday Monday Tuesday Wednesday Thursday Friday Saturday )
 ]
 
-{ #category : #formatting }
+{ #category : 'formatting' }
 ZTimestampFormat >> format: object [
 	"Format object according to my specification and return a string"
 	
@@ -509,34 +522,34 @@ ZTimestampFormat >> format: object [
 			self format: object on: stream ]
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object dayOn: stream [
 	object dayOfMonth printOn: stream
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object dayTwoDigitsOn: stream [
 	object dayOfMonth printOn: stream base: 10 length: 2 padded: true
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object dayTwoDigitsSpacePaddedOn: stream [
 	object dayOfMonth < 10
 		ifTrue: [ stream space ].
 	object dayOfMonth printOn: stream
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object daypartLowercasedOn: stream [
 	stream << (object hour < 12 ifTrue: [ #am ] ifFalse: [ #pm ])
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object daypartUppercasedOn: stream [
 	stream << (object hour < 12 ifTrue: [ #AM ] ifFalse: [ #PM ])
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object hour12On: stream [
 	| hour |
 	hour := object hour.
@@ -548,7 +561,7 @@ ZTimestampFormat >> format: object hour12On: stream [
 				ifFalse: [ hour ] ]) printOn: stream
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object hour12TwoDigitsOn: stream [
 	| hour |
 	hour := object hour.
@@ -560,62 +573,62 @@ ZTimestampFormat >> format: object hour12TwoDigitsOn: stream [
 				ifFalse: [ hour ] ]) printOn: stream base: 10 length: 2 padded: true
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object hour24TwoDigitsOn: stream [
 	object hour printOn: stream base: 10 length: 2 padded: true
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object minuteOn: stream [
 	object minute printOn: stream
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object minuteTwoDigitsOn: stream [
 	object minute printOn: stream base: 10 length: 2 padded: true
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object monthNameAbbreviatedCapitalizedOn: stream [
 	stream << ((self monthNames at: object monthIndex) copyFrom: 1 to: 3)
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object monthNameAbbreviatedLowercasedOn: stream [
 	stream << ((self monthNames at: object monthIndex) copyFrom: 1 to: 3) asLowercase 
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object monthNameAbbreviatedUppercasedOn: stream [
 	stream << ((self monthNames at: object monthIndex) copyFrom: 1 to: 3) asUppercase 
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object monthNameCapitalizedOn: stream [
 	stream << (self monthNames at: object monthIndex)
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object monthNameLowercasedOn: stream [
 	stream << (self monthNames at: object monthIndex) asLowercase 
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object monthNameUppercasedOn: stream [
 	stream << (self monthNames at: object monthIndex) asUppercase 
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object monthOn: stream [
 	object monthIndex printOn: stream
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object monthTwoDigitsOn: stream [
 	object monthIndex printOn: stream base: 10 length: 2 padded: true
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object nanosecondOn: stream [
 	| n len |
 	n := object nanoSecond.
@@ -629,7 +642,7 @@ ZTimestampFormat >> format: object nanosecondOn: stream [
 	n printOn: stream base: 10 length: len padded: true
 ]
 
-{ #category : #formatting }
+{ #category : 'formatting' }
 ZTimestampFormat >> format: object on: stream [
 	"Format object on stream according to my specification"
 
@@ -645,17 +658,17 @@ ZTimestampFormat >> format: object on: stream [
 					ifFalse: [self perform: each with: local with: stream with: offset ] ] ]
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object secondOn: stream [
 	object second printOn: stream
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object secondTwoDigitsOn: stream [
 	object second printOn: stream base: 10 length: 2 padded: true
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object timeZoneAbbreviatedLongOn: stream [
 	| offset |
 	offset := self actualOffsetForTimestamp: object.
@@ -664,14 +677,14 @@ ZTimestampFormat >> format: object timeZoneAbbreviatedLongOn: stream [
 		ifFalse: [ stream << (self abbreviationForTimeZoneOffset: offset) ]
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object timeZoneAbbreviatedLongOn: stream usingOffset: offset [
 	offset isZero
 		ifTrue: [ stream << #UTC ]
 		ifFalse: [ stream << (self abbreviationForTimeZoneOffset: offset) ]
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object timeZoneAbbreviatedOn: stream [
 	| offset |
 	offset := self actualOffsetForTimestamp: object.
@@ -680,14 +693,14 @@ ZTimestampFormat >> format: object timeZoneAbbreviatedOn: stream [
 		ifFalse: [ stream << (self abbreviationForTimeZoneOffset: offset) ]
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object timeZoneAbbreviatedOn: stream usingOffset: offset [
 	offset isZero
 		ifTrue: [ stream << #UTC ]
 		ifFalse: [ stream << (self abbreviationForTimeZoneOffset: offset) ]
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object timeZoneOn: stream [
 	| offset |
 	offset := self actualOffsetForTimestamp: object.
@@ -699,7 +712,7 @@ ZTimestampFormat >> format: object timeZoneOn: stream [
 		printOn: stream base: 10 length: 2 padded: true 
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object timeZoneOn: stream usingOffset: offset [
 	stream nextPut: (offset positive ifTrue: [ $+ ] ifFalse: [ $- ]).
 	offset hours abs
@@ -709,7 +722,7 @@ ZTimestampFormat >> format: object timeZoneOn: stream usingOffset: offset [
 		printOn: stream base: 10 length: 2 padded: true 
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object timeZoneZOn: stream [
 	| offset |
 	offset := self actualOffsetForTimestamp: object.
@@ -724,7 +737,7 @@ ZTimestampFormat >> format: object timeZoneZOn: stream [
 				printOn: stream base: 10 length: 2 padded: true ]
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object timeZoneZOn: stream usingOffset: offset [
 	offset isZero
 		ifTrue: [ stream nextPut: $Z ]
@@ -737,52 +750,52 @@ ZTimestampFormat >> format: object timeZoneZOn: stream usingOffset: offset [
 				printOn: stream base: 10 length: 2 padded: true ]
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object weekdayNameAbbreviatedCapitalizedOn: stream [
 	stream << ((self weekdayNames at: object dayOfWeek) copyFrom: 1 to: 3)
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object weekdayNameAbbreviatedLowercasedOn: stream [
 	stream << ((self weekdayNames at: object dayOfWeek) copyFrom: 1 to: 3) asLowercase 
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object weekdayNameAbbreviatedUppercasedOn: stream [
 	stream << ((self weekdayNames at: object dayOfWeek) copyFrom: 1 to: 3) asUppercase 
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object weekdayNameCapitalizedOn: stream [
 	stream << (self weekdayNames at: object dayOfWeek)
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object weekdayNameLowercasedOn: stream [
 	stream << (self weekdayNames at: object dayOfWeek) asLowercase 
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object weekdayNameUppercasedOn: stream [
 	stream << (self weekdayNames at: object dayOfWeek) asUppercase 
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object yearFourDigitsOn: stream [
 	object year printOn: stream base: 10 length: 4 padded: true
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object yearFullOn: stream [
 	object year printOn: stream base: 10 length: 4 padded: true
 ]
 
-{ #category : #formatters }
+{ #category : 'formatters' }
 ZTimestampFormat >> format: object yearTwoDigitsOn: stream [
 	object year \\ 100 printOn: stream base: 10 length: 2 padded: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat >> formatter [
 	"Return my compiled formatter, which is based on my specification.
 	The is a collection of formatter methods to invoke with optional separator characters"
@@ -790,7 +803,7 @@ ZTimestampFormat >> formatter [
 	^ formatter
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 ZTimestampFormat >> french [
 	self monthNames: #( 
 		'Janvier' 'Février' 'Mars' 'Avril' 'Mai' 'Juin' 
@@ -799,7 +812,7 @@ ZTimestampFormat >> french [
 		'Dimanche' 'Lundi' 'Mardi' 'Mercredi' 'Jeudi' 'Vendredi' 'Samedi' )
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 ZTimestampFormat >> german [
 	self monthNames: #( 
 		'Januar' 'Februar' 'März' 'April' 'Mai' 'Juni' 
@@ -808,44 +821,44 @@ ZTimestampFormat >> german [
 		'Sonntag' 'Montag' 'Dienstag' 'Mittwoch' 'Donnerstag' 'Freitag' 'Samstag' )
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampFormat >> gmtToLocal: timestamp [
 	^ self timezone value
 		ifNil: [ timestamp ]
 		ifNotNil: [ :actualTimezone | actualTimezone gmtToLocal: timestamp ]
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 ZTimestampFormat >> initialize [ 
 	super initialize.
 	self english; createZTimestamp
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampFormat >> localToGmt: timestamp [
 	^ self timezone value 
 		ifNil: [ timestamp ] 
 		ifNotNil: [ :actualTimezone | actualTimezone localToGmt: timestamp ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat >> monthNames [
 	^ monthNames
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat >> monthNames: anObject [
 	monthNames := anObject
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampFormat >> nextFormatKeyStartingAt: offset [
 	^ self class formatKeys
 		detect: [ :each | self string: specification contains: each startingAt: offset ]
 		ifNone: [ nil ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampFormat >> offsetForTimeZoneAbbreviation: abbreviation [
 	"(TimeZone abbreviated: abbreviation) offset"
 
@@ -856,29 +869,29 @@ ZTimestampFormat >> offsetForTimeZoneAbbreviation: abbreviation [
 	self error: 'Cannot find time zone for abbreviation ' , abbreviation asString
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 ZTimestampFormat >> parse: string [
 	"Parse string according to my specification and return an instance as created by my constructor"
 	
 	^ self readFrom: string readStream
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseDayFrom: stream [
 	^ #day -> (self readInteger: 1 atLeastFrom: stream)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseDayTwoDigitsFrom: stream [
 	^ #day -> (self readInteger: 2 from: stream)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseDayTwoDigitsSpacePaddedFrom: stream [
 	^ #day -> (self readInteger: 2 optionalSpaceFrom: stream)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseDaypartLowercasedFrom: stream [
 	| part |
 	part := stream next: 2.
@@ -886,7 +899,7 @@ ZTimestampFormat >> parseDaypartLowercasedFrom: stream [
 	^ #daypart -> part asSymbol
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseDaypartUppercasedFrom: stream [
 	| part |
 	part := stream next: 2.
@@ -894,37 +907,37 @@ ZTimestampFormat >> parseDaypartUppercasedFrom: stream [
 	^ #daypart -> part asLowercase asSymbol
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseHour12From: stream [
 	^ #hour -> (self readInteger: 1 atLeastFrom: stream)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseHour12TwoDigitsFrom: stream [
 	^ #hour -> (self readInteger: 2 from: stream)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseHour24TwoDigitsFrom: stream [
 	^ #hour -> (self readInteger: 2 from: stream)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseMinuteFrom: stream [
 	^ #minute -> (self readInteger: 1 atLeastFrom: stream)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseMinuteTwoDigitsFrom: stream [
 	^ #minute -> (self readInteger: 2 from: stream)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseMonthFrom: stream [
 	^ #month -> (self readInteger: 1 atLeastFrom: stream)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseMonthNameAbbreviatedCapitalizedFrom: stream [
 	| abbreviation fullName target |
 	abbreviation := stream next: 3.
@@ -935,7 +948,7 @@ ZTimestampFormat >> parseMonthNameAbbreviatedCapitalizedFrom: stream [
 	^ #month -> (self monthNames indexOf: fullName)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseMonthNameAbbreviatedLowercasedFrom: stream [
 	| abbreviation fullName target |
 	abbreviation := stream next: 3.
@@ -946,7 +959,7 @@ ZTimestampFormat >> parseMonthNameAbbreviatedLowercasedFrom: stream [
 	^ #month -> (self monthNames indexOf: fullName)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseMonthNameAbbreviatedUppercasedFrom: stream [
 	| abbreviation fullName target |
 	abbreviation := stream next: 3.
@@ -957,7 +970,7 @@ ZTimestampFormat >> parseMonthNameAbbreviatedUppercasedFrom: stream [
 	^ #month -> (self monthNames indexOf: fullName)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseMonthNameCapitalizedFrom: stream [
 	| match |
 	match := self readAny: self monthNames sorted from: stream.
@@ -965,7 +978,7 @@ ZTimestampFormat >> parseMonthNameCapitalizedFrom: stream [
 	^ #month -> (self monthNames indexOf: match)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseMonthNameLowercasedFrom: stream [
 	| match |
 	match := self 
@@ -975,7 +988,7 @@ ZTimestampFormat >> parseMonthNameLowercasedFrom: stream [
 	^ #month -> (self monthNames indexOf: match capitalized)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseMonthNameUppercasedFrom: stream [
 	| match |
 	match := self 
@@ -985,12 +998,12 @@ ZTimestampFormat >> parseMonthNameUppercasedFrom: stream [
 	^ #month -> (self monthNames indexOf: match asLowercase capitalized)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseMonthTwoDigitsFrom: stream [
 	^ #month -> (self readInteger: 2 from: stream)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseNanosecondFrom: stream [
 	| fraction power |
 	fraction := 0.
@@ -1002,22 +1015,22 @@ ZTimestampFormat >> parseNanosecondFrom: stream [
 	^ #nanosecond -> (fraction / power * 1e9)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseSecondFrom: stream [
 	^ #second -> (self readInteger: 1 atLeastFrom: stream)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseSecondTwoDigitsFrom: stream [
 	^ #second -> (self readInteger: 2 from: stream)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseTimeZoneAbbreviatedFrom: stream [
 	^ #offset -> (self offsetForTimeZoneAbbreviation: (stream next: 3))
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseTimeZoneAbbreviatedLongFrom: stream [
 	| offset |
 	offset := String streamContents: [ :out |
@@ -1026,17 +1039,17 @@ ZTimestampFormat >> parseTimeZoneAbbreviatedLongFrom: stream [
 	^ #offset -> (self offsetForTimeZoneAbbreviation: offset)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseTimeZoneFrom: stream [
 	^ #offset -> (ZTimestamp readTimezoneOffsetFrom: stream) seconds
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseTimeZoneZFrom: stream [
 	^ #offset -> (ZTimestamp readTimezoneOffsetFrom: stream) seconds
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseWeekdayNameAbbreviatedCapitalizedFrom: stream [
 	| abbreviation fullName target |
 	abbreviation := stream next: 3.
@@ -1047,7 +1060,7 @@ ZTimestampFormat >> parseWeekdayNameAbbreviatedCapitalizedFrom: stream [
 	^ #weekday -> (self weekdayNames indexOf: fullName)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseWeekdayNameAbbreviatedLowercasedFrom: stream [
 	| abbreviation fullName target |
 	abbreviation := stream next: 3.
@@ -1058,7 +1071,7 @@ ZTimestampFormat >> parseWeekdayNameAbbreviatedLowercasedFrom: stream [
 	^ #weekday -> (self weekdayNames indexOf: fullName)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseWeekdayNameAbbreviatedUppercasedFrom: stream [
 	| abbreviation fullName target |
 	abbreviation := stream next: 3.
@@ -1069,7 +1082,7 @@ ZTimestampFormat >> parseWeekdayNameAbbreviatedUppercasedFrom: stream [
 	^ #weekday -> (self weekdayNames indexOf: fullName)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseWeekdayNameCapitalizedFrom: stream [
 	| match |
 	match := self readAny: self weekdayNames sorted from: stream.
@@ -1077,7 +1090,7 @@ ZTimestampFormat >> parseWeekdayNameCapitalizedFrom: stream [
 	^ #weekday -> (self weekdayNames indexOf: match)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseWeekdayNameLowercasedFrom: stream [
 	| match |
 	match := self 
@@ -1087,7 +1100,7 @@ ZTimestampFormat >> parseWeekdayNameLowercasedFrom: stream [
 	^ #weekday -> (self weekdayNames indexOf: match capitalized)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseWeekdayNameUppercasedFrom: stream [
 	| match |
 	match := self 
@@ -1097,12 +1110,12 @@ ZTimestampFormat >> parseWeekdayNameUppercasedFrom: stream [
 	^ #weekday -> (self weekdayNames indexOf: match asLowercase capitalized)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseYearFourDigitsFrom: stream [
 	^ #year -> (self readInteger: 4 from: stream)
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseYearFullFrom: stream [
 	| sign |
 	sign := 1.
@@ -1113,12 +1126,12 @@ ZTimestampFormat >> parseYearFullFrom: stream [
 	^ #year -> (sign * (self readInteger: 4 atLeastFrom: stream))
 ]
 
-{ #category : #parsers }
+{ #category : 'parsers' }
 ZTimestampFormat >> parseYearTwoDigitsFrom: stream [
 	^ #year -> (2000 + (self readInteger: 2 from: stream))
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat >> parser [
 	"Return my compiled parser, which is based on my specification.
 	The is a collection of parser methods to invoke with optional separator characters"
@@ -1126,7 +1139,7 @@ ZTimestampFormat >> parser [
 	^ parser
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 ZTimestampFormat >> printOn: stream [
 	super printOn: stream.
 	stream nextPut: $(.
@@ -1134,7 +1147,7 @@ ZTimestampFormat >> printOn: stream [
 	stream nextPut: $)
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampFormat >> readAny: strings from: stream [
 	"Read any of the sorted collection strings from stream, or nil"
 	
@@ -1159,7 +1172,7 @@ ZTimestampFormat >> readAny: strings from: stream [
 	] repeat
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 ZTimestampFormat >> readFrom: stream [
 	"Parse stream according to my specification and return an instance as created by my constructor"
 
@@ -1172,7 +1185,7 @@ ZTimestampFormat >> readFrom: stream [
 	^ self createInstanceFrom: elements
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampFormat >> readInteger: numberOfDigits atLeastFrom: stream [
 	"Parse and return a decimal number of at least numberOfDigits from stream.
 	Continue reading until a non digit or the end of stream is reached.
@@ -1189,7 +1202,7 @@ ZTimestampFormat >> readInteger: numberOfDigits atLeastFrom: stream [
 	^ integer
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampFormat >> readInteger: numberOfDigits from: stream [
 	"Parse and return a decimal number of numberOfDigits from stream.
 	Fail if that is not possible"
@@ -1203,7 +1216,7 @@ ZTimestampFormat >> readInteger: numberOfDigits from: stream [
 	^ integer
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampFormat >> readInteger: numberOfDigits optionalSpaceFrom: stream [
 	"Parse and return a decimal number of numberOfDigits from stream.
 	There can be one optional space instead of a digit at the beginning.
@@ -1217,12 +1230,12 @@ ZTimestampFormat >> readInteger: numberOfDigits optionalSpaceFrom: stream [
 			self readInteger: numberOfDigits from: stream ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat >> specification [
 	^ specification 
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 ZTimestampFormat >> specification: exampleString [
 	"Initialize me based on exampleString.
 	See my class comment and class side examples."
@@ -1231,7 +1244,7 @@ ZTimestampFormat >> specification: exampleString [
 	self compileSpecification
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampFormat >> specificationElements [
 	| offset |
 	^ Array
@@ -1246,7 +1259,7 @@ ZTimestampFormat >> specificationElements [
 							offset := offset + 1 ] ] ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampFormat >> string: string contains: subString startingAt: offset [
 	subString doWithIndex: [ :each :index |
 		offset + index - 1 <= string size 
@@ -1256,12 +1269,12 @@ ZTimestampFormat >> string: string contains: subString startingAt: offset [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat >> timezone [
 	^ timezone
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat >> timezone: anObject [
 	"Set the optional timezone that I should use to convert UTC/GMT/Zulu timestamps 
 	into local time representations and vice versa if none is specified.
@@ -1272,19 +1285,19 @@ ZTimestampFormat >> timezone: anObject [
 	timezone := anObject
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 ZTimestampFormat >> useCurrentTimezone [
 	"Configure me to use the timezone set in the ZCurrentTimezone dynamic variable"
 	
 	self timezone: ZCurrentTimezone
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat >> weekdayNames [
 	^ weekdayNames
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormat >> weekdayNames: anObject [
 	weekdayNames := anObject
 ]

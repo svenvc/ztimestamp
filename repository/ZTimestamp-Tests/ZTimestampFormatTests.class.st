@@ -2,12 +2,13 @@
 I am ZTimestampFormatTests, a suite of unit tests for ZTimestampFormat.
 "
 Class {
-	#name : #ZTimestampFormatTests,
-	#superclass : #TestCase,
-	#category : #'ZTimestamp-Tests'
+	#name : 'ZTimestampFormatTests',
+	#superclass : 'TestCase',
+	#category : 'ZTimestamp-Tests',
+	#package : 'ZTimestamp-Tests'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testAMPM [
 	| times format12 format24 |
 	times := #( 
@@ -21,7 +22,7 @@ ZTimestampFormatTests >> testAMPM [
 		self assert: (format24 format: (format24 parse: each second)) equals: each second ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testCurrentTimezoneFormatting [
 	| format winter summer |
 	winter := ZTimestamp year: 2014 month: 1 day: 1 hour: 11 minute: 0 second: 0.
@@ -46,7 +47,7 @@ ZTimestampFormatTests >> testCurrentTimezoneFormatting [
 				equals: '20140801T1300' ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testCurrentTimezoneParsing [
 	| format winter summer |
 	winter := ZTimestamp year: 2014 month: 1 day: 1 hour: 11 minute: 0 second: 0.
@@ -71,7 +72,7 @@ ZTimestampFormatTests >> testCurrentTimezoneParsing [
 				equals: summer ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testDateAndTime [
 	| now format |
 	now := DateAndTime now rounded.
@@ -85,7 +86,7 @@ ZTimestampFormatTests >> testDateAndTime [
 		equals: now.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testDateAndTimeWithNanoseconds [
 	| now format |
 	now := DateAndTime now.
@@ -99,14 +100,14 @@ ZTimestampFormatTests >> testDateAndTimeWithNanoseconds [
 		equals: now.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testDateCreation [
 	self 
 		assert: ((ZTimestampFormat fromString: '03/02/2001') createDate; parse: '07/08/1967')
 		equals: (Date year: 1967 month: 8 day: 7).	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testDateFormatting [
 	self
 		assert: ((ZTimestampFormat fromString: '2001/02/03') format: (ZTimestamp year: 2012 month: 10 day: 20))
@@ -124,7 +125,7 @@ ZTimestampFormatTests >> testDateFormatting [
 		equals: '20 OCT ''12'.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testDateParsing [
 	self
 		assert: ((ZTimestampFormat fromString: '2001/02/03') parse: '2012/10/20') 
@@ -142,7 +143,7 @@ ZTimestampFormatTests >> testDateParsing [
 		equals: (ZTimestamp year: 1967 month: 8 day: 7).
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testExplicitTimezoneFormatting [
 	| format winter summer |
 	winter := ZTimestamp year: 2014 month: 1 day: 1 hour: 11 minute: 0 second: 0.
@@ -165,7 +166,7 @@ ZTimestampFormatTests >> testExplicitTimezoneFormatting [
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testFlatDateFormatting [
 	self
 		assert: ((ZTimestampFormat fromString: '20010203') format: (Date year: 1967 month: 8 day: 7))
@@ -178,7 +179,7 @@ ZTimestampFormatTests >> testFlatDateFormatting [
 		equals: '07081967'.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testMonthNames [
 	#(english french german dutch) do: [ :language | | format |
 		format := ZTimestampFormat fromString: '03-February-2001'.
@@ -190,12 +191,12 @@ ZTimestampFormatTests >> testMonthNames [
 				equals: timestamp ] ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testPredefinedFormats [
 	| reference now |
 	reference := ZTimestampFormat reference24.
 	now := DateAndTime now truncated.
-	#(ansiC verbose kitchen clock rfc3339 rfc822 rfc850 unixDate euDate usDate isoDate) 
+	#(ansiC verbose kitchen clock rfc3339 rfc822 rfc850 unixDate euDate usDate isoDate rfc9110) 
 		do: [ :each | | format target |
 			format := ZTimestampFormat perform: each.
 			target := format specification copy replaceAll: $_ with: $ . 
@@ -206,14 +207,14 @@ ZTimestampFormatTests >> testPredefinedFormats [
 				createDateAndTime.
 			self assert: (format parse: (format format: now)) equals: now ].
 	now := ZTimestamp now rounded.
-	#(isoCompact) 
+	#(isoCompact rfc9110 iso) 
 		do: [ :each | | format|
 			format := ZTimestampFormat perform: each.
 			self assert: (format parse: (format format: now)) equals: now ].
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testReferenceDateAndTime [
 	| reference format now |
 	reference := ZTimestampFormat reference12 asDateAndTime.
@@ -232,7 +233,7 @@ ZTimestampFormatTests >> testReferenceDateAndTime [
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testRfc3339 [
 	| now |
 	now := ZTimestamp now rounded.
@@ -256,14 +257,14 @@ ZTimestampFormatTests >> testRfc3339 [
 		equals: ZTimestampFormat reference24.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testTimeCreation [
 	self 
 		assert: ((ZTimestampFormat fromString: '4:05:06PM') createTime; parse: '8:11:12PM')
 		equals: (Time hour: 20 minute: 11 second: 12).	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testTimeFormatting [
 	self
 		assert: ((ZTimestampFormat fromString: '04:05:06') 
@@ -271,7 +272,7 @@ ZTimestampFormatTests >> testTimeFormatting [
 		equals: '11:30:19'.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testTimeParsing [
 	self
 		assert: ((ZTimestampFormat fromString: '04:05:06') createZTimestampDefaultDate111; parse: '11:30:19')
@@ -287,7 +288,7 @@ ZTimestampFormatTests >> testTimeParsing [
 		equals: (ZTimestamp year: 1 month: 1 day: 1 hour: 23 minute: 30 second: 19).
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampFormatTests >> testTransitionFormatting [
 	| t1 t2 |
 	t1 := ZTimestamp fromUnixTime: 1679792400. "winter->summer"
@@ -311,7 +312,7 @@ ZTimestampFormatTests >> testTransitionFormatting [
  ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampFormatTests >> testWeekdayNames [
 	| timestamp |
 	timestamp := ZTimestamp year: 2012 month: 11 day: 3. 

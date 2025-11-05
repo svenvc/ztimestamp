@@ -2,12 +2,13 @@
 I am ZTimestampTests, a test suite for ZTimestamp.
 "
 Class {
-	#name : #ZTimestampTests,
-	#superclass : #TestCase,
-	#category : #'ZTimestamp-Tests'
+	#name : 'ZTimestampTests',
+	#superclass : 'TestCase',
+	#category : 'ZTimestamp-Tests',
+	#package : 'ZTimestamp-Tests'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampTests class >> lunarLanding [
 	"First manned lunar landing, Apollo 11, Mare Tranquillitatis"
 	
@@ -16,7 +17,7 @@ ZTimestampTests class >> lunarLanding [
 	^ ZTimestamp fromString: '1969-07-20T20:17:40Z'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampTests class >> marsLanding [
 	"First unmanned soft Mars landing, Viking 1, Chryse Planitia"
 	
@@ -25,7 +26,7 @@ ZTimestampTests class >> marsLanding [
 	^ ZTimestamp fromString: '1979-07-20T11:53:06Z'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampTests class >> unixTimeBillenium [
 	"1 billion seconds since the Unix Epoch"
 	
@@ -34,7 +35,7 @@ ZTimestampTests class >> unixTimeBillenium [
 	^ ZTimestamp fromString: '2001-09-09T01:46:40Z'.
 ]
 
-{ #category : #asserting }
+{ #category : 'asserting' }
 ZTimestampTests >> assertInvariants: timestamp [
 	self assert: (timestamp isKindOf: ZTimestamp).
 	self assert: timestamp julianDayNumber isInteger.
@@ -42,7 +43,7 @@ ZTimestampTests >> assertInvariants: timestamp [
 	self assert: timestamp offset = Duration zero
 ]
 
-{ #category : #asserting }
+{ #category : 'asserting' }
 ZTimestampTests >> assertTimestamp: timestamp equalsTimestamp: reference [ 
 	self assert: reference julianDayNumber = timestamp julianDayNumber.
 	"Let's try to stay compatible between different Pharo versions, it is just for testing anyway"
@@ -60,17 +61,17 @@ ZTimestampTests >> assertTimestamp: timestamp equalsTimestamp: reference [
 	self assert: reference second = timestamp second
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampTests >> lunarLanding [
 	^ self class lunarLanding
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampTests >> marsLanding [
 	^ self class marsLanding
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testAddingOneDay [
 	| t1 t2 |
 	t1 := ZTimestamp year: 2012 month: 8 day: 7 hour: 14 minute: 20 second: 11.
@@ -79,7 +80,7 @@ ZTimestampTests >> testAddingOneDay [
 	self assert: (t1 + 1 day) equals: t2.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testAddingOneHour [
 	| t1 t2 |
 	t1 := ZTimestamp year: 2012 month: 8 day: 7 hour: 14 minute: 20 second: 11.
@@ -88,14 +89,14 @@ ZTimestampTests >> testAddingOneHour [
 	self assert: (t1 + 1 hour) equals: t2.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testAt [
 	self assert: ZTimestamp @ '1969-07-20T20:17:40Z' equals: self lunarLanding.
 	self assert: ZTimestamp @ '19690720T201740' equals: self lunarLanding.
 	self assert: ZTimestamp @ '19690720' equals: self lunarLanding asBeginOfDay
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testBasicFieldAccessors [
 	| timestamp |
 	timestamp := ZTimestamp year: 2012 month: 4 day: 20 hour: 15 minute: 50 second: 10.
@@ -107,14 +108,14 @@ ZTimestampTests >> testBasicFieldAccessors [
 	self assert: timestamp seconds equals: 10	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testBeginOfDay [
 	| timestamp |
 	timestamp := ZTimestamp year: 2012 month: 4 day: 20 hour: 15 minute: 50 second: 10.
 	self assert: timestamp asBeginOfDay equals: (ZTimestamp year: 2012 month: 4 day: 20)
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testCalculations [
 	| delta |
 	delta := self marsLanding - self lunarLanding.
@@ -123,14 +124,14 @@ ZTimestampTests >> testCalculations [
 	self assert: self marsLanding - delta equals: self lunarLanding
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testComparing [
 	self assertInvariants: self marsLanding.
 	self deny: self lunarLanding = self marsLanding.
 	self assert: self lunarLanding < self marsLanding.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testConversions [
 	| timestamp |
 	timestamp := ZTimestamp year: 2012 month: 4 day: 20 hour: 15 minute: 50 second: 10.
@@ -153,7 +154,7 @@ ZTimestampTests >> testConversions [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testCreationWithAllFields [
 	| reference timestamp |
 	reference := DateAndTime 
@@ -175,7 +176,7 @@ ZTimestampTests >> testCreationWithAllFields [
 	self assertTimestamp: reference equalsTimestamp: timestamp
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testCreationWithDateFields [
 	| reference timestamp |
 	reference := DateAndTime 
@@ -194,7 +195,7 @@ ZTimestampTests >> testCreationWithDateFields [
 	self assertTimestamp: reference equalsTimestamp: timestamp
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testDateError [
 	| exceptionClass |
 	exceptionClass := Smalltalk at: #DateError ifAbsent: [ Error ].
@@ -202,14 +203,14 @@ ZTimestampTests >> testDateError [
 	self should: [ ZTimestamp year: 2018 month: 4 day: 31 ] raise: exceptionClass.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testEndOfDay [
 	| timestamp |
 	timestamp := ZTimestamp year: 2012 month: 4 day: 20 hour: 15 minute: 50 second: 10.
 	self assert: timestamp asEndOfDay equals: (ZTimestamp year: 2012 month: 4 day: 20 hour: 23 minute: 59 second: 59 nanoSecond: 1e9 - 1)
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testEpoch [
 	| epoch |
 	epoch := ZTimestamp epoch.
@@ -223,7 +224,7 @@ ZTimestampTests >> testEpoch [
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testEquality [
 	| t1 t2 now |
 	t1 := ZTimestamp year: 2012 month: 8 day: 7 hour: 14 minute: 20 second: 11.
@@ -234,7 +235,7 @@ ZTimestampTests >> testEquality [
 	self assert: ZTimestamp unixEpoch equals: ZTimestamp unixEpoch.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testFormatting [
 	| timestamp formatter |
 	timestamp := ZTimestamp year: 2012 month: 4 day: 20 hour: 15 minute: 50 second: 10.
@@ -247,7 +248,7 @@ ZTimestampTests >> testFormatting [
 	self assert: (formatter value: #($- $T $: nil)) equals: '2012-04-20T15:50:10'.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testHashing [
 	| array set now |
 	now := ZTimestamp now.
@@ -262,7 +263,7 @@ ZTimestampTests >> testHashing [
 		self assert: (set includes: each) ].
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testJulianDate [
 	| now julianDate |
 	now := ZTimestamp now.
@@ -270,7 +271,7 @@ ZTimestampTests >> testJulianDate [
 	self assert: (ZTimestamp fromJulianDate: julianDate) - now < 1 second
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testLunarLanding [
 	| timestamp |
 	timestamp := self lunarLanding.
@@ -280,7 +281,7 @@ ZTimestampTests >> testLunarLanding [
 	self assert: timestamp dayOfYear equals: 201.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testMixedCalculations [
 	| now delta |
 	now := DateAndTime now truncated asUTC.
@@ -292,12 +293,12 @@ ZTimestampTests >> testMixedCalculations [
 	self assert: (now - delta) equals: self lunarLanding asDateAndTime
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testNow [
 	self assertInvariants: ZTimestamp now
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testOneDayDifference [
 	| t1 t2 |
 	t1 := ZTimestamp year: 2012 month: 8 day: 7 hour: 14 minute: 20 second: 11.
@@ -306,7 +307,7 @@ ZTimestampTests >> testOneDayDifference [
 	self assert: (t2 - t1) equals: 1 day
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testOneHourDifference [
 	| t1 t2 |
 	t1 := ZTimestamp year: 2012 month: 8 day: 7 hour: 14 minute: 20 second: 11.
@@ -315,7 +316,7 @@ ZTimestampTests >> testOneHourDifference [
 	self assert: (t2 - t1) equals: 1 hour.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testOptionalTimezoneParsing [
 	#( 
 		'1969-07-20T20:17:40Z'
@@ -336,14 +337,14 @@ ZTimestampTests >> testOptionalTimezoneParsing [
 		self assert: (ZTimestamp fromString: each) equals: self lunarLanding ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testParseEpoch [
 	| epoch |
 	epoch := ZTimestamp epoch.
 	self assert: (ZTimestamp fromString: epoch asString) equals: epoch
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testParsing [
 	| timestamp |
 	timestamp := ZTimestamp year: 2012 month: 8 day: 7 hour: 14 minute: 20 second: 11.
@@ -356,7 +357,7 @@ ZTimestampTests >> testParsing [
 	self assert: (ZTimestamp readFrom: '2012-08-07T12:20:11-02:00' readStream) equals: timestamp.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testParsingDates [
 	| timestamp |
 	timestamp := ZTimestamp year: 2012 month: 8 day: 7.
@@ -364,12 +365,12 @@ ZTimestampTests >> testParsingDates [
 	self assert: (ZTimestamp readFrom: '20120807' readStream) equals: timestamp.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testParsingError [
 	self should: [ ZTimestamp fromString: '45451-09-06T11:01:07Z' ] raise: Error
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testParsingReducedAccuracy [
 	| timestamp |
 	timestamp := ZTimestamp year: 2012 month: 8 day: 7.
@@ -388,7 +389,7 @@ ZTimestampTests >> testParsingReducedAccuracy [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testPrintString [
 	| timestamp |
 	timestamp := ZTimestamp year: 2012 month: 4 day: 20 hour: 15 minute: 50 second: 10.
@@ -397,7 +398,7 @@ ZTimestampTests >> testPrintString [
 	self assert: timestamp printString equals: '-0012-04-20T15:50:10Z'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testRoundedAndTruncated [
 	| timestamp |
 	timestamp := ZTimestamp now.
@@ -428,7 +429,7 @@ ZTimestampTests >> testRoundedAndTruncated [
 	self assert: timestamp truncated printString equals: '2021-11-17T13:11:56Z'.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testSTON [
 	Smalltalk at: #STON ifPresent: [ :ston | 
 		| now |
@@ -438,7 +439,7 @@ ZTimestampTests >> testSTON [
 			equals: now ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testSorting [
 	| array sorted now |
 	now := ZTimestamp now.
@@ -448,7 +449,7 @@ ZTimestampTests >> testSorting [
 	self assert: sorted last equals: now
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testStringAsZTimestamp [
 	self assert: '1969-07-20T20:17:40Z' asZTimestamp equals: self lunarLanding. 
 	self assert: '1969/07/20 20:17:40+00:00' asZTimestamp equals: self lunarLanding. 
@@ -456,7 +457,7 @@ ZTimestampTests >> testStringAsZTimestamp [
 	self assert: '19690720' asZTimestamp equals: self lunarLanding asBeginOfDay 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testTimezoneFormatting [
 	| timestamp formatter |
 	timestamp := ZTimestamp year: 2012 month: 4 day: 20 hour: 15 minute: 50 second: 10.
@@ -470,12 +471,12 @@ ZTimestampTests >> testTimezoneFormatting [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testToday [
 	self assert: ZTimestamp today secondsSinceMidnight isZero
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testUnixTime [
 	| timestamp billenium |
 	timestamp := ZTimestamp fromUnixTime: 1000000000.
@@ -484,7 +485,7 @@ ZTimestampTests >> testUnixTime [
 	self assert: billenium asUnixTime equals: 1000000000
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZTimestampTests >> testZTimestampFormatting [
 	| timestamp |
 	timestamp := self lunarLanding.
@@ -497,7 +498,7 @@ ZTimestampTests >> testZTimestampFormatting [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampTests >> unixTimeBillenium [
 	^ self class unixTimeBillenium
 ]

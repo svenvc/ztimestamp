@@ -21,16 +21,17 @@ See
 	http://tools.ietf.org/html/rfc2030
 "
 Class {
-	#name : #ZTimestampSNTPClient,
-	#superclass : #Object,
+	#name : 'ZTimestampSNTPClient',
+	#superclass : 'Object',
 	#instVars : [
 		'socket',
 		'serverAddress'
 	],
-	#category : #'ZTimestamp-Core'
+	#category : 'ZTimestamp-Core',
+	#package : 'ZTimestamp-Core'
 }
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 ZTimestampSNTPClient class >> logClockDifferenceLargerThan: duration [
 	"self logClockDifferenceLargerThan: 1 second"
 	
@@ -41,7 +42,7 @@ ZTimestampSNTPClient class >> logClockDifferenceLargerThan: duration [
 		close
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 ZTimestampSNTPClient >> clockDifference [
 	"Return a Duration expressing the difference between the remote and local clocks"
 	
@@ -50,12 +51,12 @@ ZTimestampSNTPClient >> clockDifference [
 	^ self remoteClock - now
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 ZTimestampSNTPClient >> close [
 	socket close
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 ZTimestampSNTPClient >> enforceClockDifference: duration ifFail: block [ 
 	"Check the difference between the remote and local clock,
 	and execute block if it is larger than duration."
@@ -66,23 +67,23 @@ ZTimestampSNTPClient >> enforceClockDifference: duration ifFail: block [
 		ifTrue: [ block cull: difference ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampSNTPClient >> fractionalSecondsAt: offset in: bytes [
 	^ (bytes copyFrom: offset to: offset + 3) asInteger / (2 raisedToInteger: 32)
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampSNTPClient >> fullSecondsAt: offset in: bytes [
 	^ (bytes copyFrom: offset to: offset + 3) asInteger
 ]
 
-{ #category : #'initialize-release' }
+{ #category : 'initialize-release' }
 ZTimestampSNTPClient >> initialize [
 	socket := Socket newUDP.
 	serverAddress := self ntpServerAddress 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampSNTPClient >> interpretResult: bytes t0: t0 t1: t1 [
 	| t2 t3 |
 	t2 := self timestampAt: self receiveOffset in: bytes.
@@ -94,7 +95,7 @@ ZTimestampSNTPClient >> interpretResult: bytes t0: t0 t1: t1 [
 		#datagram. bytes }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 ZTimestampSNTPClient >> localClockOffset [
 	"Return a Delay representing the local clock offiset 
 	as computed using the NTP clock synchronization algorithm"
@@ -104,37 +105,37 @@ ZTimestampSNTPClient >> localClockOffset [
 	^ result at: #localClockOffset
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampSNTPClient >> now [
 	^ ZTimestamp now
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampSNTPClient >> ntpEpoch [
 	^ ZTimestamp year: 1900 month: 1 day: 1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampSNTPClient >> ntpPort [
 	^ 123
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampSNTPClient >> ntpServerAddress [
 	^ NetNameResolver addressForName: self ntpServerHostname 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZTimestampSNTPClient >> ntpServerHostname [
 	^ '0123' atRandom asString, '.pool.ntp.org'
 ]
 
-{ #category : #constants }
+{ #category : 'constants' }
 ZTimestampSNTPClient >> originateOffset [
 	^ 25
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampSNTPClient >> receiveDatagram: bytes [
 	50 timesRepeat: [ 
 		((socket receiveUDPDataInto: bytes) at: 1) > 0
@@ -142,17 +143,17 @@ ZTimestampSNTPClient >> receiveDatagram: bytes [
 		(Delay forMilliseconds: 5) wait ]
 ]
 
-{ #category : #constants }
+{ #category : 'constants' }
 ZTimestampSNTPClient >> receiveOffset [
 	^ 33
 ]
 
-{ #category : #constants }
+{ #category : 'constants' }
 ZTimestampSNTPClient >> referenceOffset [
 	^ 17
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 ZTimestampSNTPClient >> remoteClock [
 	"Return a timstamp with the value of the remote clock,
 	more specifically the transmit timestamp of the NTP server"
@@ -162,7 +163,7 @@ ZTimestampSNTPClient >> remoteClock [
 	^ result at: #timestamp
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampSNTPClient >> requestDatagram: now [
 	| bytes |
 	bytes := ByteArray new: 48.
@@ -174,7 +175,7 @@ ZTimestampSNTPClient >> requestDatagram: now [
 	^ bytes
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 ZTimestampSNTPClient >> roundtripDelay [
 	"Return the round trip delay
 	as computed using the NTP clock synchronization algorithm"
@@ -184,7 +185,7 @@ ZTimestampSNTPClient >> roundtripDelay [
 	^ result at: #roundtripDelay
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 ZTimestampSNTPClient >> sync [
 	"Contact an NTP server and return a processed result,
 	a Dictionary holding a #timestamp, #roundTripDelay, #localClockOffset and #datagram"
@@ -199,7 +200,7 @@ ZTimestampSNTPClient >> sync [
 	^ self interpretResult: result t0: t0 t1: t1
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampSNTPClient >> timestampAt: offset in: bytes [
 	| seconds fractions |
 	seconds := self fullSecondsAt: offset in: bytes.	
@@ -207,12 +208,12 @@ ZTimestampSNTPClient >> timestampAt: offset in: bytes [
 	^ self timestampFromSeconds: seconds fraction: fractions
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZTimestampSNTPClient >> timestampFromSeconds: seconds fraction: fraction [
 	^ self ntpEpoch + seconds seconds + (fraction * (10 raisedToInteger: 9)) nanoSeconds
 ]
 
-{ #category : #constants }
+{ #category : 'constants' }
 ZTimestampSNTPClient >> transmitOffset [
 	^ 41
 ]

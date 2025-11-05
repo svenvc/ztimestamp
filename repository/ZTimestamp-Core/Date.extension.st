@@ -1,6 +1,6 @@
-Extension { #name : #Date }
+Extension { #name : 'Date' }
 
-{ #category : #'*ZTimestamp-Core' }
+{ #category : '*ZTimestamp-Core' }
 Date >> asZTimestamp [
 	"Convert the receiver to a ZTimestamp.
 	Note that we are ignoring timezone information 

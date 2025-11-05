@@ -1,1 +1,1 @@
-Package { #name : #'ZTimestamp-Tests' }
+Package { #name : 'ZTimestamp-Tests' }

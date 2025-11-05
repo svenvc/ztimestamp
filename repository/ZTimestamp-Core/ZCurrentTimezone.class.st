@@ -18,12 +18,13 @@ Any object that responds to #offsetForTimestamp: can be a timezone.
 
 "
 Class {
-	#name : #ZCurrentTimezone,
-	#superclass : #DynamicVariable,
-	#category : #'ZTimestamp-Core'
+	#name : 'ZCurrentTimezone',
+	#superclass : 'DynamicVariable',
+	#category : 'ZTimestamp-Core',
+	#package : 'ZTimestamp-Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZCurrentTimezone >> default [
 	^ ZTimezone current
 ]

@@ -7,17 +7,18 @@ I know whether daylight saving time is in use or not.
 See ZTimezone
 "
 Class {
-	#name : #ZSubTimezone,
-	#superclass : #Object,
+	#name : 'ZSubTimezone',
+	#superclass : 'Object',
 	#instVars : [
 		'abbreviation',
 		'offset',
 		'isDaylightSaving'
 	],
-	#category : #'ZTimestamp-Core'
+	#category : 'ZTimestamp-Core',
+	#package : 'ZTimestamp-Core'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ZSubTimezone class >> abbreviation: string offset: integer dst: boolean [
 	^ self new
 		abbreviation: string;
@@ -26,48 +27,48 @@ ZSubTimezone class >> abbreviation: string offset: integer dst: boolean [
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ZSubTimezone class >> gmt [
 	^ self abbreviation: #GMT offset: 0 dst: false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZSubTimezone >> abbreviation [
 	^ abbreviation
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZSubTimezone >> abbreviation: string [
 	abbreviation := string asSymbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZSubTimezone >> description [
 	^ String streamContents: [ :out |
 		self printDetailsOn: out ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZSubTimezone >> isDaylightSaving [
 	^ isDaylightSaving
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZSubTimezone >> isDaylightSaving: boolean [
 	isDaylightSaving := boolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZSubTimezone >> offset [
 	^ offset
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZSubTimezone >> offset: integer [
 	offset := integer asDuration
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 ZSubTimezone >> printDetailsOn: stream [
 	stream
 		<< abbreviation;
@@ -76,7 +77,7 @@ ZSubTimezone >> printDetailsOn: stream [
 	isDaylightSaving ifTrue: [ stream << ' DST' ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 ZSubTimezone >> printOn: stream [
 	super printOn: stream.
 	stream nextPut: $(.

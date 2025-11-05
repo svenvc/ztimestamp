@@ -1,6 +1,6 @@
-Extension { #name : #Duration }
+Extension { #name : 'Duration' }
 
-{ #category : #'*ZTimestamp-Core' }
+{ #category : '*ZTimestamp-Core' }
 Duration >> subtractFromTimestamp: timestamp [
 	"Part of the double dispatch implementation of ZTimestamp>>#-"
 	

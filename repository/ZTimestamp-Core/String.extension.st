@@ -1,6 +1,6 @@
-Extension { #name : #String }
+Extension { #name : 'String' }
 
-{ #category : #'*ZTimestamp-Core' }
+{ #category : '*ZTimestamp-Core' }
 String >> asZTimestamp [
 	"Try parsing me into a ZTimestamp and return it. 
 	A flexible ISO 8601 representation is supported."
