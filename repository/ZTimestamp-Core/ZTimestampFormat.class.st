@@ -32,6 +32,7 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'specification',
+		'elements',
 		'formatter',
 		'parser',
 		'constructor',
@@ -371,21 +372,14 @@ ZTimestampFormat >> actualOffsetForTimestamp: timestamp [
 
 { #category : 'private' }
 ZTimestampFormat >> compileSpecification [
-	| elements |
-	elements := self specificationElements.
-	formatter := elements
-			collect: [ :each | 
-				each isCharacter 
-					ifTrue: [ each ] 
-					ifFalse: [
-						(each beginsWith: #timeZone)
-							ifTrue: [ (#format: , each , #'On:usingOffset:') asSymbol ]
-							ifFalse: [ (#format: , each , #On:) asSymbol ] ] ].
-	parser := elements
-			collect: [ :each | 
-				each isCharacter
-					ifTrue: [ each ]
-					ifFalse: [ (#parse , each capitalized , #From:) asSymbol ] ]
+	elements := self elementsFromSpecification.
+	formatter := self formatterFromElements.
+	parser := self parserFromElements
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> constant: character [
+	self elements add: character
 ]
 
 { #category : 'accessing' }
@@ -433,16 +427,16 @@ ZTimestampFormat >> createDateAndTime [
 ]
 
 { #category : 'private' }
-ZTimestampFormat >> createInstanceFrom: elements [
-	elements 
+ZTimestampFormat >> createInstanceFrom: elementValues [
+	elementValues 
 		at: #daypart 
 		ifPresent: [ :daypart | | hour |
-			hour :=  elements at: #hour.
+			hour :=  elementValues at: #hour.
 			(daypart = #pm and: [ hour < 12 ])
-				ifTrue: [ elements at: #hour put: hour + 12 ].
+				ifTrue: [ elementValues at: #hour put: hour + 12 ].
 			(daypart = #am and: [ hour = 12 ])
-				ifTrue: [ elements at: #hour put: 0 ] ].
-	^ self constructor value: elements
+				ifTrue: [ elementValues at: #hour put: 0 ] ].
+	^ self constructor value: elementValues
 ]
 
 { #category : 'initialize-release' }
@@ -496,6 +490,31 @@ ZTimestampFormat >> createZTimestampDefaultDate111 [
 			ifFalse: [ self localToGmt: timestamp ] ]
 ]
 
+{ #category : 'elements' }
+ZTimestampFormat >> day [
+	self elements add: #day
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> dayTwoDigits [
+	self elements add: #dayTwoDigits
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> dayTwoDigitsSpacePadded [
+	self elements add: #dayTwoDigitsSpacePadded
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> daypartLowercased [
+	self elements add: #daypartLowercased
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> daypartUppercased [
+	self elements add: #daypartUppercased
+]
+
 { #category : 'initialize-release' }
 ZTimestampFormat >> dutch [
 	self monthNames: #( 
@@ -503,6 +522,26 @@ ZTimestampFormat >> dutch [
 		'Juli' 'Augustus' 'September' 'Oktober' 'November' 'December' ).
 	self weekdayNames: #( 
 		'Zondag' 'Maandag' 'Dinsdag' 'Woensdag' 'Donderdag' 'Vrijdag' 'Zaterdag' )
+]
+
+{ #category : 'accessing' }
+ZTimestampFormat >> elements [
+	^ elements ifNil: [ elements := OrderedCollection new ]
+]
+
+{ #category : 'private' }
+ZTimestampFormat >> elementsFromSpecification [
+	| offset |
+	^ Array
+		streamContents: [ :stream | 
+			offset := 1.
+			[ offset <= specification size ]
+				whileTrue: [ (self nextFormatKeyStartingAt: offset)
+						ifNotNil: [ :formatKey | 
+							stream nextPut: (self class formats at: formatKey).
+							offset := offset + formatKey size ]
+						ifNil: [ stream nextPut: (specification at: offset).
+							offset := offset + 1 ] ] ]
 ]
 
 { #category : 'initialize-release' }
@@ -649,7 +688,7 @@ ZTimestampFormat >> format: object on: stream [
 	| local offset|
 	local := self gmtToLocal: object.
 	offset := self actualOffsetForTimestamp: object.
-	formatter do: [ :each |
+	self formatter do: [ :each |
 		each isCharacter 
 			ifTrue: [ stream nextPut: each ] 
 			ifFalse: [ 
@@ -800,7 +839,18 @@ ZTimestampFormat >> formatter [
 	"Return my compiled formatter, which is based on my specification.
 	The is a collection of formatter methods to invoke with optional separator characters"
 	
-	^ formatter
+	^ formatter ifNil: [ formatter := self formatterFromElements ]
+]
+
+{ #category : 'private' }
+ZTimestampFormat >> formatterFromElements [
+	^ elements collect: [ :each | 
+		each isCharacter 
+			ifTrue: [ each ] 
+			ifFalse: [
+				(each beginsWith: #timeZone)
+					ifTrue: [ (#format: , each , #'On:usingOffset:') asSymbol ]
+					ifFalse: [ (#format: , each , #On:) asSymbol ] ] ]
 ]
 
 { #category : 'initialize-release' }
@@ -828,6 +878,21 @@ ZTimestampFormat >> gmtToLocal: timestamp [
 		ifNotNil: [ :actualTimezone | actualTimezone gmtToLocal: timestamp ]
 ]
 
+{ #category : 'elements' }
+ZTimestampFormat >> hour12 [
+	self elements add: #hour12
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> hour12TwoDigits [
+	self elements add: #hour12TwoDigits
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> hour24TwoDigits [
+	self elements add: #hour24TwoDigits
+]
+
 { #category : 'initialize-release' }
 ZTimestampFormat >> initialize [ 
 	super initialize.
@@ -841,6 +906,51 @@ ZTimestampFormat >> localToGmt: timestamp [
 		ifNotNil: [ :actualTimezone | actualTimezone localToGmt: timestamp ]
 ]
 
+{ #category : 'elements' }
+ZTimestampFormat >> minute [
+	self elements add: #minute
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> minuteTwoDigits [
+	self elements add: #minuteTwoDigits
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> month [
+	self elements add: #month
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> monthNameAbbreviatedCapitalized [
+	self elements add: #monthNameAbbreviatedCapitalized
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> monthNameAbbreviatedLowercased [
+	self elements add: #monthNameAbbreviatedLowercased
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> monthNameAbbreviatedUppercased [
+	self elements add: #monthNameAbbreviatedUppercased
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> monthNameCapitalized [
+	self elements add: #monthNameCapitalized
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> monthNameLowercased [
+	self elements add: #monthNameLowercased
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> monthNameUppercased [
+	self elements add: #monthNameUppercased
+]
+
 { #category : 'accessing' }
 ZTimestampFormat >> monthNames [
 	^ monthNames
@@ -849,6 +959,16 @@ ZTimestampFormat >> monthNames [
 { #category : 'accessing' }
 ZTimestampFormat >> monthNames: anObject [
 	monthNames := anObject
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> monthTwoDigits [
+	self elements add: #monthTwoDigits
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> nanosecond [
+	self elements add: #nanosecond
 ]
 
 { #category : 'private' }
@@ -1136,7 +1256,15 @@ ZTimestampFormat >> parser [
 	"Return my compiled parser, which is based on my specification.
 	The is a collection of parser methods to invoke with optional separator characters"
 
-	^ parser
+	^ parser ifNil: [ parser := self parserFromElements ]
+]
+
+{ #category : 'private' }
+ZTimestampFormat >> parserFromElements [
+	^ elements collect: [ :each | 
+		 each isCharacter
+			ifTrue: [ each ]
+			ifFalse: [ (#parse , each capitalized , #From:) asSymbol ] ]
 ]
 
 { #category : 'printing' }
@@ -1176,13 +1304,13 @@ ZTimestampFormat >> readAny: strings from: stream [
 ZTimestampFormat >> readFrom: stream [
 	"Parse stream according to my specification and return an instance as created by my constructor"
 
-	| elements |
-	elements := SmallDictionary new.
-	parser do: [ :each |
+	| elementValues |
+	elementValues := SmallDictionary new.
+	self parser do: [ :each |
 		each isCharacter 
 			ifTrue: [ self assert: stream next = each ]
-			ifFalse: [ elements add: (self perform: each with: stream) ] ].
-	^ self createInstanceFrom: elements
+			ifFalse: [ elementValues add: (self perform: each with: stream) ] ].
+	^ self createInstanceFrom: elementValues
 ]
 
 { #category : 'private' }
@@ -1230,6 +1358,16 @@ ZTimestampFormat >> readInteger: numberOfDigits optionalSpaceFrom: stream [
 			self readInteger: numberOfDigits from: stream ]
 ]
 
+{ #category : 'elements' }
+ZTimestampFormat >> second [
+	self elements add: #second
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> secondTwoDigits [
+	self elements add: #secondTwoDigits
+]
+
 { #category : 'accessing' }
 ZTimestampFormat >> specification [
 	^ specification 
@@ -1245,21 +1383,6 @@ ZTimestampFormat >> specification: exampleString [
 ]
 
 { #category : 'private' }
-ZTimestampFormat >> specificationElements [
-	| offset |
-	^ Array
-		streamContents: [ :stream | 
-			offset := 1.
-			[ offset <= specification size ]
-				whileTrue: [ (self nextFormatKeyStartingAt: offset)
-						ifNotNil: [ :formatKey | 
-							stream nextPut: (self class formats at: formatKey).
-							offset := offset + formatKey size ]
-						ifNil: [ stream nextPut: (specification at: offset).
-							offset := offset + 1 ] ] ]
-]
-
-{ #category : 'private' }
 ZTimestampFormat >> string: string contains: subString startingAt: offset [
 	subString doWithIndex: [ :each :index |
 		offset + index - 1 <= string size 
@@ -1267,6 +1390,26 @@ ZTimestampFormat >> string: string contains: subString startingAt: offset [
 		(string at: offset + index - 1) = each
 			ifFalse: [ ^ false ] ].
 	^ true
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> timeZone [
+	self elements add: #timeZone
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> timeZoneAbbreviated [
+	self elements add: #timeZoneAbbreviated
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> timeZoneAbbreviatedLong [
+	self elements add: #timeZoneAbbreviatedLong
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> timeZoneZ [
+	self elements add: #timeZoneZ
 ]
 
 { #category : 'accessing' }
@@ -1292,6 +1435,36 @@ ZTimestampFormat >> useCurrentTimezone [
 	self timezone: ZCurrentTimezone
 ]
 
+{ #category : 'elements' }
+ZTimestampFormat >> weekdayNameAbbreviatedCapitalized [
+	self elements add: #weekdayNameAbbreviatedCapitalized
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> weekdayNameAbbreviatedLowercased [
+	self elements add: #weekdayNameAbbreviatedLowercased
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> weekdayNameAbbreviatedUppercased [
+	self elements add: #weekdayNameAbbreviatedUppercased
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> weekdayNameCapitalized [
+	self elements add: #weekdayNameCapitalized
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> weekdayNameLowercased [
+	self elements add: #weekdayNameLowercased
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> weekdayNameUppercased [
+	self elements add: #weekdayNameUppercased
+]
+
 { #category : 'accessing' }
 ZTimestampFormat >> weekdayNames [
 	^ weekdayNames
@@ -1300,4 +1473,19 @@ ZTimestampFormat >> weekdayNames [
 { #category : 'accessing' }
 ZTimestampFormat >> weekdayNames: anObject [
 	weekdayNames := anObject
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> yearFourDigits [
+	self elements add: #yearFourDigits
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> yearFull [
+	self elements add: #yearFull
+]
+
+{ #category : 'elements' }
+ZTimestampFormat >> yearTwoDigits [
+	self elements add: #yearTwoDigits
 ]

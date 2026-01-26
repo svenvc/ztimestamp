@@ -180,6 +180,26 @@ ZTimestampFormatTests >> testFlatDateFormatting [
 ]
 
 { #category : 'testing' }
+ZTimestampFormatTests >> testIsoByElements [
+	| formatter isoFormatter now string timestamp |
+	formatter := ZTimestampFormat new.
+	isoFormatter := ZTimestampFormat iso.
+
+	formatter 
+		yearFourDigits; constant: $-; monthTwoDigits; constant: $-; dayTwoDigits; 
+		constant: $T;
+		hour24TwoDigits; constant: $:; minuteTwoDigits; constant: $:; secondTwoDigits;
+		timeZoneZ.
+
+	now := ZTimestamp now truncated.
+	self assert: (formatter format: now) equals: (isoFormatter format: now).
+	string := formatter format: now.
+	self assert: (formatter parse: string) equals: (isoFormatter parse: string).
+	timestamp := formatter parse: string.
+	self assert: timestamp equals: now
+]
+
+{ #category : 'testing' }
 ZTimestampFormatTests >> testMonthNames [
 	#(english french german dutch) do: [ :language | | format |
 		format := ZTimestampFormat fromString: '03-February-2001'.
