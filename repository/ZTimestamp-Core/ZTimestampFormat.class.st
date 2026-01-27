@@ -1,16 +1,21 @@
 "
 I am ZTimestampFormat, an implementation of a textual representation for a timestamp, date or time that can be used for formatting or parsing.
 
-You instanciate me by specifying the textual format by example, based on a #reference timetamp. 
+You instanciate me by specifying the textual format by example, based on a #reference24 or #reference12 timetamp. 
+
 Each component of the example representation is numbered from largest to smallest unit:
+
 	1=year
 	2=month
 	3=dayInMonth
 	4=hour (16 in 24 hour format)
 	5=minute
 	6=second
+
 as in the ISO representation: 
+
 	2001-02-03T16:05:06Z which is a Saterday. 
+
 Example format strings can be found in my class accessing protocol or in the unit tests.
 
 To specifiy a format, you write the reference date so that it matches the representation that you want.
@@ -23,9 +28,27 @@ I can be used for unabiguous, stricter parsing as well.
 	(ZTimestampFormat fromString: '02/03/01 (16:05:06)')
 		parse: '10/10/10 (12:01:01)'.
 		
-The list of possible keys and their interpretation #formatSpecifications.
+The list of possible keys and their interpretation is defined in #formatSpecifications.
 I can translate month and weekday names to 4 different languages, English, French, German and Dutch.
 I can optionally use a timezone to convert UTC/GMT/Zulu timestamps to local time.
+
+Additionally I can be build directly from #formatElements using methods from my elements protocol.
+The following are equivalent, the first one specified by an example, the second one constructed.
+
+	ZTimestampFormat isoDate.
+	ZTimestampFormat new yearFourDigits; constant: $/; monthTwoDigits; constant: $/; dayTwoDigits.
+
+In the internal implementation there is a direct, one to one mapping between the following:
+
+ - the format key '2'
+ - the format value #month
+ - the specification substring '2'
+ - the element #month
+ - the formatter #formatMonth:on:
+ - the parser #parseMonthFrom:
+
+The constructor element value key #month is used for all month variants, #month, #momthTwoDigits and #monthName[Abbreviated][Capitalized|Uppercased|Lowercased] since they all lead to the same month number.
+
 "
 Class {
 	#name : 'ZTimestampFormat',
@@ -106,6 +129,19 @@ ZTimestampFormat class >> euDate [
 	<gtExample>
 
 	^ self fromString: '03/02/2001'
+]
+
+{ #category : 'accessing' }
+ZTimestampFormat class >> formatElements [
+	"Return the collection of recognized format elements.
+	For each element there is a corresponding builder method in the elements protocol."
+	
+	^ Formats values sort
+	
+"self formatElements collect: [ :each | | sourceCode |
+	sourceCode := '{1}
+	self elements add: #{1}' format: { each }.
+	ZTimestampFormat compile: sourceCode classified: 'elements' ]."
 ]
 
 { #category : 'accessing' }
@@ -399,29 +435,29 @@ ZTimestampFormat >> constructor: block [
 ZTimestampFormat >> createDate [
 	"Configure me to create Date instances when parsing"
 	
-	self constructor: [ :elements | 
+	self constructor: [ :elementValues | 
 		Date 
-			year: (elements at: #year ifAbsent: [ 0 ]) 
-			month: (elements at: #month ifAbsent: [ 0 ])  
-			day: (elements at: #day ifAbsent: [ 0 ]) ]
+			year: (elementValues at: #year ifAbsent: [ 0 ]) 
+			month: (elementValues at: #month ifAbsent: [ 0 ])  
+			day: (elementValues at: #day ifAbsent: [ 0 ]) ]
 ]
 
 { #category : 'initialize-release' }
 ZTimestampFormat >> createDateAndTime [
 	"Configure me to create DateAndTime instances when parsing"
 
-	self constructor: [ :elements | 
+	self constructor: [ :elementValues | 
 		| timestamp |
 		timestamp := DateAndTime 
-			year: (elements at: #year ifAbsent: [ 0 ]) 
-			month: (elements at: #month ifAbsent: [ 0 ])  
-			day: (elements at: #day ifAbsent: [ 0 ])  
-			hour: (elements at: #hour ifAbsent: [ 0 ]) 
-			minute: (elements at: #minute ifAbsent: [ 0 ])  
-			second: (elements at: #second ifAbsent: [ 0 ]) 
-			nanoSecond: (elements at: #nanosecond ifAbsent: [ 0 ])
-			offset: (elements at: #offset ifAbsent: [ Duration zero ]).
-		(elements includesKey: #offset)
+			year: (elementValues at: #year ifAbsent: [ 0 ]) 
+			month: (elementValues at: #month ifAbsent: [ 0 ])  
+			day: (elementValues at: #day ifAbsent: [ 0 ])  
+			hour: (elementValues at: #hour ifAbsent: [ 0 ]) 
+			minute: (elementValues at: #minute ifAbsent: [ 0 ])  
+			second: (elementValues at: #second ifAbsent: [ 0 ]) 
+			nanoSecond: (elementValues at: #nanosecond ifAbsent: [ 0 ])
+			offset: (elementValues at: #offset ifAbsent: [ Duration zero ]).
+		(elementValues includesKey: #offset)
 			ifTrue: [ timestamp ]
 			ifFalse: [ self localToGmt: timestamp ] ]
 ]
@@ -443,29 +479,29 @@ ZTimestampFormat >> createInstanceFrom: elementValues [
 ZTimestampFormat >> createTime [
 	"Configure me to create Time instances when parsing"
 
-	self constructor: [ :elements | 
+	self constructor: [ :elementValues | 
 		Time 
-			hour: (elements at: #hour ifAbsent: [ 0 ]) 
-			minute: (elements at: #minute ifAbsent: [ 0 ])  
-			second: (elements at: #second ifAbsent: [ 0 ]) ]
+			hour: (elementValues at: #hour ifAbsent: [ 0 ]) 
+			minute: (elementValues at: #minute ifAbsent: [ 0 ])  
+			second: (elementValues at: #second ifAbsent: [ 0 ]) ]
 ]
 
 { #category : 'initialize-release' }
 ZTimestampFormat >> createZTimestamp [
 	"Configure me to create ZTimestamp instances when parsing (this is the default)"
 
-	self constructor: [ :elements | 
+	self constructor: [ :elementValues | 
 		| timestamp |
 		timestamp := ZTimestamp 
-			year: (elements at: #year ifAbsent: [ 0 ]) 
-			month: (elements at: #month ifAbsent: [ 0 ])  
-			day: (elements at: #day ifAbsent: [ 0 ])  
-			hour: (elements at: #hour ifAbsent: [ 0 ]) 
-			minute: (elements at: #minute ifAbsent: [ 0 ])  
-			second: (elements at: #second ifAbsent: [ 0 ]) 
-			nanoSecond: (elements at: #nanosecond ifAbsent: [ 0 ])
-			offset: (elements at: #offset ifAbsent: [ 0 ]).
-		(elements includesKey: #offset)
+			year: (elementValues at: #year ifAbsent: [ 0 ]) 
+			month: (elementValues at: #month ifAbsent: [ 0 ])  
+			day: (elementValues at: #day ifAbsent: [ 0 ])  
+			hour: (elementValues at: #hour ifAbsent: [ 0 ]) 
+			minute: (elementValues at: #minute ifAbsent: [ 0 ])  
+			second: (elementValues at: #second ifAbsent: [ 0 ]) 
+			nanoSecond: (elementValues at: #nanosecond ifAbsent: [ 0 ])
+			offset: (elementValues at: #offset ifAbsent: [ 0 ]).
+		(elementValues includesKey: #offset)
 			ifTrue: [ timestamp ]
 			ifFalse: [ self localToGmt: timestamp ] ]
 ]
@@ -475,17 +511,17 @@ ZTimestampFormat >> createZTimestampDefaultDate111 [
 	"Configure me to create ZTimestamp instances when parsing where the default date is 1-1-1.
 	This is a (not so useful) hack to ignore the date component (but keep it a legal value), mainly used for testing."
 
-	self constructor: [ :elements | 
+	self constructor: [ :elementValues | 
 		| timestamp |
 		timestamp := ZTimestamp 
-			year: (elements at: #year ifAbsent: [ 1 ]) 
-			month: (elements at: #month ifAbsent: [ 1 ])  
-			day: (elements at: #day ifAbsent: [ 1 ])  
-			hour: (elements at: #hour ifAbsent: [ 0 ]) 
-			minute: (elements at: #minute ifAbsent: [ 0 ])  
-			second: (elements at: #second ifAbsent: [ 0 ]) 
-			offset: (elements at: #offset ifAbsent: [ 0 ]).
-		(elements includesKey: #offset)
+			year: (elementValues at: #year ifAbsent: [ 1 ]) 
+			month: (elementValues at: #month ifAbsent: [ 1 ])  
+			day: (elementValues at: #day ifAbsent: [ 1 ])  
+			hour: (elementValues at: #hour ifAbsent: [ 0 ]) 
+			minute: (elementValues at: #minute ifAbsent: [ 0 ])  
+			second: (elementValues at: #second ifAbsent: [ 0 ]) 
+			offset: (elementValues at: #offset ifAbsent: [ 0 ]).
+		(elementValues includesKey: #offset)
 			ifTrue: [ timestamp ]
 			ifFalse: [ self localToGmt: timestamp ] ]
 ]
@@ -1271,7 +1307,7 @@ ZTimestampFormat >> parserFromElements [
 ZTimestampFormat >> printOn: stream [
 	super printOn: stream.
 	stream nextPut: $(.
-	stream << specification.
+	stream << self specification.
 	stream nextPut: $)
 ]
 
@@ -1370,7 +1406,7 @@ ZTimestampFormat >> secondTwoDigits [
 
 { #category : 'accessing' }
 ZTimestampFormat >> specification [
-	^ specification 
+	^ specification ifNil: [ specification := self specificationFromElements ]
 ]
 
 { #category : 'initialize-release' }
@@ -1380,6 +1416,16 @@ ZTimestampFormat >> specification: exampleString [
 	
 	specification := exampleString.
 	self compileSpecification
+]
+
+{ #category : 'private' }
+ZTimestampFormat >> specificationFromElements [
+	| inverseFormats |
+	inverseFormats := (self class formatSpecifications 
+		pairsCollect: [ :key :value | value -> key ]) asDictionary.
+	^ String streamContents: [ :out |
+		elements do: [ :each |
+			out nextPutAll: (inverseFormats at: each ifAbsent: [ each asString ]) ] ]
 ]
 
 { #category : 'private' }

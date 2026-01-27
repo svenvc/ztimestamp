@@ -196,7 +196,11 @@ ZTimestampFormatTests >> testIsoByElements [
 	string := formatter format: now.
 	self assert: (formatter parse: string) equals: (isoFormatter parse: string).
 	timestamp := formatter parse: string.
-	self assert: timestamp equals: now
+	self assert: timestamp equals: now.
+	
+	self assert: formatter specification equals: isoFormatter specification.
+	self assertCollection: formatter elements hasSameElements: isoFormatter elements.
+
 ]
 
 { #category : 'testing' }
