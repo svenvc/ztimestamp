@@ -86,13 +86,15 @@ ZTimezone class >> centralEuropeanAliases [
 
 { #category : 'private' }
 ZTimezone class >> checkMagicFrom: in [
+	"Answer the version: 0 for the traditional format, or the character code of $2, $3 or $4.
+	Version 2 and later repeat the data after the first part, with transition times
+	of 8 instead of 4 bytes"
+
 	| version |
 	self assert: (in next: 4) = 'TZif' asByteArray.
 	version := in next.
-	"version 0 is the traditional format.
-	version 2 means that the normal data is followed an identical format
-	where the offsets are specified using 8 instead of 4 bytes for future proofing"
-	in skip: 15
+	in skip: 15.
+	^ version
 ]
 
 { #category : 'utilties' }
@@ -231,23 +233,38 @@ ZTimezone class >> fromFile: file [
 
 { #category : 'instance creation' }
 ZTimezone class >> fromStream: in [
-	"Parse binary tzfile format data from in and return a timezone"
-	
+	"Parse binary tzfile format data from in and return a timezone.
+	For version 2 and later, skip the first part and read the second one:
+	its 64-bit transition times also hold the transitions before 1901-12-13"
+
+	| version |
+	version := self checkMagicFrom: in.
+	version = 0
+		ifTrue: [ ^ self fromStream: in timeSize: 4 ].
+	self skipDataFrom: in header: (self readHeaderFrom: in).
+	self checkMagicFrom: in.
+	^ self fromStream: in timeSize: 8
+]
+
+{ #category : 'private' }
+ZTimezone class >> fromStream: in timeSize: timeSize [
+	"Parse the header and data of one part of binary tzfile format data from in
+	and return a timezone. timeSize is the size in bytes of a transition time: 4 or 8"
+
 	| timezone header rawSubzones abbreviations |
 	timezone := self new.
-	self checkMagicFrom: in.
 	header := self readHeaderFrom: in.
-	timezone transitions: (self 
-		count: (header at: #transitionCount) 
-		do: [ :out | out nextPut: in int32 ]).
+	timezone transitions: (self
+		count: (header at: #transitionCount)
+		do: [ :out | out nextPut: (self nextTime: timeSize from: in) ]).
 	timezone subzonesIndex: (in next: (header at: #transitionCount)).
 	rawSubzones := self
 		count: (header at: #typeCount)
 		do: [ :out | out nextPut: { in int32. in next. in next } ].
 	timezone leapSeconds: (self
 		count: (header at: #leapCount)
-		do: [ :out | out nextPut: { in uint32. in uint32 } ]).
-	abbreviations := (in next: (header at: #abbreviationCount)) asString. 
+		do: [ :out | out nextPut: { self nextTime: timeSize from: in. in uint32 } ]).
+	abbreviations := (in next: (header at: #abbreviationCount)) asString.
 	timezone resolveSubzones: rawSubzones abbreviations: abbreviations.
 	timezone resolveStandardIndicators: (in next: (header at: #wallCount)).
 	timezone resolveUtcIndicators: (in next: (header at: #utcCount)).
@@ -302,6 +319,15 @@ ZTimezone class >> locationForId: id relativeTo: zoneInfoLocation [
 	($/ split: id) do: [ :each |
 		location := location / each ].
 	^ location
+]
+
+{ #category : 'private' }
+ZTimezone class >> nextTime: timeSize from: in [
+	"Read a signed big-endian time of timeSize bytes, 4 or 8"
+
+	^ timeSize = 4
+		ifTrue: [ in int32 ]
+		ifFalse: [ (in int32 bitShift: 32) + in uint32 ]
 ]
 
 { #category : 'private' }
@@ -367,6 +393,18 @@ ZTimezone class >> resetZoneInfoLocation [
 	"Reset the zone info database location so that the default will be used"
 	
 	self zoneInfoLocation: nil
+]
+
+{ #category : 'private' }
+ZTimezone class >> skipDataFrom: in header: header [
+	"Skip the data with 4-byte times that follows header"
+
+	in skip: (header at: #transitionCount) * 5
+		+ ((header at: #typeCount) * 6)
+		+ (header at: #abbreviationCount)
+		+ ((header at: #leapCount) * 8)
+		+ (header at: #wallCount)
+		+ (header at: #utcCount)
 ]
 
 { #category : 'acccessing' }
@@ -604,17 +642,16 @@ ZTimezone >> subzoneForLocalTimestamp: timestamp [
 ZTimezone >> subzoneForLocalUnixTime: unixTime [
 	"Given unixTime, the number of seconds since 1970-01-01, 
 	return the TSubTimezone containing more information,
-	applicable to that point in time (interpreted in local wall time)."
+	applicable to that point in time (interpreted in local wall time).
+	Before the first transition, the first subzone (local time type 0) applies."
 	
 	^ self localTransitions
 		findBinaryIndex: [ :offset | unixTime - offset ]
 		do: [ :index | self subzoneForTransitionAt: index ]
 		ifNone: [ :lower :upper | 
-			| index |
-			index := lower ~= 0
-				ifTrue: [ lower ]																
-				ifFalse: [ upper ].
-			self subzoneForTransitionAt: index ]
+			lower = 0
+				ifTrue: [ self subzones first ]
+				ifFalse: [ self subzoneForTransitionAt: lower ] ]
 ]
 
 { #category : 'public' }
@@ -638,17 +675,16 @@ ZTimezone >> subzoneForTransitionAt: index [
 ZTimezone >> subzoneForUnixTime: unixTime [
 	"Given unixTime, the number of seconds since 1970-01-01, 
 	return the TSubTimezone containing more information,
-	applicable to that point in time (interpreted in GMT)."
+	applicable to that point in time (interpreted in GMT).
+	Before the first transition, the first subzone (local time type 0) applies."
 	
 	^ self transitions
 		findBinaryIndex: [ :offset | unixTime - offset ]
 		do: [ :index | self subzoneForTransitionAt: index ]
 		ifNone: [ :lower :upper | 
-			| index |
-			index := lower ~= 0
-				ifTrue: [ lower ]																
-				ifFalse: [ upper ].
-			self subzoneForTransitionAt: index ]
+			lower = 0
+				ifTrue: [ self subzones first ]
+				ifFalse: [ self subzoneForTransitionAt: lower ] ]
 ]
 
 { #category : 'accessing' }
