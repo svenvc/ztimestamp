@@ -217,6 +217,21 @@ ZTimezoneTests >> testReadAllUsingFallback [
 ]
 
 { #category : 'testing' }
+ZTimezoneTests >> testTimestampBeforeTheFirstTransitionHasTheFirstSubzone [
+	"Before the first transition, the tzfile format applies local time type 0,
+	the first subzone. In europeBrusselsContents the first transition is
+	at 1914-11-08 to CET, and type 0 is WET with offset zero."
+
+	| timezone timestamp |
+	timezone := ZTimezone fromStream: self europeBrusselsContents readStream.
+	timestamp := ZTimestamp year: 1900 month: 1 day: 1.
+	self assert: (timezone subzoneForTimestamp: timestamp) abbreviation equals: #WET.
+	self assert: (timezone offsetForTimestamp: timestamp) equals: Duration zero.
+	self assert: (timezone subzoneForLocalTimestamp: timestamp) abbreviation equals: #WET.
+	self assert: (timezone offsetForLocalTimestamp: timestamp) equals: Duration zero
+]
+
+{ #category : 'testing' }
 ZTimezoneTests >> testTimezoneWithNoSubzoneIndex [
 	"The first one is manually constructed, not read"
 	self 
@@ -226,6 +241,33 @@ ZTimezoneTests >> testTimezoneWithNoSubzoneIndex [
 	self 
 		assert: ((ZTimezone id: 'Etc/GMT') offsetForTimestamp: DateAndTime now) 
 		equals: Duration zero
+]
+
+{ #category : 'testing' }
+ZTimezoneTests >> testTransitionsBefore1901AreRead [
+	"Version 2 and later tzfiles repeat the data with 64-bit transition times.
+	32-bit times start at 1901-12-13, so only the 64-bit data holds the change
+	of America/New_York from local mean time (LMT) to EST on 1883-11-18 17:00 GMT."
+
+	| timezone localMeanTime |
+	self checkZoneInfoLocation.
+	timezone := ZTimezone readTimezoneWithId: #'America/New_York'.
+	localMeanTime := (4 hours + 56 minutes + 2 seconds) negated.
+	self
+		assert: (timezone offsetForTimestamp: (ZTimestamp year: 1880 month: 1 day: 1))
+		equals: localMeanTime.
+	self
+		assert: (timezone subzoneForTimestamp: (ZTimestamp fromString: '1883-11-18T16:59:59Z')) abbreviation
+		equals: #LMT.
+	self
+		assert: (timezone subzoneForTimestamp: (ZTimestamp fromString: '1883-11-18T17:00:00Z')) abbreviation
+		equals: #EST.
+	self
+		assert: (timezone offsetForTimestamp: (ZTimestamp year: 1890 month: 1 day: 1))
+		equals: -5 hours.
+	self
+		assert: (timezone localToGmt: (ZTimestamp fromString: '1880-01-01T12:00:00Z'))
+		equals: (ZTimestamp fromString: '1880-01-01T16:56:02Z')
 ]
 
 { #category : 'testing' }
