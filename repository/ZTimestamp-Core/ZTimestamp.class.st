@@ -877,6 +877,13 @@ ZTimestamp >> subtractFromTimestamp: timestamp [
 ]
 
 { #category : 'arithmetic' }
+ZTimestamp >> subtractReceiverToDateAndTime: dateAndTime [
+	"Part of the double dispatch implementation of DateAndTime>>#- (Pharo 14 and later)"
+	
+	^ dateAndTime asZTimestamp subtractTimestamp: self
+]
+
+{ #category : 'arithmetic' }
 ZTimestamp >> subtractTimestamp: timestamp [
 	"Part of the double dispatch implementation of ZTimestamp>>#-"
 	
