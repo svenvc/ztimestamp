@@ -8,10 +8,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        smalltalk: [ Pharo64-14, Pharo64-13, Pharo64-12, Pharo64-alpha ]
+        smalltalk: [ Pharo64-14, Pharo64-13, Pharo64-12, Pharo64-11, Pharo64-10, Pharo64-9.0 ]
     name: ${{ matrix.smalltalk }}
-    # the development version may break for reasons outside ZTimestamp
-    continue-on-error: ${{ matrix.smalltalk == 'Pharo64-alpha' }}
     steps:
       - uses: actions/checkout@v5
       - uses: hpi-swa/setup-smalltalkCI@v1
