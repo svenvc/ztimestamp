@@ -175,7 +175,8 @@ ZTimezone class >> downloadFallbackZoneinfoDataset [
 	zipLocation := self fallbackZoneinfoDatasetURL file asFileReference.
 	zipLocation ensureDelete.
 	ZnClient new 
-		url: self fallbackZoneinfoDatasetURL; 
+		url: self fallbackZoneinfoDatasetURL;
+		maximumLineLength: 32768;
 		downloadTo: zipLocation;
 		close.
 	zoneinfoLocation := zipLocation parent / self standardZoneInfoLocation basename.
