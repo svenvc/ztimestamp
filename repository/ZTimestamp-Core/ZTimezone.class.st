@@ -79,7 +79,7 @@ Class {
 	#package : 'ZTimestamp-Core'
 }
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> centralEuropeanAliases [
 	^ #(CET CEST)
 ]
@@ -121,7 +121,7 @@ ZTimezone class >> createGMT [
 		yourself
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> current [
 	"Return the current Timezone to use, as set manually by the user.
 	If not set, the GMT timezone will be returned.
@@ -130,7 +130,7 @@ ZTimezone class >> current [
 	^ Current ifNil: [ Current := self gmt ]
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> current: identifierOrTimezone [
 	"Set the current Timezone to use, using either a timezone identifier or object.
 	If not set or set to nil, the GMT timezone will be returned by #current.
@@ -141,14 +141,14 @@ ZTimezone class >> current: identifierOrTimezone [
 		ifFalse: [ identifierOrTimezone ]
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> defaultZoneCET [
 	"The timezone identifiers in #centralEuropeanAliases resolve to this actual timezone"
 	
 	^ self europeBrussels
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> defaultZoneInfoLocation [
 	"On macOS and Linux/Unix there is a standard location.
 	On Windows there is not, so the location has to be specified using #zoneInfoLocation:
@@ -176,7 +176,6 @@ ZTimezone class >> downloadFallbackZoneinfoDataset [
 	zipLocation ensureDelete.
 	ZnClient new 
 		url: self fallbackZoneinfoDatasetURL;
-		maximumLineLength: 32768;
 		downloadTo: zipLocation;
 		close.
 	zoneinfoLocation := zipLocation parent / self standardZoneInfoLocation basename.
@@ -196,7 +195,7 @@ ZTimezone class >> errorCannotUseDefaultZoneInfoLocation [
 			'please specify a location using #zoneInfoLocation:'
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> europeBrussels [
 	"Return the timezone Europe/Brussels"
 	
@@ -205,14 +204,14 @@ ZTimezone class >> europeBrussels [
 	^ self id: 'Europe/Brussels'
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> fallbackZoneinfoDatasetURL [
 	"The URL to the ZIP archive zoneinfo.zip which is offered as a fallback for 
 	systems (such as Windows) that do no have their own copy of this data. 
 	Note that it is highly recommended that you use such a OS maintained dataset, 
 	as this data is changed (being added to) each year."
 	
-	^ 'https://github.com/svenvc/ztimestamp/raw/master/rsrc/zoneinfo.zip' asUrl
+	^ 'https://raw.githubusercontent.com/svenvc/ztimestamp/master/rsrc/zoneinfo.zip' asUrl
 ]
 
 { #category : 'instance creation' }
@@ -281,7 +280,7 @@ ZTimezone class >> gmt [
 	^ self timezones at: #GMT ifAbsentPut: [ self createGMT ]
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> gmtAliases [
 	^ #(GMT UTC Z Zulu Zero)
 ]
@@ -301,7 +300,7 @@ ZTimezone class >> id: id [
 		ifAbsentPut: [ self readTimezoneWithId: id ]
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> locationForId: id [
 	"Return a FileReference to the file containing the compiled binary data 
 	for the timezone identified by id, with $/ indicating directory levels"
@@ -309,7 +308,7 @@ ZTimezone class >> locationForId: id [
 	^ self locationForId: id relativeTo: self zoneInfoLocation
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> locationForId: id relativeTo: zoneInfoLocation [
 	"Return a FileReference to the file containing the compiled binary data 
 	for the timezone identified by id, with $/ indicating directory levels,
@@ -389,7 +388,7 @@ ZTimezone class >> reloadAll [
 	^ self timezones
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> resetZoneInfoLocation [
 	"Reset the zone info database location so that the default will be used"
 	
@@ -408,7 +407,7 @@ ZTimezone class >> skipDataFrom: in header: header [
 		+ (header at: #utcCount)
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> standardZoneInfoLocation [
 	"Return a file reference to the standard zone info location directory.
 	On macOS and Linux/Unix there is a well-known standard location as maintained by the OS.
@@ -432,7 +431,7 @@ ZTimezone class >> statistics [
 		} asDictionary 
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> timezoneIdentifiers [
 	"Return the list of modern Area/Location timezone identifiers from zonetab.
 	In principle each file found in zoneinfo is supported.
@@ -442,14 +441,14 @@ ZTimezone class >> timezoneIdentifiers [
 	^ self zoneTab collect: #first
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> timezones [
 	"Return the currently cached timezones as a Dictionary"
 	
 	^ Timezones ifNil: [ Timezones := Dictionary new ]
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> zoneInfoLocation [
 	"Return the zone info database location currently in use.
 	If the location is not yet set, let #defaultZoneInfoLocation figure it out and cache the result."
@@ -457,14 +456,14 @@ ZTimezone class >> zoneInfoLocation [
 	^ ZoneInfoLocation ifNil: [ ZoneInfoLocation := self defaultZoneInfoLocation ]
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> zoneInfoLocation: directory [
 	"Set the location of the zone info database to directory"
 	
 	ZoneInfoLocation := directory asFileReference
 ]
 
-{ #category : 'acccessing' }
+{ #category : 'accessing' }
 ZTimezone class >> zoneTab [
 	"Return the zone tab, a list of pairs, timezone identifier and country code"
 	
