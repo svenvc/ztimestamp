@@ -413,7 +413,7 @@ ZTimezone class >> standardZoneInfoLocation [
 	On macOS and Linux/Unix there is a well-known standard location as maintained by the OS.
 	On Windows there is not, see #defaultZonInfoLocation for the behavior in that case."
 
-	^ OSPlatform current environment 
+	^ OSEnvironment current 
 		at: 'TZDIR' 
 		ifPresent: [ :dir | dir asFileReference ]
 		ifAbsent: [ '/usr/share/zoneinfo/' asFileReference ]
